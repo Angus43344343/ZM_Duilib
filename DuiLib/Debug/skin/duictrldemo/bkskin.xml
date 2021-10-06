@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window size="174, 134">
+    
+    <style name="styleImage" value="hotimage=&quot;res='sysbtn/small/skin_mouseover.png' corner='2,2,2,2'&quot; pushedimage=&quot;res='sysbtn/small/skin_mouseover.png' corner='2,2,2,2'&quot;"/>
+
+    <VBox bkcolor="#ffFFF0F5" inset="4,4,4,4">
+        <HBox name="hzlTabSkin" height="22">
+            <Control />
+            <Option name="optBkImage" tooltip="背景图片" width="26" height="22" unselnormalimage="res=&apos;bkskin/image_btn.png&apos; source=&apos;0,0,26,22&apos;" unselhotimage="res=&apos;bkskin/image_btn.png&apos; source=&apos;26,0,52,22&apos;" unselpushedimage="res=&apos;bkskin/image_btn.png&apos; source=&apos;26,0,52,22&apos;" selnormalimage="res=&apos;bkskin/image_btn.png&apos; source=&apos;52,0,78,22&apos;" group="aTabSkinLayout"  bindtablayout="aTabSkinLayout" bindtabindex="0" selected="true"/>
+            <Option name="optBkColor" tooltip="背景颜色" width="26" height="22" unselnormalimage="res=&apos;bkskin/color_btn.png&apos; source=&apos;0,0,26,22&apos;" unselhotimage="res=&apos;bkskin/color_btn.png&apos; source=&apos;26,0,52,22&apos;" unselpushedimage="res=&apos;bkskin/color_btn.png&apos; source=&apos;26,0,52,22&apos;" selnormalimage="res=&apos;bkskin/color_btn.png&apos; source=&apos;52,0,78,22&apos;" group="aTabSkinLayout" bindtablayout="aTabSkinLayout" bindtabindex="1" />
+        </HBox>
+
+        <TabLayout name="aTabSkinLayout">
+            <TileLayout name="tlytImage" itemsize="28,22" childmargin="6" childvmargin="12"><!--Page1-->
+                <Button name="btnImage" style="styleImage" bkimage="bkskin/small/0.png" userdata="bkskin/big/0.jpg"/>
+                <Button name="btnImage" style="styleImage" bkimage="bkskin/small/1.png" userdata="bkskin/big/1.jpg"/>
+                <Button name="btnImage" style="styleImage" bkimage="bkskin/small/2.png" userdata="bkskin/big/2.jpg"/>
+                <Button name="btnImage" style="styleImage" bkimage="bkskin/small/3.png" userdata="bkskin/big/3.jpg"/>
+                <Button name="btnImage" style="styleImage" bkimage="bkskin/small/4.png" userdata="bkskin/big/4.jpg"/>
+                <Button name="btnImage" style="styleImage" bkimage="bkskin/small/5.png" userdata="bkskin/big/5.jpg"/>
+                <Button name="btnImage" style="styleImage" bkimage="bkskin/small/6.png" userdata="bkskin/big/6.jpg"/>
+                <Button name="btnImage" style="styleImage" bkimage="bkskin/small/7.png" userdata="bkskin/big/7.jpg"/>
+                <Button name="btnImage" style="styleImage" bkimage="bkskin/small/8.png" userdata="bkskin/big/8.jpg"/>
+                <Button name="btnImage" style="styleImage" bkimage="bkskin/small/9.png" userdata="bkskin/big/9.jpg"/>
+            </TileLayout>
+
+
+            <TileLayout name="tlytColor" itemsize="22,22" childmargin="6" childvmargin="12"><!--Page2-->
+                <Button name="btnColor" bkcolor="#FF66BAEB" normalimage="res=&apos;bkskin/small/colour_001.bmp&apos;" hotimage="res=&apos;bkskin/small/colour_001highlight.bmp&apos;" pushedimage="res=&apos;bkskin/small/colour_001.bmp&apos;" />
+                <Button name="btnColor" bkcolor="#FFA138D8" normalimage="res=&apos;bkskin/small/colour_002.bmp&apos;" hotimage="res=&apos;bkskin/small/colour_002highlight.bmp&apos;" pushedimage="res=&apos;bkskin/small/colour_002.bmp&apos;" />
+                <Button name="btnColor" bkcolor="#FFA138D8" normalimage="res=&apos;bkskin/small/colour_003.bmp&apos;" hotimage="res=&apos;bkskin/small/colour_003highlight.bmp&apos;" pushedimage="res=&apos;bkskin/small/colour_003.bmp&apos;" />
+                <Button name="btnColor" bkcolor="#FF6EC446" normalimage="res=&apos;bkskin/small/colour_004.bmp&apos;" hotimage="res=&apos;bkskin/small/colour_004highlight.bmp&apos;" pushedimage="res=&apos;bkskin/small/colour_004.bmp&apos;" />
+                <Button name="btnColor" bkcolor="#FFD08942" normalimage="res=&apos;bkskin/small/colour_005.bmp&apos;" hotimage="res=&apos;bkskin/small/colour_005highlight.bmp&apos;" pushedimage="res=&apos;bkskin/small/colour_005.bmp&apos;" />
+                <Button name="btnColor" bkcolor="#FFC55C3C" normalimage="res=&apos;bkskin/small/colour_006.bmp&apos;" hotimage="res=&apos;bkskin/small/colour_006highlight.bmp&apos;" pushedimage="res=&apos;bkskin/small/colour_006.bmp&apos;" />
+                <Button name="btnColor" bkcolor="#FFC13892" normalimage="res=&apos;bkskin/small/colour_007.bmp&apos;" hotimage="res=&apos;bkskin/small/colour_007highlight.bmp&apos;" pushedimage="res=&apos;bkskin/small/colour_007.bmp&apos;" />
+                <Button name="btnColor" bkcolor="#FF929292" normalimage="res=&apos;bkskin/small/colour_008.bmp&apos;" hotimage="res=&apos;bkskin/small/colour_008highlight.bmp&apos;" pushedimage="res=&apos;bkskin/small/colour_008.bmp&apos;" />
+            </TileLayout>
+
+        </TabLayout>
+        
+    </VBox>
+
+</Window>

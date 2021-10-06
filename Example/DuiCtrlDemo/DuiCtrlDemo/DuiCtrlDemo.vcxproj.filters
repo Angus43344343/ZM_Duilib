@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="ui\MainFrame">
+      <UniqueIdentifier>{12c10fef-ccd0-4205-9a61-7cbca7bae754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{a3a5b606-cb96-424d-b877-3590a18b2743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\skin">
+      <UniqueIdentifier>{a516684c-0594-49da-9132-fcacb0d0ac2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\skin\mainxml">
+      <UniqueIdentifier>{5bc0dd13-856b-4df9-9154-c87ad778ef72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\skin\default">
+      <UniqueIdentifier>{48b05604-f72b-4ca4-9191-f958ac6da6d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\skin\popxml">
+      <UniqueIdentifier>{53c0c74a-0fe7-4001-856b-f6ed8c60fb32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="file">
+      <UniqueIdentifier>{870d2305-cecd-4a14-9649-44b36ae701f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\skin\menu">
+      <UniqueIdentifier>{51e9c91a-0a56-40f5-8fe5-8887663686b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\skin\language">
+      <UniqueIdentifier>{1712993e-1320-43bf-a454-22c9112513b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\skin\bkskin">
+      <UniqueIdentifier>{1ade1d18-87e2-449a-8df4-605082950f35}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>资源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>资源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>资源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Duilib.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrame.h">
+      <Filter>ui\MainFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlBasics.h">
+      <Filter>ui\MainFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="PopFrame.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlSenior.h">
+      <Filter>ui\MainFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="mutex.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="fileUtil.h">
+      <Filter>file</Filter>
+    </ClInclude>
+    <ClInclude Include="BkSkin.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlList.h">
+      <Filter>ui\MainFrame</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>资源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrame.cpp">
+      <Filter>ui\MainFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlBasics.cpp">
+      <Filter>ui\MainFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="PopFrame.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlSenior.cpp">
+      <Filter>ui\MainFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="fileUtil.cpp">
+      <Filter>file</Filter>
+    </ClCompile>
+    <ClCompile Include="BkSkin.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlList.cpp">
+      <Filter>ui\MainFrame</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DuiCtrlDemo.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="DuiCtrlDemo.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\..\..\DuiLib\Debug\skin\duictrldemo\menu\language.png">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\pageBasics.xml">
+      <Filter>资源文件\skin\mainxml</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\default\default.xml">
+      <Filter>资源文件\skin\default</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\popxml\modal.xml">
+      <Filter>资源文件\skin\popxml</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\popxml\nonmodal.xml">
+      <Filter>资源文件\skin\popxml</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\pageSenior.xml">
+      <Filter>资源文件\skin\mainxml</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\duilib.xml">
+      <Filter>资源文件\skin\mainxml</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\menu.xml">
+      <Filter>资源文件\skin\menu</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\language\chinese.xml">
+      <Filter>资源文件\skin\language</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\language\english.xml">
+      <Filter>资源文件\skin\language</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\language\japanese.xml">
+      <Filter>资源文件\skin\language</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\bkskin.xml">
+      <Filter>资源文件\skin\bkskin</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\pageList.xml">
+      <Filter>资源文件\skin\mainxml</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="xml1.bin">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+</Project>

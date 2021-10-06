@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language lang="chinese" codepage="932">
+
+    <!--主界面-->
+    <String id="optCtrlBasics" text="ベースコントロール" />
+    <String id="optCtrlSenior" text="高度なコントロール" />
+    <String id="optCtrlList" text="テーブルのコントロール" />
+    <String id="optCtrlActiveX" text="ActiveXコントロール" />
+    <String id="optCtrlRedraw" text="オートコントロール" />
+
+    <!--pageBasics界面-->
+    <String id="lblLabel" text="Labelテスト：" />
+    <String id="lblTest" text="についてendellipsisテスト" />
+    <String id="lblTest1" text="についてmultilineテスト一一一" />
+
+    <!--pageSenior界面-->
+    <String id="lblMenu" text="Menuテスト：" />
+    <String id="btnMenuTest" text="メニューテストボタン" />
+    <String id="editTest" text="正常入力" />
+
+
+    <!--menu界面-->
+    <String id="menuLanguage" text="言語選択" />
+
+    <!--子界面测试-->
+    <String id="lblModal" text="半透明ウィンドウテスト" />
+
+</Language>

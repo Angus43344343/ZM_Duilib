@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window size="357,220" layered="true" caption="0,0,0,220"  >
+
+    <Include source="default/default.xml" style="true" />
+
+    <VBox bkimage="res=&apos;bk.png&apos; corner=&apos;2,2,2,2&apos;">
+
+        <HBox height="40" childvalign="top" >
+            <Label name="lblModal" height="20" text="异形窗口测试" />
+            <Control />
+            <Button name="btnclose" style="styleClose" />
+        </HBox>
+
+        <HBox>
+            <GifAnim bkimage="bk_gif.gif" autoplay="true" autosize="true" />
+        </HBox>
+
+    </VBox>
+</window>

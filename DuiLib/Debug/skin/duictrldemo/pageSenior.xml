@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+
+    <Style name="hboxBasics" shared="true" value="inset=&quot;10,2,2,2&quot; childmargin=&quot;20&quot; childvalign=&quot;center&quot;"/>
+    <Style name="styleGifAnim1" shared="true" value="width=&quot;200&quot; height=&quot;200&quot; autosize=&quot;false&quot; autoplay=&quot;true&quot;"/>
+
+    <HBox name="htlClient"><!--客户端-->
+        <HBox width="160" sepimm="true" sepwidth="2" sepcolor="#FF98FB98"><!--左容器--><!--分隔符拖动功能测试-->
+            
+            <VBox vscrollbar="true" >
+                <Label name="lblMenu" height="40"  text="%[lblMenu]" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+                
+                <Label name="lblCombo" height="40"  text="Combo测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblEdit" height="200"  text="Edit测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblGif" height="220"  text="Gif测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+                
+                <Label name="lblRichEdit" height="400"  text="RichEdit测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+            </VBox>
+        </HBox><!--=====================================左容器-->
+
+        <VBox vscrollbar="true"><!--右容器-->
+            <HBox height="40" style="hboxBasics">
+                <!--Menu-->
+                <Button name="btnMenuTest" text="%[btnMenuTest]" style="styleButton"/>
+            </HBox>
+            <!--==============================Menu-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+            
+            <VBox height="40" ><!--Combo-->
+                <HBox style="hboxBasics">
+                    <Combo name="comboTest" style="styleCombo" dropbox="innerstyle=&quot;styleDropBox&quot; vscrollbarstyle=&quot;styleVScrollBar&quot;" >
+                        <ListLabelElement width="100" height="22" text="简体中文" selected="true"/>
+                        <ListLabelElement height="22" text="繁体中文" />
+                        <ListLabelElement height="22" text="华文形楷" />
+                        <ListLabelElement height="22" text="艺术圆体" />
+                        <ListLabelElement height="22" text="艺术散体" />
+                    </Combo>
+                </HBox>
+            </VBox><!--===========Combo-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox height="200" ><!--Edit-->
+                <TileLayout inset="10,30,0,0" itemsize="160,20" childmargin="10" childvmargin="40">
+                    <Edit name="editTest" style="styleEdit" tiptext="%[editTest]" />
+                    <Edit name="editTest1" style="styleEdit" tiptext="请输入密码" password="true" passwordchar="●"/>
+                    <Edit name="editTest2" style="styleEdit" readonly="true" tiptext="只读控件测试"/>
+                    <Edit name="editTest3" style="styleEdit" maxchar="8" tiptext="允许输入最大字符长度为8"/>
+                    <Edit name="editTest4" style="styleEdit" numberonly="true" minmaxnumber="10,20" delytxtchange="true" delavalidate="1000" tiptext="数字测试min:10 max:20"/>
+                    <Edit name="editTest5" style="styleEdit" autoselall="true" text="焦点进入时自动全选测试" />
+                    <Edit name="editTest6" style="styleEdit" charfilter="true,false,ABCD" tiptext="字符过滤不允许输入ABCD"/>
+                    <Edit name="editTest7" style="styleEdit" tiptext="代码设置不允许小写"/>
+                    <Edit name="editTest8" style="styleEdit" regexp="true, 25[0-5]|2[0-4]\\d" tiptext="正则过滤详见deelx"/>
+                </TileLayout>
+
+                <VBox width="300" inset="0,10,10,0">
+                    <Edit name="editTest9" height="180" tiptext="Edit不支持多行操作,需使用RichEdit替换"/>
+                </VBox>
+                
+            </HBox><!--===========Edit-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox height="220" style="hboxBasics" hscrollbar="true"><!--GifAnim-->
+                <GifAnim name="gifTest"  style="styleGifAnim1" bkimage="res=&apos;gif/1.gif&apos;"/>
+                <GifAnim name="gifTest1" style="styleGifAnim1" bkimage="res=&apos;gif/2.gif&apos;"/>
+                <GifAnim name="gifTest2" style="styleGifAnim1" bkimage="res=&apos;gif/3.gif&apos;"/>
+                <GifAnim name="gifTest3" style="styleGifAnim1" bkimage="res=&apos;gif/4.gif&apos;"/>
+                <GifAnim name="gifTest4" style="styleGifAnim1" bkimage="res=&apos;gif/5.gif&apos;"/>
+                <GifAnim name="gifTest5" style="styleGifAnim1" bkimage="res=&apos;gif/6.gif&apos;"/>
+                <GifAnim name="gifTest6" style="styleGifAnim1" bkimage="res=&apos;gif/7.gif&apos;"/>
+            </HBox><!--=================================================GifAnim-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox height="400" style="hboxBasics"><!--RichEdit-->
+                <RichEdit name="richTest" style="styleRichEdit" dropenable="true" height="380" width="400" textcolor="#ffFF69B4" tiptext="ANSI编码的txt文件拖放测试,可搭载OLE扩展功能"/>
+            </HBox> <!--===============================RichEdit-->                
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+        </VBox><!--=================右容器-->
+        
+    </HBox><!--==============客户端-->
+    
+</Window>

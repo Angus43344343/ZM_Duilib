@@ -1,0 +1,128 @@
+﻿生成启动时间为 2021/9/12 21:16:56。
+     1>项目“E:\git\ZM_Duilib\DuiLib\DuiLib.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         E:\vs2013\VC\bin\CL.exe /c /Iinclude /Isrc\include /Isrc\effect /Zi /nologo /W3 /WX- /MP /O2 /Ob1 /Oy- /D USE_GDIPLUS /D WIN32 /D NDEBUG /D _WINDOWS /D UILIB_EXPORTS /D _VC80_UPGRADE=0x0600 /D _USING_V110_SDK71_ /D _WINDLL /D _UNICODE /D UNICODE /GF /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"E:\git\ZM_Duilib\DuiLib\Build\Release\DuiLib_u.pch" /Fo"E:\git\ZM_Duilib\DuiLib\Build\Release\\" /Fd"E:\git\ZM_Duilib\DuiLib\Build\Release\vc120.pdb" /Gd /TP /wd4996 /analyze- /errorReport:prompt StdAfx.cpp
+         StdAfx.cpp
+         E:\vs2013\VC\bin\CL.exe /c /Iinclude /Isrc\include /Isrc\effect /Zi /nologo /W3 /WX- /MP /O2 /Ob1 /Oy- /D USE_GDIPLUS /D WIN32 /D NDEBUG /D _WINDOWS /D UILIB_EXPORTS /D _VC80_UPGRADE=0x0600 /D _USING_V110_SDK71_ /D _WINDLL /D _UNICODE /D UNICODE /GF /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"E:\git\ZM_Duilib\DuiLib\Build\Release\DuiLib_u.pch" /Fo"E:\git\ZM_Duilib\DuiLib\Build\Release\\" /Fd"E:\git\ZM_Duilib\DuiLib\Build\Release\vc120.pdb" /Gd /TP /wd4996 /analyze- /errorReport:prompt src\DataObject.cpp src\DropSource.cpp src\effect\color_helper.cpp src\effect\Effect.cpp src\effect\image_process.cpp src\effect\UIEffect.cpp src\GifInfo.cpp src\OleDataHelper.cpp src\DropTarget.cpp src\ParseProperty.cpp src\Subject.cpp src\systemtray.cpp src\UIActiveX.cpp src\UIBase.cpp src\UIButton.cpp src\UICheckBox.cpp src\UIChildLayout.cpp src\UICircleProgress.cpp src\UICombo.cpp src\UIContainer.cpp src\UIControl.cpp src\UIDateTime.cpp src\UIDelegate.cpp src\UIDlgBuilder.cpp src\UIEdit.cpp src\UIFlash.cpp src\UIGifAnim.cpp src\UIHorizontalLayout.cpp src\UIHotKey.cpp src\UIHWeightLayout.cpp src\UIIPAddress.cpp src\UILabel.cpp src\UIlib.cpp src\UIList.cpp src\UIManager.cpp src\UIMarkup.cpp src\UIMenu.cpp src\UIOption.cpp src\UIProgress.cpp src\UIPwdCheck.cpp src\UIRadioBox.cpp src\UIRender.cpp src\UIRichEdit.cpp src\UIScrollBar.cpp src\UIShadow.cpp src\UISlider.cpp src\UITabLayout.cpp src\UIText.cpp src\UITileLayout.cpp src\UITreeView.cpp src\UIVerticalLayout.cpp src\UIWkeBrowser.cpp src\Utils.cpp src\WinImplBase.cpp src\wke_dll.cpp
+         DataObject.cpp
+         DropSource.cpp
+         color_helper.cpp
+         Effect.cpp
+         image_process.cpp
+         UIEffect.cpp
+         GifInfo.cpp
+         OleDataHelper.cpp
+         DropTarget.cpp
+         ParseProperty.cpp
+         Subject.cpp
+         systemtray.cpp
+         UIActiveX.cpp
+         UIBase.cpp
+         UIButton.cpp
+         UICheckBox.cpp
+         UIChildLayout.cpp
+         UICircleProgress.cpp
+         UICombo.cpp
+         UIContainer.cpp
+         UIControl.cpp
+         UIDateTime.cpp
+         UIDelegate.cpp
+         UIDlgBuilder.cpp
+         UIEdit.cpp
+         UIFlash.cpp
+         UIGifAnim.cpp
+         UIHorizontalLayout.cpp
+         UIHotKey.cpp
+         UIHWeightLayout.cpp
+         UIIPAddress.cpp
+         UILabel.cpp
+         UIlib.cpp
+         UIList.cpp
+         UIManager.cpp
+         UIMarkup.cpp
+         UIMenu.cpp
+         UIOption.cpp
+         UIProgress.cpp
+         UIPwdCheck.cpp
+         UIRadioBox.cpp
+         UIRender.cpp
+         UIRichEdit.cpp
+         UIScrollBar.cpp
+         UIShadow.cpp
+         UISlider.cpp
+         UITabLayout.cpp
+         UIText.cpp
+         UITileLayout.cpp
+         UITreeView.cpp
+         UIVerticalLayout.cpp
+         UIWkeBrowser.cpp
+         Utils.cpp
+         WinImplBase.cpp
+         wke_dll.cpp
+         E:\vs2013\VC\bin\CL.exe /c /Iinclude /Isrc\include /Isrc\effect /Zi /nologo /W3 /WX- /MP /O2 /Ob1 /Oy- /D USE_GDIPLUS /D WIN32 /D NDEBUG /D _WINDOWS /D UILIB_EXPORTS /D _VC80_UPGRADE=0x0600 /D _USING_V110_SDK71_ /D _WINDLL /D _UNICODE /D UNICODE /GF /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"E:\git\ZM_Duilib\DuiLib\Build\Release\\" /Fd"E:\git\ZM_Duilib\DuiLib\Build\Release\vc120.pdb" /Gd /TP /wd4996 /analyze- /errorReport:prompt src\XUnzip.cpp
+         XUnzip.cpp
+       Link:
+         E:\vs2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\git\ZM_Duilib\DuiLib\bin\DuiLib_u.dll" /INCREMENTAL:NO /NOLOGO Shlwapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST:NO /DEBUG /PDB:"E:\git\ZM_Duilib\DuiLib\bin\DuiLib_u.pdb" /SUBSYSTEM:WINDOWS,"5.01" /TLBID:1 /BASE:"0x11000000" /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\git\ZM_Duilib\DuiLib\Lib\DuiLib_u.lib" /MACHINE:X86 /SAFESEH /DLL E:\git\ZM_Duilib\DuiLib\Build\Release\DataObject.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\DropSource.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\color_helper.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\Effect.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\image_process.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIEffect.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\GifInfo.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\OleDataHelper.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\DropTarget.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\ParseProperty.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\Subject.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\systemtray.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIActiveX.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIBase.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIButton.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UICheckBox.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIChildLayout.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UICircleProgress.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UICombo.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIContainer.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIControl.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIDateTime.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIDelegate.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIDlgBuilder.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIEdit.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIFlash.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIGifAnim.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIHorizontalLayout.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIHotKey.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIHWeightLayout.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIIPAddress.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UILabel.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIlib.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIList.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIManager.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIMarkup.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIMenu.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIOption.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIProgress.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIPwdCheck.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIRadioBox.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIRender.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIRichEdit.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIScrollBar.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIShadow.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UISlider.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UITabLayout.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIText.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UITileLayout.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UITreeView.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIVerticalLayout.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\UIWkeBrowser.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\Utils.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\WinImplBase.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\wke_dll.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\XUnzip.obj
+         E:\git\ZM_Duilib\DuiLib\Build\Release\StdAfx.obj
+            正在创建库 E:\git\ZM_Duilib\DuiLib\Lib\DuiLib_u.lib 和对象 E:\git\ZM_Duilib\DuiLib\Lib\DuiLib_u.exp
+         DuiLib.vcxproj -> E:\git\ZM_Duilib\DuiLib\bin\DuiLib_u.dll
+     1>已完成生成项目“E:\git\ZM_Duilib\DuiLib\DuiLib.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:09.43

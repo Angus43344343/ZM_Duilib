@@ -1,0 +1,446 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{7d17d310-9655-4640-9d72-abb7c0fe0bc6}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{44fffdff-1307-447a-873d-d0cc2e94a7ce}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{c6069066-0c47-4447-90dc-5ca0e3e72cc6}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{058e585e-d71a-4cee-b2a4-a4c1627dedc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Layout">
+      <UniqueIdentifier>{b5332d07-460b-47e4-8cbc-58a8ac5aef49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{3559f2b0-85bc-469b-94c3-73e2bb2cbd09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Control">
+      <UniqueIdentifier>{38164925-9a6e-4f54-980f-42d04ee0e4eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Control">
+      <UniqueIdentifier>{f5944183-bf2b-461f-8312-30537584878a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{db9d38f5-3dce-4d02-909d-a734a074f9e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Layout">
+      <UniqueIdentifier>{c35f83f0-1332-493a-a1e9-062af1d5b78b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{8c30cf4c-c552-41dd-9172-b2ab917532a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils\Include">
+      <UniqueIdentifier>{b2436450-c93e-4da9-a791-1b1c080fdbd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Effect">
+      <UniqueIdentifier>{fe7369ab-c616-422d-b983-d84d535bff65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Effect">
+      <UniqueIdentifier>{14e4cef5-746e-4659-ab7a-a9df8b32edb0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIButton.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UICheckBox.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UICombo.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIDateTime.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIEdit.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIGifAnim.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIHotKey.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UILabel.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIList.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIMenu.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIOption.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIProgress.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIRichEdit.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIScrollBar.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UISlider.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIText.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UITreeView.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIBase.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIContainer.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIControl.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIDlgBuilder.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIManager.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIMarkup.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIRender.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIChildLayout.cpp">
+      <Filter>Source Files\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIHorizontalLayout.cpp">
+      <Filter>Source Files\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UITabLayout.cpp">
+      <Filter>Source Files\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UITileLayout.cpp">
+      <Filter>Source Files\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIVerticalLayout.cpp">
+      <Filter>Source Files\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIDelegate.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WinImplBase.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XUnzip.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIPwdCheck.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIIPAddress.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIHWeightLayout.cpp">
+      <Filter>Source Files\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIShadow.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIRadioBox.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OleDataHelper.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DropTarget.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Subject.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataObject.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DropSource.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GifInfo.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIActiveX.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIFlash.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIWkeBrowser.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wke_dll.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\color_helper.cpp">
+      <Filter>Source Files\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\image_process.cpp">
+      <Filter>Source Files\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\Effect.cpp">
+      <Filter>Source Files\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\UIEffect.cpp">
+      <Filter>Source Files\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParseProperty.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systemtray.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UICircleProgress.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\UIlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIButton.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UICheckBox.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UICombo.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIDateTime.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIEdit.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIGifAnim.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIHotKey.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UILabel.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIList.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIMenu.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIOption.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIProgress.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIRichEdit.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIScrollBar.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UISlider.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIText.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UITreeView.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIBase.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIContainer.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIControl.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIDlgBuilder.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIManager.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIMarkup.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIRender.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIChildLayout.h">
+      <Filter>Header Files\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIHorizontalLayout.h">
+      <Filter>Header Files\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UITabLayout.h">
+      <Filter>Header Files\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UITileLayout.h">
+      <Filter>Header Files\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIVerticalLayout.h">
+      <Filter>Header Files\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIDelegate.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\Utils.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\WinImplBase.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIDefine.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIPwdCheck.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIIPAddress.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIHWeightLayout.h">
+      <Filter>Header Files\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\deelx.h">
+      <Filter>Source Files\Utils\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\stb_image.h">
+      <Filter>Source Files\Utils\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\UIShadow.h">
+      <Filter>Source Files\Utils\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIRadioBox.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\OleDataHelper.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\Subject.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\DataObject.h">
+      <Filter>Source Files\Utils\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\DropSource.h">
+      <Filter>Source Files\Utils\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\DropTarget.h">
+      <Filter>Source Files\Utils\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\GifInfo.h">
+      <Filter>Source Files\Utils\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\XUnzip.h">
+      <Filter>Source Files\Utils\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIActiveX.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIFlash.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIWkeBrowser.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\wke_dll.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\color_helper.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\cpuid.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\graph_def.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\graph_line.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\graph_math.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\graph_matrix.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\graph_projection.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\graph_rect.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\graph_vector.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\graph_view.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\graph_warpmatrix.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\image_process.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\motion.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\Effect.h">
+      <Filter>Source Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIEffect.h">
+      <Filter>Header Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\ParseProperty.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\systemtray.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UICircleProgress.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\VirtualWnd.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\include\flash11.tlh">
+      <Filter>Source Files\Utils\Include</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <!--字体设置-->
+    <Font shared="true" id="0" name="宋体" size="13" default="true"/>
+    <Font shared="true" id="1" name="黑体" size="13" />
+    <Font shared="true" id="2" name="楷体" size="13" />
+    <Font shared="true" id="3" name="隶书" size="13" />
+    <Font shared="true" id="4" name="幼圆" size="13" />
+    <Font shared="true" id="5" name="新宋体" size="13" />
+    <Font shared="true" id="6" name="华文行楷" size="13" />
+    <Font shared="true" id="7" name="华文彩云" size="13" />
+    <Font shared="true" id="8" name="华文仿宋" size="13" />
+    <Font shared="true" id="9" name="华文楷体" size="13" />
+    <Font shared="true" id="10" name="华文隶书" size="13" />
+    <Font shared="true" id="11" name="微软雅黑" size="13" />
+
+    <Font shared="true" id="12" name="宋体" size="14" />
+    <Font shared="true" id="13" name="宋体" size="15" />
+    <Font shared="true" id="14" name="宋体" size="16" bold="true"/>
+    <Font shared="true" id="15" name="宋体" size="17" />
+
+    <!--默认滚动条-->
+    <Default name="VScrollBar" shared="true" value="width=&quot;8&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='default/scrollbar/vscrollbar.png' source='0,60,8,100' corner='0,4,0,4'&quot; thumbhotimage=&quot;file='default/scrollbar/vscrollbar.png' source='8,60,16,100' corner='0,4,0,4'&quot; thumbpushedimage=&quot;file='default/scrollbar/vscrollbar.png' source='16,60,24,100' corner='0,4,0,4'&quot; railnormalimage=&quot;&quot; railhotimage=&quot;&quot; railpushedimage=&quot;&quot; raildisabledimage=&quot;&quot; bknormalimage=&quot;file='default/scrollbar/vscrollbar.png' source='0,0,8,60' corner='0,4,0,4'&quot; bkhotimage=&quot;&quot; bkpushedimage=&quot;&quot; bkdisabledimage=&quot;&quot; "/>
+    <Default name="HScrollBar" shared="true" value="height=&quot;8&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='default/scrollbar/hscrollbar.png' source='0,0,32,8' corner='4,0,4,0'&quot; thumbhotimage=&quot;file='default/scrollbar/hscrollbar.png' source='0,8,32,16' corner='4,0,4,0'&quot; thumbpushedimage=&quot;file='default/scrollbar/hscrollbar.png' source='0,16,32,24' corner='4,0,4,0'&quot; railnormalimage=&quot;&quot; railhotimage=&quot;&quot; railpushedimage=&quot;&quot; raildisabledimage=&quot;&quot; bknormalimage=&quot;file='default/scrollbar/hscrollbar.png' source='0,0,32,8' corner='4,0,4,0'&quot; bkhotimage=&quot;&quot; bkpushedimage=&quot;&quot; bkdisabledimage=&quot;&quot; "/>
+
+    <!--默认菜单:在代码里创建可用-->
+    <Default name="Menu" shared="true" value="bordersize=&quot;1&quot; bordercolor=&quot;0xFF303132&quot; inset=&quot;4,4,4,4&quot; itemtextpadding=&quot;10,0,0,0&quot; itemselectedbkcolor=&quot;0xFF338ACA&quot;" />
+    
+<!--样式表设置:默认控件,可直接使用-->
+    
+    <!--滚动条样式-->
+    <Style name="styleVScrollBar" shared="true" value="width=&quot;16&quot; showbutton1=&quot;true&quot; showbutton2=&quot;true&quot; button1normalimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;0,90,16,106&apos;&quot; button1hotimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;18,90,34,106&apos;&quot; button1pushedimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;36,90,52,106&apos;&quot; button1disabledimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;54,90,70,106&apos;&quot; button2normalimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;0,108,16,124&apos;&quot; button2hotimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;18,108,34,124&apos;&quot; button2pushedimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;36,108,52,124&apos;&quot; button2disabledimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;54,108,70,124&apos;&quot; thumbnormalimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;0,126,16,142&apos; corner=&apos;2,2,2,2&apos;&quot; thumbhotimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;18,126,34,142&apos; corner=&apos;2,2,2,2&apos;&quot; thumbpushedimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;36,126,52,142&apos; corner=&apos;2,2,2,2&apos;&quot; thumbdisabledimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;54,126,70,142&apos;corner=&apos;2,2,2,2&apos;&quot; railnormalimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;0,144,16,160&apos; corner=&apos;2,2,2,2&apos;&quot; railhotimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;18,144,34,160&apos; corner=&apos;2,2,2,2&apos;&quot; railpushedimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;36,144,52,160&apos; corner=&apos;2,2,2,2&apos;&quot; raildisabledimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;54,144,70,160&apos; corner=&apos;2,2,2,2&apos;&quot; bknormalimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;0,161,16,177&apos;&quot; bkhotimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;18,161,34,177&apos;&quot; bkpushedimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;36,161,52,177&apos;&quot; bkdisabledimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;54,161,70,177&apos;&quot;"/>
+    <Style name="styleHScrollBar" shared="true" value="height=&quot;16&quot; showbutton1=&quot;true&quot; showbutton2=&quot;true&quot; button1normalimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;0,0,16,16&apos;&quot; button1hotimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;18,0,34,16&apos;&quot; button1pushedimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;36,0,52,16&apos;&quot; button1disabledimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;54,0,70,16&apos;&quot; button2normalimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;0,18,16,34&apos;&quot; button2hotimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;18,18,34,34&apos;&quot; button2pushedimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;36,18,52,34&apos;&quot; button2disabledimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;54,18,70,34&apos;&quot; thumbnormalimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;0,36,16,52&apos; corner=&apos;2,2,2,2&apos;&quot; thumbhotimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;18,36,34,52&apos; corner=&apos;2,2,2,2&apos;&quot; thumbpushedimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;36,36,52,52&apos; corner=&apos;2,2,2,2&apos;&quot; thumbdisabledimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;54,36,70,52&apos;corner=&apos;2,2,2,2&apos;&quot; railnormalimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;0,54,16,70&apos; corner=&apos;2,2,2,2&apos;&quot; railhotimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;18,54,34,70&apos; corner=&apos;2,2,2,2&apos;&quot; railpushedimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;36,54,52,70&apos; corner=&apos;2,2,2,2&apos;&quot; raildisabledimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;54,54,70,70&apos; corner=&apos;2,2,2,2&apos;&quot; bknormalimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;0,72,16,88&apos;&quot; bkhotimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;18,72,34,88&apos;&quot; bkpushedimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;36,72,52,88&apos;&quot; bkdisabledimage=&quot;res=&apos;default/scrollbar/scrollbar.bmp&apos; source=&apos;54,72,70,88&apos;&quot;"/>
+
+    <!--标题栏皮肤样式-->
+    <Style name="styleSkin" shared="true" value="width=&quot;28&quot; height=&quot;20&quot; tooltip=&quot;皮肤&quot; normalimage=&quot;res=&apos;default/title/btn_Skin_normal.png&apos;&quot; hotimage=&quot;res=&apos;default/title/btn_Skin_highlight.png&apos;&quot; pushedimage=&quot;res=&apos;default/title/btn_Skin_down.png&apos;&quot;" />
+    
+    <!--标题栏菜单样式-->
+    <Style name="styleMenu" shared="true" value="width=&quot;28&quot; height=&quot;20&quot; tooltop=&quot;菜单&quot; normalimage=&quot;res=&apos;default/title/btn_menu_normal.png&apos;&quot; hotimage=&quot;res=&apos;default/title/btn_menu_highlight.png&apos;&quot; pushedimage=&quot;res=&apos;default/title/btn_menu_down.png&apos;&quot;" />
+    
+    <!--标题栏最小化样式-->
+    <Style name="styleMin" shared="true" value="width=&quot;28&quot; height=&quot;20&quot; tooltip=&quot;最小化&quot; normalimage=&quot;res='default/title/btn_mini_normal.png' hsl='true'&quot; hotimage=&quot;file='default/title/btn_mini_highlight.png'&quot; pushedimage=&quot;file='default/title/btn_mini_down.png'&quot;" />
+    
+    <!--标题栏最大化样式-->
+    <Style name="styleMax" shared="true" value="width=&quot;28&quot; height=&quot;20&quot; tooltip=&quot;最大化&quot; normalimage=&quot;file='default/title/btn_max_normal.png'&quot; hotimage=&quot;file='default/title/btn_max_highlight.png'&quot; pushedimage=&quot;file='default/title/btn_max_down.png'&quot;" />
+    
+    <!--标题栏还原样式-->
+    <Style name="styleRestore" shared="true" value="width=&quot;28&quot; height=&quot;20&quot; tooltip=&quot;还原&quot; visible=&quot;false&quot; normalimage=&quot;file='default/title/btn_restore_normal.png'&quot; hotimage=&quot;file='default/title/btn_restore_highlight.png'&quot; pushedimage=&quot;file='default/title/btn_restore_down.png'&quot;" />
+
+    <!--标题栏关闭样式-->
+    <Style name="styleClose" shared="true" value="width=&quot;39&quot; height=&quot;20&quot; tooltip=&quot;关闭&quot; normalimage=&quot;file='default/title/btn_close_normal.png'&quot; hotimage=&quot;file='default/title/btn_close_highlight.png'&quot; pushedimage=&quot;file='default/title/btn_close_down.png'&quot;" />
+
+    <!--Label普通样式-->
+    <Style name="styleLabel" shared="true" value="autowidth=&quot;true&quot; valign=&quot;center&quot; textpadding=&quot;0,2,0,0&quot;"/>
+    <!--Label特效文字样式-->
+    <Style name="styleLabelLum" shared="true" value="width=&quot;120&quot; autoheight=&quot;true&quot; enabledeffect=&quot;true&quot; enabledluminous=&quot;true&quot; luminousfuzzy=&quot;3&quot; gradientangle=&quot;90&quot; enabledstroke=&quot;true&quot; enabledshadow=&quot;true&quot; gradientlength=&quot;2&quot; shadowoffset=&quot;2,2&quot; textshadowcolora=&quot;#FFFFF68F&quot; textshadowcolorb=&quot;#FFADFF2F&quot; strokecolor=&quot;#ffFF00FF&quot;" />
+    
+    <!--Text样式-->
+    
+    <!--IpAddress样式-->
+    <Style name="styleIpAddress" shared="true" value="width=&quot;130&quot; height=&quot;25&quot; bordersize=&quot;1&quot; bordercolor=&quot;#ffAAAAAA&quot;" />
+    
+    <!--DateTime样式-->
+    <Style name="styleDateTime" shared="true" value="width=&quot;120&quot; height=&quot;28&quot; bkcolor=&quot;#ffffffff&quot; bordersize=&quot;1&quot; bordercolor=&quot;#ffAAAAAA&quot; showtime=&quot;true&quot;" />
+    
+    <!--Progress样式-->
+    <Style name="styleProgress" shared="true" value="width=&quot;200&quot; height=&quot;3&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;10&quot; bkimage=&quot;res=&apos;default/progress/progress_blue_bg.png&apos;&quot; foreimage=&quot;res=&apos;default/progress/progress_blue_fg.png&apos;&quot;"  />
+    
+    <!--CircleProgress样式-->
+    <Style name="styleCircleProgress" shared="true" value="width=&quot;100&quot; height=&quot;100&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;10&quot; showtext=&quot;true&quot; circlewidth=&quot;8&quot; indicatorimage=&quot;res=&apos;default/progress/indicator.png&apos;&quot; bkcolor=&quot;#ffBFEFFF&quot; forecolor=&quot;#ffFFFF00&quot; gradientcolor=&quot;#ffff66cc&quot;" />
+    
+    <!--Slider样式-->
+    <Style name="styleSlider" shared="true" value="width=&quot;150&quot; height=&quot;10&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;30&quot; bkcolor=&quot;#ffffffff&quot; bordersize=&quot;1&quot; bordercolor=&quot;#ffAAAAAA&quot; foreimage=&quot;res='default/slider/hot.bmp'&quot; thumbimage=&quot;res='default/slider/thumb.bmp' source='0,0,10,10'&quot; thumbhotimage=&quot;res='default/slider/thumb.bmp' source='10,0,20,10'&quot; thumbpushedimage=&quot;res='default/slider/thumb.bmp' source='20,0,30,10'&quot; thumbdisabledimage=&quot;res='slider/thumb.bmp' source='20,0,40,10'&quot; thumbsize=&quot;10&quot; imm=&quot;true&quot;"/>
+    
+    <!--HotKey样式-->
+    <Style name="styleHotKey" shared="true" value="width=&quot;135&quot; height=&quot;23&quot; bordersize=&quot;1&quot; bordercolor=&quot;#ffAAAAAA&quot;"/>
+    
+    <!--Button样式-->
+    <Style name="styleButton" shared="true" value="autowidth=&quot;true&quot; height=&quot;30&quot; fadedelta=&quot;10&quot; normalimage=&quot;res='default/button/button_normal.png'&quot; hotimage=&quot;res='default/button/button_hot.png'&quot; pushedimage=&quot;res='default/button/button_pushed.png'&quot;"/>
+
+    <!--Option样式-->
+    <Style name="styleOption" shared="true" value="width=&quot;118&quot; align=&quot;center&quot; valign=&quot;vcenter&quot; bordersize=&quot;1&quot; bordercolor=&quot;#FFFFFAFA&quot; textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FF000000&quot; bkcolor=&quot;#FFE8E8E8&quot; hotbkcolor=&quot;#FFCFCFCF&quot; pushedbkcolor=&quot;#FFF5F5F5&quot; selnormalbkcolor=&quot;#FFFFC0CB&quot; group=&quot;tabGroup&quot;"/>
+    
+    <!--CheckBox样式-->
+    <Style name="styleCheckBox" shared="true" value="width=&quot;80&quot; height=&quot;17&quot; textpadding=&quot;19,0,0,0&quot; align=&quot;left&quot; unselnormalimage=&quot;res='default/checkbox/checkbox.png' source='0,0,17,17' dest='0,0,17,17'&quot; unselhotimage=&quot;res='default/checkbox/checkbox.png' source='17,0,34,17' dest='0,0,17,17'&quot; selnormalimage=&quot;res='default/checkbox/checkbox.png' source='34,0,51,17' dest='0,0,17,17'&quot; selhotimage=&quot;res='default/checkbox/checkbox.png' source='51,0,68,17' dest='0,0,17,17'&quot;"/>
+    
+    <!--RaidoBox样式-->
+    <Style name="styleRadioBox" shared="true" value="width=&quot;60&quot; height=&quot;17&quot; textpadding=&quot;19,0,0,0&quot; align=&quot;left&quot; unselnormalimage=&quot;res='default/radiobox/radiobox.png' source='0,0,17,17' dest='0,0,17,17'&quot; unselhotimage=&quot;res='default/radiobox/radiobox.png' source='17,0,34,17' dest='0,0,17,17'&quot; selnormalimage=&quot;res='default/radiobox/radiobox.png' source='34,0,51,17' dest='0,0,17,17'&quot; selhotimage=&quot;res='default/radiobox/radiobox.png' source='51,0,68,17' dest='0,0,17,17'&quot;"/>
+
+    <!--PwdCheck样式-->
+    <Style name="stylePwdCheck" shared="true" value="width=&quot;120&quot; height=&quot;16&quot; text=&quot;弱,中,强&quot; clrweak=&quot;#ffFF0000&quot; clrmiddle=&quot;#ffFFFF00&quot; clrstrong=&quot;#ff00FF00&quot; showtext=&quot;true&quot;" />
+    
+    <!--Combo样式-->
+    <Style name="styleCombo" shared="true" value="width=&quot;100&quot; height=&quot;22&quot; textpadding=&quot;3,0,0,0&quot; itemtextpadding=&quot;10,0,0,0&quot; dropboxsize=&quot;100,66&quot; normalimage=&quot;res='default/combo/combo.png' source='0,0,100,22'&quot; hotimage=&quot;res='default/combo/combo.png' source='0,22,100,44'&quot; pushedlimage=&quot;res='default/combo/combo.png' source='0,44,100,66'&quot;"/>
+    <Style name="styleDropBox" shared="true" value="bordersize=&quot;1&quot; bordercolor=&quot;#ff00BFFF&quot;"/>
+
+    <!--Edit样式-->
+    <Style name="styleEdit" shared="true" value="width=&quot;160&quot; height=&quot;30&quot; bordersize=&quot;1&quot; bordercolor=&quot;#ff00BFFF&quot;"/>
+    
+    <!--RichEdit样式-->
+    <Style name="styleRichEdit" shared="true" value="bkcolor=&quot;#FFffffff&quot; textpadding=&quot;2,2,2,2&quot; vscrollbar=&quot;true&quot; autovscroll=&quot;true&quot;" />
+
+    <!--GifAnim样式-->
+    
+    <!--MenuElement样式-->
+    
+    <!--List样式-->
+    <Style name="styleList" shared="true" value="vscrollbar=&quot;true&quot; bordersize=&quot;1&quot; bordercolor=&quot;#ffDCDCDC&quot; itemalign=&quot;center&quot; itemvalign=&quot;vcenter&quot; itemhlinesize=&quot;1&quot; itemhlinecolor=&quot;#ffDCDCDC&quot; itemvlinesize=&quot;1&quot; itemvlinecolor=&quot;#ffDCDCDC&quot; unselimage=&quot;res='default/list/unsel.png' &quot; selimage=&quot;res='default/list/sel.png'&quot;"/>
+    <Style name="styleHeaderItem" shared="true" value="width=&quot;120&quot; align=&quot;center&quot; valign=&quot;center&quot; dragable=&quot;true&quot; sepwidth=&quot;1&quot; sepimage=&quot;res=&apos;default/list/list_header_sep.png&apos;&quot; normalimage=&quot;res=&apos;default/list/list_header_bg.png&apos; corner=&apos;2,2,2,2&apos;&quot; hotimage=&quot;res=&apos;default/list/list_header_hot.png&apos; corner=&apos;2,2,2,2&apos;&quot; pushedimage=&quot;res=&apos;default/list/list_header_pushed.png&apos; corner=&apos;2,2,2,2&apos;&quot;"/>
+    
+    <!--Treeview样式-->
+    <Style name="styleTreeView" shared="true" value="margin=&quot;10,10,0,0&quot; visibleexpandbtn=&quot;true&quot; vscrollbar=&quot;true&quot;"/>
+    <Default name="TreeNode" shared="true" value=" height=&quot;17&quot; dotlineattr=? height=&quot;16&quot;?  expandattr=? height=&quot;16&quot; width=&quot;16&quot; normalimage=&quot;res='default/treeview/treeview_expand.png' source='0,0,16,16'&quot; hotimage=&quot;res='default/treeview/treeview_expand.png' source='16,0,32,16'&quot; selectedimage=&quot;res='default/treeview/treeview_normal.png' source='0,0,16,16'&quot; selectedhotimage=&quot;res='default/treeview/treeview_normal.png' source='16,0,32,16'&quot; ?  checkboxattr=? height=&quot;17&quot; width=&quot;17&quot; normalimage=&quot;res='default/treeview/checkbox.png' source='0,0,17,17'&quot; hotimage=&quot;res='default/treeview/checkbox.png' source='17,0,34,17'&quot; selectedimage=&quot;res='default/treeview/checkbox.png' source='34,0,51,17'&quot; ?"/>
+    
+</root>

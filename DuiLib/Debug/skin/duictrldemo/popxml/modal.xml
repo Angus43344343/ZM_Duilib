@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window size="400,300" opacity="100" caption="0,0,0,300" sizebox="4,4,6,6" shadowshow="true" shadowcolor="#ffFF00FF" shadowsize="10">
+
+    <Include source="default/default.xml" style="true" />
+    
+    <VBox bkcolor="#ffCFCFCF">
+      
+        <HBox height="40" childvalign="top" >
+            <Control />
+            <Button name="btnmin" style="styleMin" />
+            <Button name="btnmax" style="styleMax" />
+            <Button name="btnrestore" style="styleRestore" />
+            <Button name="btnclose" style="styleClose" />
+        </HBox>
+
+        <HBox childvlign="center">
+            <Control />
+            <Label name="lblModal" text="%[lblModal]" font="14" textcolor="#FFFFFFFF"/>
+            <Control />
+        </HBox>
+        
+    </VBox>
+</window>

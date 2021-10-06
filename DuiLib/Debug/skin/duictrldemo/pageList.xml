@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+
+    <Style name="hboxBasics" shared="true" value="inset=&quot;10,2,2,2&quot; childmargin=&quot;20&quot; childvalign=&quot;center&quot;"/>
+    <Style name="styleGifAnim1" shared="true" value="width=&quot;200&quot; height=&quot;200&quot; autosize=&quot;false&quot; autoplay=&quot;true&quot;"/>
+    <Style name="styleCheckBox1" shared="true" value="width=&quot;17&quot; height=&quot;17&quot; unselnormalimage=&quot;res='default/list/unsel.png' source='0,0,17,17' dest='0,6,17,23'&quot; selnormalimage=&quot;res='default/list/sel.png' dest='0,6,17,23'&quot; "/>
+    
+
+    <HBox name="htlClient"><!--客户端-->
+        <HBox width="160" sepimm="true" sepwidth="2" sepcolor="#FF98FB98"><!--左容器--><!--分隔符拖动功能测试-->
+            
+            <VBox vscrollbar="true" >
+                <Label name="lblList" height="500"  text="List 测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblTree" height="200"  text="Tree 测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+            </VBox>
+            
+        </HBox><!--===========================================================左容器-->
+
+        <VBox vscrollbar="true"><!--右容器-->
+            
+            <HBox height="500" style="hboxBasics">
+                <List name="listTest" width="720" height="480" style="styleList" checkable="true" menu="true">
+                    <ListHeader name="listHeader" height="30">
+                        <ListHeaderItem name="listHeaderItemTest" text="序号" style="styleHeaderItem" inset="0,0,1,0" checkable="true" >
+                            <CheckBox name="checkHeadeItem" style="styleCheckBox1" />
+                        </ListHeaderItem>
+                        <ListHeaderItem name="listHeaderItemTest1" text="姓名" style="styleHeaderItem" editable="true"/>
+                        <ListHeaderItem name="listHeaderItemTest2" text="性别" style="styleHeaderItem" comboable="true"/>
+                        <ListHeaderItem name="listHeaderItemTest3" text="点击排序" style="styleHeaderItem" textcolor="0xFFFF0000"/>
+                        <ListHeaderItem name="listHeaderItemTest4" text="语文" style="styleHeaderItem"/>
+                        <ListHeaderItem name="listHeaderItemTest5" text="英语" style="styleHeaderItem"/>
+                    </ListHeader>
+                </List>
+            </HBox>
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox height="200" style="hboxBasics">
+                <VBox width="220">
+                    <TreeView name="treeTest" style="styleTreeView" height="100" width="200" visiblecheckbtn="true" visibledotlinebtn="true">
+                        <TreeNode  bkcolor="#FFFFE1FF" optionattr="text=&quot;常规测试&quot;">
+                            <TreeNode optionattr="text=&quot;二级树&quot;"/>
+                            <TreeNode optionattr="text=&quot;二级树&quot; "/>
+                            <TreeNode optionattr="text=&quot;二级树&quot;">
+                                <TreeNode optionattr="text=&quot;三级树&quot;"/>
+                                <TreeNode optionattr="text=&quot;三级树&quot;"/>
+                                <TreeNode optionattr="text=&quot;三级树&quot;">
+                                    <TreeNode optionattr="text=&quot;四级树&quot;"/>
+                                    <TreeNode optionattr="text=&quot;四级树&quot;"/>
+                                    <TreeNode optionattr="text=&quot;四级树&quot;"/>
+                                </TreeNode>
+                            </TreeNode>
+                        </TreeNode>
+                    </TreeView>
+
+                    <TreeView name="treeTest" style="styleTreeView" height="100" width="200" >
+                        <TreeNode bkcolor="#FFFFE1FF" optionattr="width=&quot;90&quot; text=&quot;电视栏目&quot;" >
+                            <Button width="30" margin="0,0,2,0" text="删除" bkcolor="#ffffffff" hotbkcolor="#FFFF0000"/>
+                            <Button width="30" margin="0,0,2,0" text="添加" bkcolor="#ffffffff" hotbkcolor="#FFFF0000"/>
+                            <Button width="30" text="收藏" bkcolor="#ffffffff" hotbkcolor="#FFFF0000"/>
+                            <TreeNode name="treeTabTest" expandattr="normalimage=&quot;res='tree/guangdong.png'&quot; hotimage=&quot; &quot; selectedimage=&quot; &quot; selectedhotimage=&quot; &quot;" optionattr="text=&quot;广东卫视&quot; group=&quot;tabTree&quot; bindtablayout=&quot;tabWeiShi&quot; bindtabindex=&quot;0&quot; " />
+                            <TreeNode name="treeTabTest1" expandattr="normalimage=&quot;res='tree/hubei.png'&quot; hotimage=&quot; &quot; selectedimage=&quot; &quot; selectedhotimage=&quot; &quot;" optionattr="text=&quot;湖北卫视&quot; group=&quot;tabTree&quot; bindtablayout=&quot;tabWeiShi&quot; bindtabindex=&quot;1&quot; " />
+                            <TreeNode name="treeTabTest2" expandattr="normalimage=&quot;res='tree/beijing.png'&quot; hotimage=&quot; &quot; selectedimage=&quot; &quot; selectedhotimage=&quot; &quot;" optionattr="text=&quot;北京卫视&quot; group=&quot;tabTree&quot; bindtablayout=&quot;tabWeiShi&quot; bindtabindex=&quot;2&quot; " />
+                        </TreeNode>          
+                    </TreeView>
+                    <Control />
+                </VBox>
+
+                <TabLayout name="tabWeiShi">
+                    <VBox triggershow="31, 100, true, false" bkcolor="#ffF5F5F5"  >
+                        <Label  float="0.3,0.2,0.7,0.8" text="广东卫视" align="center" bkcolor="#ffFFE4C4" hotbkcolor="#ffFAEBD7" pushedbkcolor="#ffF8F8FF" disabledbkcolor="#ffF5F5F5" />
+                    </VBox>
+
+                    <VBox triggershow="32, 100, true, false" bkcolor="#ffF0F8FF">
+                        <Label  float="0.3,0.2,0.7,0.8" text="湖北卫视" align="center" bkcolor="#ffFFE4C4" hotbkcolor="#ffFAEBD7" pushedbkcolor="#ffF8F8FF" disabledbkcolor="#ffF5F5F5" />
+                    </VBox>
+
+                    <VBox triggershow="33, 100, true, false" bkcolor="#ffCDC9C9">
+                        <Label  float="0.3,0.2,0.7,0.8" text="北京卫视" align="center" bkcolor="#ffFFE4C4" hotbkcolor="#ffFAEBD7" pushedbkcolor="#ffF8F8FF" disabledbkcolor="#ffF5F5F5" />
+                    </VBox>
+                </TabLayout>
+            </HBox>
+            <Control height="1" bkcolor="#ffFF00FF"/>
+            
+        </VBox><!--=================右容器-->
+
+    </HBox><!--==============客户端-->
+
+</Window>

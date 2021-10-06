@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language lang="chinese" codepage="936">
+    
+    <!--主界面-->
+    <String id="optCtrlBasics" text="基础控件" />
+    <String id="optCtrlSenior" text="高级控件" />
+    <String id="optCtrlList" text="表格控件" />
+    <String id="optCtrlActiveX" text="ActiveX控件" />
+    <String id="optCtrlRedraw" text="自绘控件" />
+    
+    <!--pageBasics界面-->
+    <String id="lblLabel" text="Label测试：" />
+    <String id="lblTest" text="关于endellipsis测试" />
+    <String id="lblTest1" text="关于multiline测试一一一" />
+
+    <!--pageSenior界面-->
+    <String id="lblMenu" text="Menu测试：" />
+    <String id="btnMenuTest" text="菜单测试按钮" />
+    <String id="editTest" text="正常输入" />
+ 
+
+    <!--menu界面-->
+    <String id="menuLanguage" text="语言选择" />
+    
+    <!--子界面测试-->
+    <String id="lblModal" text="半透明窗口测试" />
+    
+</Language>

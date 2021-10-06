@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+    
+    <Style name="hboxBasics" shared="true" value="inset=&quot;10,2,2,2&quot; childmargin=&quot;20&quot; childvalign=&quot;center&quot;"/>
+    <Style name="labelBasics" shared="true" value="autowidth=&quot;true&quot; height=&quot;40&quot; bkcolor=&quot;#fffffff0&quot; "/>
+ 
+    <HBox name="htlClient"><!--客户端-->
+        <HBox width="160" sepimm="false" sepwidth="2" sepcolor="#FF98FB98"><!--左容器--><!--分隔符拖动功能测试-->
+            <VBox vscrollbar="true" >
+                <Label name="lblLabel" height="120"  text="%[lblLabel]" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblText" height="60" text="Text测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblIPAddress" height="60" text="IPAddress测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+                
+                <Label name="lblDateTime" height="60" text="DateTime测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblProgress" height="100" text="Progress测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblSlider" height="60" text="Slider测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblHotKey" height="40" text="HotKey测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblButton" height="60" text="Button测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblCheckBox" height="40" text="CheckBox测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblRadioBox" height="40" text="RadioBox测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblPwdCheck" height="40" text="PwdCheck测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+    
+            </VBox>
+        </HBox><!--==================左容器-->
+
+        <VBox vscrollbar="true"><!--右容器-->
+            <VBox height="120"><!--Label-->
+                <HBox style="hboxBasics">
+                    <Label name="lblTest" width="120" height="40" bkcolor="#ffFFFFE0" text="%[lblTest]" endellipsis="true"/>
+                    <Label name="lblTest1" width="120" height="40" valign="top" multiline="true" bkcolor="#ffFFFFE0" text="%[lblTest1]" textpadding="4,4,4,4" wordbreak="true"/>
+                    <Label name="lblTest2" style="labelBasics" text="自动填充控件宽和高测试" />
+                    <Label name="lblTest3" style="labelBasics" showhtml="true" text="{c #FF69B4}{b}富文本测试{/b}{a}www.baidu.com{/a}{/c}"/>
+                </HBox>
+                
+                <HBox style="hboxBasics"> <!--发光文字测试-->
+                    <Label name="lblTest4" style="labelBasics" font="1" textpadding="20,10,0,0" text="字体，文本边距测试"/>
+                    <Label name="lblTest7" width="120" height="40" bkcolor="#ffFFFFE0" enabledeffect="true" enabledluminous="true" luminousfuzzy="3" gradientangle="90" enabledstroke="true" enabledshadow="true" gradientlength="2" shadowoffset="1,1" textshadowcolora="#FFBBFFFF" textshadowcolorb="#FFFF6A6A"  text="特效发光文字测试"/>
+                    <Label name="lblTest8" font="15" text="特效发光文字测试" style="styleLabelLum" width="160"/>
+                </HBox>  
+            </VBox><!--===========Label-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox style="hboxBasics" height="60"><!--Text-->
+                <Text name="textTest" width="120" height="40" bkcolor="#ffFFFFE0" align="right" valign="center" text="文本对齐测试"/>
+                <Text name="textTest1" autowidth="true" height="40" valign="bottom" bkcolor="#ffFFFFE0" showhtml="true" text="{c #FF69B4}{b}超级链{/b}{a}www.baidu.com{/a}富{a}www.csdn.net{/a}文{a}https://fanyi.baidu.com{/a}本{/c}" />
+                <HBox width="120" bkcolor="#ffFFFFE0" childvalign="center">
+                    <Text name="textTest2" width="120" autoheight="true" valign="center" text="控件动画测试" triggerenter="5,300,true,false" triggerleave="33,300,true,false"/>
+                </HBox>
+            </HBox><!--==============================Text-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox style="hboxBasics" height="60"><!--IpAddress-->
+                <IpAddress name="ipTest" style="styleIpAddress" />
+            </HBox><!--==============================IpAddress-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox style="hboxBasics" height="60"><!--DateTime-->
+                <DateTime name="dateTest" style="styleDateTime"/>
+            </HBox><!--==============================DateTime-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox style="hboxBasics" height="100"><!--Progress==CircleProgress-->
+                <Progress name="proTest" width="124" height="16" min="0" max="100" value="30" showtext="true" bkcolor="#ffffffff" forecolor="#ff90EE90"/>
+                <HBox childvalign="center">
+                    <GifAnim bkimage="res=&apos;ani_loading.gif&apos;" autoplay="true"  width="16" height="16" margin="0,0,5,0"/>
+                    <Progress name="proTest1" style="styleProgress"/>    
+                </HBox>
+                <CircleProgress name="cirproTest" style="styleCircleProgress"/>
+                <Control />
+            </HBox><!--*******************************Progress==CircleProgress-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox style="hboxBasics" height="60"><!--Slider-->
+                <Slider name="sliTest" style="styleSlider" />
+                <Slider name="sliTest1" width="119" height="14" min="0" max="100" value="40" bkimage="res=&apos;default/slider/slider_bk.png&apos;" foreimage="res=&apos;default/slider/slider_fore.png&apos;" thumbimage="res=&apos;default/slider/slider_thumb.png&apos;" thumbsize="14,14" step="1" />
+            </HBox><!--==============================Slider-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox style="hboxBasics" childmargin="0" height="40"><!--Hotkey-->
+                <Label name="lblModal" text="设置生成模态对话框系统热键：" style="styleLabel" />
+                <HotKey name="keyTest" margin="0,0,40,0" style="styleHotKey" text="Ctrl + Shift + F"/>
+                <Label name="lblNoMadal" text="设置生成非模态对话框系统热键：" style="styleLabel"/>
+                <HotKey name="keyTest1"  margin="0,0,0,0" style="styleHotKey" text="Ctrl + Alt + K"/>
+            </HBox><!--==============================Hotkey-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox style="hboxBasics" childmargin="40" height="60"><!--Button-->
+                <Button name="btnTest" font="3" text="正常按钮几种状态" style="styleButton" />
+                <Button name="btnTest1" text="按钮禁用时间测试" style="styleButton" disableseconds="3"/>
+                <Button name="btnNonModal" text="非模态对话框演示" style="styleButton" shortcut="Ctrl + j"/>
+                <Button name="btnModal" text="模态对话框演示" style="styleButton"/>
+            </HBox><!--==============================Button-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox style="hboxBasics" childmargin="10" height="40"><!--CheckBox-->
+                <Label name="lblCheck" text="你喜欢哪几门学科：" style="styleLabel" />
+                <CheckBox name="checkTest" text="物理" style="styleCheckBox"/>
+                <CheckBox name="checkTest1" text="化学" style="styleCheckBox"/>
+                <CheckBox name="checkTest2" text="数学" style="styleCheckBox"/>
+                <CheckBox name="checkTest3" text="生物" style="styleCheckBox"/>
+                <CheckBox name="checkTest4" text="哲学" style="styleCheckBox"/>
+            </HBox><!--===============================================CheckBox-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox style="hboxBasics" childmargin="10" height="40"><!--RadioBox-->
+                <Label name="lblRaido" text="你的性别：" style="styleLabel" />
+                <RadioBox name="RadioTest" text="男人" style="styleRadioBox" group="Sex"/>
+                <RadioBox name="RadioTest1" text="女人" style="styleRadioBox" group="Sex"/>
+                <RadioBox name="RadioTest2" text="中间人" style="styleRadioBox" group="Sex"/>
+
+                <Label width="1" bkcolor="#ffFF00FF"/>
+                
+                <Label name="lblRadio1" text="最爱的运动：" style="styleLabel"  />
+                <RadioBox name="RadioTest3" text="篮球" style="styleRadioBox" group="Sport"/>
+                <RadioBox name="RadioTest4" text="足球" style="styleRadioBox" group="Sport"/>
+                <RadioBox name="RadioTest5" text="冰球" style="styleRadioBox" group="Sport"/>
+                <RadioBox name="RadioTest5" text="排球" style="styleRadioBox" group="Sport"/>
+                <RadioBox name="RadioTest5" text="蹴鞠" style="styleRadioBox" group="Sport"/>
+                
+            </HBox><!--===============================================RadioBox-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox style="hboxBasics" childmargin="0" height="40"><!--PwdCheck-->
+                <Label name="lblPwd" text="密 码：" style="styleLabel" />
+                <Edit name="editPwd"  style="styleEdit" height="24" margin="0,0,10,0" tiptext="输入密码" password="true" />
+                <PwdCheck name="pwdTest" style="stylePwdCheck"/>
+            </HBox><!--===============================================PwdCheck-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+        </VBox><!--=================右容器-->
+    </HBox><!--==============客户端-->
+</Window>
