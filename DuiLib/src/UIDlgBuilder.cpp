@@ -437,7 +437,7 @@ CControlUI *CDialogBuilder::_Parse(CMarkupNode *pRoot, CControlUI *pParent, CPai
                 if (_tcsicmp(pstrClass, DUI_CTR_CONTROL) == 0)               { pControl = new CControlUI; }
                 else if (_tcsicmp(pstrClass, DUI_CTR_ACTIVEX) == 0)          { pControl = new CActiveXUI; }
                 else if (_tcscmp(pstrClass, DUI_CTR_GIFANIM) == 0)           { pControl = new CGifAnimUI; }
-                else if (_tcscmp(pstrClass, DUI_CTR_BROWSER) == 0)           { pControl = new CWkeBrowserUI; }
+				else if (_tcscmp(pstrClass, DUI_CTR_PALETTE) == 0)           { pControl = new CColorPaletteUI; }//zm
 
                 break;
 
@@ -451,6 +451,8 @@ CControlUI *CDialogBuilder::_Parse(CMarkupNode *pRoot, CControlUI *pParent, CPai
                 else if (_tcsicmp(pstrClass, DUI_CTR_TREEVIEW) == 0)         { pControl = new CTreeViewUI; }
                 else if (_tcsicmp(pstrClass, DUI_CTR_TREENODE) == 0)         { pControl = new CTreeNodeUI; }
                 else if (_tcsicmp(pstrClass, DUI_CTR_PWDCHECK) == 0)         { pControl = new CPwdCheckUI; }
+				else if (_tcsicmp(pstrClass, DUI_CTR_ROLLTEXT) == 0)         { pControl = new CRollTextUI; }//zm
+				else if (_tcsicmp(pstrClass, DUI_CTR_GROUPBOX) == 0)         { pControl = new CGroupBoxUI; }//zm
 
                 break;
 
@@ -465,8 +467,9 @@ CControlUI *CDialogBuilder::_Parse(CMarkupNode *pRoot, CControlUI *pParent, CPai
             case 10:
                 if (_tcsicmp(pstrClass, DUI_CTR_LISTHEADER) == 0)            { pControl = new CListHeaderUI; }
                 else if (_tcsicmp(pstrClass, DUI_CTR_TILELAYOUT) == 0)       { pControl = new CTileLayoutUI; }
+                else if (_tcsicmp(pstrClass, DUI_CTR_WEBBROWSER) == 0)       { pControl = new CWebBrowserUI; }//zm
+				else if (_tcscmp(pstrClass, DUI_CTR_WKEBROWSER) == 0)        { pControl = new CWkeBrowserUI; }//zm
 
-                //else if (_tcsicmp(pstrClass, DUI_CTR_WEBBROWSER) == 0)       { pControl = new CWebBrowserUI; }
                 break;
 
             case 11:

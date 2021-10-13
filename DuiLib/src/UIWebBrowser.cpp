@@ -20,11 +20,14 @@ CWebBrowserUI::CWebBrowserUI()
 
 bool CWebBrowserUI::DoCreateControl()
 {
-    if (!CActiveXUI::DoCreateControl())
-    { return false; }
+    if (!CActiveXUI::DoCreateControl()) { return false; }
 
-    GetManager()->AddTranslateAccelerator(this);
-    GetControl(IID_IWebBrowser2, (LPVOID *)&m_pWebBrowser2);
+    //GetManager()->AddTranslateAccelerator(this);//zm
+	//2021-10-11 zm
+	if (NULL == m_pWebBrowser2)
+	{
+		GetControl(IID_IWebBrowser2, (LPVOID *)&m_pWebBrowser2);
+	}
 
     if (m_bAutoNavi && !m_sHomePage.IsEmpty())
     {
@@ -38,7 +41,7 @@ bool CWebBrowserUI::DoCreateControl()
 void CWebBrowserUI::ReleaseControl()
 {
     m_bCreated = false;
-    GetManager()->RemoveTranslateAccelerator(this);
+    //GetManager()->RemoveTranslateAccelerator(this);//zm
     RegisterEventHandler(FALSE);
 }
 
@@ -95,12 +98,6 @@ STDMETHODIMP CWebBrowserUI::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, 
             pDispParams->rgvarg[0].pvarVal);
         break;
 
-    case DISPID_DOCUMENTCOMPLETE:
-        DocumentComplete(
-            pDispParams->rgvarg[1].pdispVal,
-            pDispParams->rgvarg[0].pvarVal);
-        break;
-
     case DISPID_NAVIGATEERROR:
         NavigateError(
             pDispParams->rgvarg[4].pdispVal,
@@ -123,12 +120,20 @@ STDMETHODIMP CWebBrowserUI::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, 
             pDispParams->rgvarg[1].bstrVal,
             pDispParams->rgvarg[0].bstrVal);
         break;
+		//2021-10-11 zm
+		case DISPID_TITLECHANGE:
+			{
+				TitleChange(pDispParams->rgvarg[0].bstrVal);
+				break;
+			}
+		case DISPID_DOCUMENTCOMPLETE:
+			{
+				DocumentComplete(
+					pDispParams->rgvarg[1].pdispVal,
+					pDispParams->rgvarg[0].pvarVal);
 
-    //  case DISPID_PROPERTYCHANGE:
-    //      if (pDispParams->cArgs>0 && pDispParams->rgvarg[0].vt == VT_BSTR) {
-    //          TRACE(_T("PropertyChange(%s)\n"), pDispParams->rgvarg[0].bstrVal);
-    //      }
-    //      break;
+				break;
+			}
     default:
         return DISP_E_MEMBERNOTFOUND;
     }
@@ -146,6 +151,8 @@ STDMETHODIMP CWebBrowserUI::QueryInterface(REFIID riid, LPVOID *ppvObject)
     { *ppvObject = static_cast<IDispatch *>(this); }
     else if (riid == IID_IServiceProvider)
     { *ppvObject = static_cast<IServiceProvider *>(this); }
+	else if(riid == IID_IInternetSecurityManager ) //2021-10-11 zm
+	{ *ppvObject = static_cast<IInternetSecurityManager*>(this); }
     else if (riid == IID_IOleCommandTarget)
     { *ppvObject = static_cast<IOleCommandTarget *>(this); }
 
@@ -208,18 +215,17 @@ void CWebBrowserUI::BeforeNavigate2(IDispatch *pDisp, VARIANT *&url, VARIANT *&F
 {
     if (m_pWebBrowserEventHandler)
     {
-        m_pWebBrowserEventHandler->BeforeNavigate2(pDisp, url, Flags, TargetFrameName, PostData, Headers, Cancel);
+        m_pWebBrowserEventHandler->BeforeNavigate2(this, pDisp, url, Flags, TargetFrameName, PostData, Headers, Cancel);
     }
 }
 
-void CWebBrowserUI::NavigateError(IDispatch *pDisp, VARIANT *&url, VARIANT *&TargetFrameName,
-                                  VARIANT *&StatusCode, VARIANT_BOOL *&Cancel)
-{
-    if (m_pWebBrowserEventHandler)
-    {
-        m_pWebBrowserEventHandler->NavigateError(pDisp, url, TargetFrameName, StatusCode, Cancel);
-    }
-}
+	void CWebBrowserUI::NavigateError( IDispatch *pDisp,VARIANT * &url,VARIANT *&TargetFrameName,VARIANT *&StatusCode,VARIANT_BOOL *&Cancel )
+	{
+		if (m_pWebBrowserEventHandler)
+		{
+			m_pWebBrowserEventHandler->NavigateError(this, pDisp,url,TargetFrameName,StatusCode,Cancel);
+		}
+	}
 
 void CWebBrowserUI::NavigateComplete2(IDispatch *pDisp, VARIANT *&url)
 {
@@ -234,37 +240,17 @@ void CWebBrowserUI::NavigateComplete2(IDispatch *pDisp, VARIANT *&url)
         { spCustomDoc->SetUIHandler(this); }
     }
 
-    if (m_pWebBrowserEventHandler)
-    {
-        m_pWebBrowserEventHandler->NavigateComplete2(pDisp, url);
-    }
-}
-
-void CWebBrowserUI::DocumentComplete(IDispatch *pDisp, VARIANT *&url)
-{
-    //CComPtr<IServiceProvider > pISP;
-    //CComPtr<IServiceProvider> pISPTop;
-    //CComPtr<IWebBrowser2> pTopTarget;
-    //pDisp->QueryInterface(::IID_IServiceProvider,(void**)&pISP);
-    //pISP->QueryService(SID_STopLevelBrowser, ::IID_IServiceProvider,(void**)&pISPTop);
-    //pISPTop->QueryService(SID_SWebBrowserApp, IID_IWebBrowser2,(void**)&pTopTarget);
-
-    //if (m_pWebBrowserEventHandler && pDisp == pTopTarget)
-    //{
-    //  m_pWebBrowserEventHandler->DocumentComplete(pDisp,url);
-    //}
-
-    if (m_pWebBrowserEventHandler && m_pWebBrowser2 == pDisp)
-    {
-        m_pWebBrowserEventHandler->DocumentComplete(pDisp, url);
-    }
-}
+		if (m_pWebBrowserEventHandler)
+		{
+			m_pWebBrowserEventHandler->NavigateComplete2(this, pDisp,url);
+		}
+	}
 
 void CWebBrowserUI::ProgressChange(LONG nProgress, LONG nProgressMax)
 {
     if (m_pWebBrowserEventHandler)
     {
-        m_pWebBrowserEventHandler->ProgressChange(nProgress, nProgressMax);
+        m_pWebBrowserEventHandler->ProgressChange(this, nProgress, nProgressMax);
     }
 }
 
@@ -273,30 +259,42 @@ void CWebBrowserUI::NewWindow3(IDispatch **pDisp, VARIANT_BOOL *&Cancel, DWORD d
 {
     if (m_pWebBrowserEventHandler)
     {
-        m_pWebBrowserEventHandler->NewWindow3(pDisp, Cancel, dwFlags, bstrUrlContext, bstrUrl);
+        m_pWebBrowserEventHandler->NewWindow3(this, pDisp, Cancel, dwFlags, bstrUrlContext, bstrUrl);
     }
 }
 void CWebBrowserUI::CommandStateChange(long Command, VARIANT_BOOL Enable)
 {
     if (m_pWebBrowserEventHandler)
     {
-        m_pWebBrowserEventHandler->CommandStateChange(Command, Enable);
+        m_pWebBrowserEventHandler->CommandStateChange(this, Command, Enable);
     }
 }
 
-// IDownloadManager
-STDMETHODIMP CWebBrowserUI::Download(/* [in] */ IMoniker *pmk, /* [in] */ IBindCtx *pbc, /* [in] */ DWORD
-        dwBindVerb, /* [in] */ LONG grfBINDF, /* [in] */ BINDINFO *pBindInfo, /* [in] */ LPCOLESTR
-        pszHeaders, /* [in] */ LPCOLESTR pszRedir, /* [in] */ UINT uiCP)
-{
-    if (m_pWebBrowserEventHandler)
-    {
-        return m_pWebBrowserEventHandler->Download(pmk, pbc, dwBindVerb, grfBINDF, pBindInfo, pszHeaders, pszRedir,
-                uiCP);
-    }
+	void CWebBrowserUI::TitleChange(BSTR bstrTitle)
+	{
+		if (m_pWebBrowserEventHandler)
+		{
+			m_pWebBrowserEventHandler->TitleChange(this, bstrTitle);
+		}
+	}
 
-    return S_OK;
-}
+	void CWebBrowserUI::DocumentComplete(IDispatch *pDisp, VARIANT *&url)
+	{
+		if (m_pWebBrowserEventHandler)
+		{
+			m_pWebBrowserEventHandler->DocumentComplete(this, pDisp, url);
+		}
+	}
+
+	// IDownloadManager
+	STDMETHODIMP CWebBrowserUI::Download( /* [in] */ IMoniker *pmk, /* [in] */ IBindCtx *pbc, /* [in] */ DWORD dwBindVerb, /* [in] */ LONG grfBINDF, /* [in] */ BINDINFO *pBindInfo, /* [in] */ LPCOLESTR pszHeaders, /* [in] */ LPCOLESTR pszRedir, /* [in] */ UINT uiCP )
+	{
+		if (m_pWebBrowserEventHandler)
+		{
+			return m_pWebBrowserEventHandler->Download(this, pmk,pbc,dwBindVerb,grfBINDF,pBindInfo,pszHeaders,pszRedir,uiCP);
+		}
+		return S_OK;
+	}
 
 // IDocHostUIHandler
 STDMETHODIMP CWebBrowserUI::ShowContextMenu(DWORD dwID, POINT *pptPosition, IUnknown *pCommandTarget,
@@ -304,28 +302,32 @@ STDMETHODIMP CWebBrowserUI::ShowContextMenu(DWORD dwID, POINT *pptPosition, IUnk
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->ShowContextMenu(dwID, pptPosition, pCommandTarget, pDispatchObjectHit);
+        return m_pWebBrowserEventHandler->ShowContextMenu(this, dwID, pptPosition, pCommandTarget, pDispatchObjectHit);
     }
 
     return S_FALSE;
 }
 
-STDMETHODIMP CWebBrowserUI::GetHostInfo(DOCHOSTUIINFO *pInfo)
-{
-    if (m_pWebBrowserEventHandler)
-    {
-        return m_pWebBrowserEventHandler->GetHostInfo(pInfo);
-    }
-
-    return E_NOTIMPL;
-}
+	STDMETHODIMP CWebBrowserUI::GetHostInfo( DOCHOSTUIINFO* pInfo )
+	{
+		if (pInfo != NULL) 
+		{
+			pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER;
+		}
+		
+		if (m_pWebBrowserEventHandler) 
+		{
+			return m_pWebBrowserEventHandler->GetHostInfo(this, pInfo);
+		}
+		return S_OK;
+	}
 
 STDMETHODIMP CWebBrowserUI::ShowUI(DWORD dwID, IOleInPlaceActiveObject *pActiveObject,
                                    IOleCommandTarget *pCommandTarget, IOleInPlaceFrame *pFrame, IOleInPlaceUIWindow *pDoc)
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->ShowUI(dwID, pActiveObject, pCommandTarget, pFrame, pDoc);
+        return m_pWebBrowserEventHandler->ShowUI(this, dwID, pActiveObject, pCommandTarget, pFrame, pDoc);
     }
 
     return S_OK;
@@ -335,7 +337,7 @@ STDMETHODIMP CWebBrowserUI::HideUI()
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->HideUI();
+        return m_pWebBrowserEventHandler->HideUI(this);
     }
 
     return S_OK;
@@ -345,7 +347,7 @@ STDMETHODIMP CWebBrowserUI::UpdateUI()
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->UpdateUI();
+        return m_pWebBrowserEventHandler->UpdateUI(this);
     }
 
     return S_OK;
@@ -355,7 +357,7 @@ STDMETHODIMP CWebBrowserUI::EnableModeless(BOOL fEnable)
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->EnableModeless(fEnable);
+        return m_pWebBrowserEventHandler->EnableModeless(this, fEnable);
     }
 
     return E_NOTIMPL;
@@ -365,7 +367,7 @@ STDMETHODIMP CWebBrowserUI::OnDocWindowActivate(BOOL fActivate)
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->OnDocWindowActivate(fActivate);
+        return m_pWebBrowserEventHandler->OnDocWindowActivate(this, fActivate);
     }
 
     return E_NOTIMPL;
@@ -375,7 +377,7 @@ STDMETHODIMP CWebBrowserUI::OnFrameWindowActivate(BOOL fActivate)
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->OnFrameWindowActivate(fActivate);
+        return m_pWebBrowserEventHandler->OnFrameWindowActivate(this, fActivate);
     }
 
     return E_NOTIMPL;
@@ -385,7 +387,7 @@ STDMETHODIMP CWebBrowserUI::ResizeBorder(LPCRECT prcBorder, IOleInPlaceUIWindow 
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->ResizeBorder(prcBorder, pUIWindow, fFrameWindow);
+        return m_pWebBrowserEventHandler->ResizeBorder(this, prcBorder, pUIWindow, fFrameWindow);
     }
 
     return E_NOTIMPL;
@@ -395,7 +397,7 @@ STDMETHODIMP CWebBrowserUI::TranslateAccelerator(LPMSG lpMsg, const GUID *pguidC
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->TranslateAccelerator(lpMsg, pguidCmdGroup, nCmdID);
+        return m_pWebBrowserEventHandler->TranslateAccelerator(this, lpMsg, pguidCmdGroup, nCmdID);
     }
 
     return S_FALSE;
@@ -444,7 +446,7 @@ STDMETHODIMP CWebBrowserUI::GetOptionKeyPath(LPOLESTR *pchKey, DWORD dwReserved)
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->GetOptionKeyPath(pchKey, dwReserved);
+        return m_pWebBrowserEventHandler->GetOptionKeyPath(this, pchKey, dwReserved);
     }
 
     return E_NOTIMPL;
@@ -454,7 +456,7 @@ STDMETHODIMP CWebBrowserUI::GetDropTarget(IDropTarget *pDropTarget, IDropTarget 
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->GetDropTarget(pDropTarget, ppDropTarget);
+        return m_pWebBrowserEventHandler->GetDropTarget(this, pDropTarget, ppDropTarget);
     }
 
     return S_FALSE; // 使用系统拖拽
@@ -464,7 +466,7 @@ STDMETHODIMP CWebBrowserUI::GetExternal(IDispatch **ppDispatch)
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->GetExternal(ppDispatch);
+        return m_pWebBrowserEventHandler->GetExternal(this, ppDispatch);
     }
 
     return S_FALSE;
@@ -474,7 +476,7 @@ STDMETHODIMP CWebBrowserUI::TranslateUrl(DWORD dwTranslate, OLECHAR *pchURLIn, O
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->TranslateUrl(dwTranslate, pchURLIn, ppchURLOut);
+        return m_pWebBrowserEventHandler->TranslateUrl(this, dwTranslate, pchURLIn, ppchURLOut);
     }
     else
     {
@@ -487,7 +489,7 @@ STDMETHODIMP CWebBrowserUI::FilterDataObject(IDataObject *pDO, IDataObject **ppD
 {
     if (m_pWebBrowserEventHandler)
     {
-        return m_pWebBrowserEventHandler->FilterDataObject(pDO, ppDORet);
+        return m_pWebBrowserEventHandler->FilterDataObject(this, pDO, ppDORet);
     }
     else
     {
@@ -577,45 +579,51 @@ STDMETHODIMP CWebBrowserUI::QueryService(REFGUID guidService, REFIID riid, void 
     HRESULT hr = E_NOINTERFACE;
     *ppvObject = NULL;
 
-    if (guidService == SID_SDownloadManager && riid == IID_IDownloadManager)
-    {
-        *ppvObject = this;
-        return S_OK;
-    }
-
-    return hr;
-}
+		if ( guidService == SID_SDownloadManager && riid == IID_IDownloadManager)
+		{
+			*ppvObject = this;
+			return S_OK;
+		}
+		//2021-10-11 zm
+		if(guidService == SID_SInternetSecurityManager && riid == IID_IInternetSecurityManager) 
+		{
+			*ppvObject = this;
+			return S_OK;
+		}
+		return hr;
+	}
 
 HRESULT CWebBrowserUI::RegisterEventHandler(BOOL inAdvise)
 {
-    CComPtr<IWebBrowser2> pWebBrowser;
-    CComPtr<IConnectionPointContainer>  pCPC;
-    CComPtr<IConnectionPoint> pCP;
-    HRESULT hr = GetControl(IID_IWebBrowser2, (void **)&pWebBrowser);
+	if (m_pWebBrowser2 == NULL) { return S_FALSE; }
 
-    if (FAILED(hr))
-    { return hr; }
+	HRESULT hr = S_FALSE;
+	//CComPtr<IWebBrowser2> pWebBrowser;
+	CComPtr<IConnectionPointContainer>  pCPC;
+	CComPtr<IConnectionPoint> pCP;
+	//HRESULT hr = GetControl(IID_IWebBrowser2, (void **)&pWebBrowser);
 
-    hr = pWebBrowser->QueryInterface(IID_IConnectionPointContainer, (void **)&pCPC);
+	//if (FAILED(hr))
+	//{
+	//	return hr;
+	//}
 
-    if (FAILED(hr))
-    { return hr; }
+	hr = m_pWebBrowser2->QueryInterface(IID_IConnectionPointContainer, (void **)&pCPC);
+	if (FAILED(hr)) { return hr; }
 
-    hr = pCPC->FindConnectionPoint(DIID_DWebBrowserEvents2, &pCP);
+	hr = pCPC->FindConnectionPoint(DIID_DWebBrowserEvents2, &pCP);
+	if (FAILED(hr)) { return hr; }
 
-    if (FAILED(hr))
-    { return hr; }
+	if (inAdvise)
+	{
+		hr = pCP->Advise((IDispatch *)this, &m_dwCookie);
+	}
+	else
+	{
+		hr = pCP->Unadvise(m_dwCookie);
+	}
 
-    if (inAdvise)
-    {
-        hr = pCP->Advise((IDispatch *)this, &m_dwCookie);
-    }
-    else
-    {
-        hr = pCP->Unadvise(m_dwCookie);
-    }
-
-    return hr;
+	return hr;
 }
 
 DISPID CWebBrowserUI::FindId(IDispatch *pObj, LPOLESTR pName)
@@ -677,7 +685,7 @@ HRESULT CWebBrowserUI::SetProperty(IDispatch *pObj, LPOLESTR pName, VARIANT *pVa
 IDispatch *CWebBrowserUI::GetHtmlWindow()
 {
     IDispatch *pDp =  NULL;
-    HRESULT hr;
+    HRESULT hr = 0;//zm
 
     if (m_pWebBrowser2)
     { hr = m_pWebBrowser2->get_Document(&pDp); }
@@ -706,6 +714,11 @@ IDispatch *CWebBrowserUI::GetHtmlWindow()
 
 IWebBrowser2 *CWebBrowserUI::GetWebBrowser2(void)
 {
+	if (NULL == m_pWebBrowser2)
+	{
+		GetControl(IID_IWebBrowser2, (LPVOID *)&m_pWebBrowser2);
+	}
+
     return m_pWebBrowser2;
 }
 

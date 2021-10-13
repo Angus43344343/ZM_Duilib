@@ -76,12 +76,12 @@ CWkeBrowserUI::~CWkeBrowserUI(void)
 
 LPCTSTR CWkeBrowserUI::GetClass() const
 {
-    return DUI_CTR_BROWSER;
+	return DUI_CTR_WKEBROWSER;
 }
 
 LPVOID CWkeBrowserUI::GetInterface(LPCTSTR pstrName)
 {
-    if (_tcscmp(pstrName, DUI_CTR_BROWSER) == 0) { return static_cast<CWkeBrowserUI *>(this); }
+	if (_tcscmp(pstrName, DUI_CTR_WKEBROWSER) == 0) { return static_cast<CWkeBrowserUI *>(this); }
 
     return CControlUI::GetInterface(pstrName);
 }
@@ -289,9 +289,10 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
             pt.y -= m_rcPaint.top;
             ScreenToClient(m_pManager->GetPaintWindow(), &pt);
 
-            //int delta = GET_WHEEL_DELTA_WPARAM(event.wParam);
-            int nFlag = GET_X_LPARAM(event.wParam);
-            int delta = (nFlag == SB_LINEDOWN) ? -120 : 120;
+			//2021-10-06 zm 解决ie滚动条失效的bug
+            int delta = GET_WHEEL_DELTA_WPARAM(event.wParam);
+            //int nFlag = GET_X_LPARAM(event.wParam);
+            //int delta = (nFlag == SB_LINEDOWN) ? -120 : 120;
             unsigned int flags = 0;
 
             if (event.wParam & MK_CONTROL) { flags |= WKE_CONTROL; }
@@ -304,7 +305,7 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
 
             if (event.wParam & MK_RBUTTON) { flags |= WKE_RBUTTON; }
 
-            bool handled = wkeFireMouseWheelEvent(m_pWeb, pt.x, pt.y, delta, flags);
+			bool handled = wkeFireMouseWheelEvent(m_pWeb, pt.x, pt.y, delta, flags);
 
             if (handled) { return; }
         }
@@ -357,7 +358,7 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
         }
         break;
 
-    case UIEVENT_IME_STARTCOMPOSITION:
+    case UIEVENT_IME_STARTCOMPOSITION://输入法位置
         {
             wkeRect caret = wkeGetCaretRect(m_pWeb);
 

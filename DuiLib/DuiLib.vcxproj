@@ -595,6 +595,7 @@
     <ClCompile Include="src\UICheckBox.cpp" />
     <ClCompile Include="src\UIChildLayout.cpp" />
     <ClCompile Include="src\UICircleProgress.cpp" />
+    <ClCompile Include="src\UIColorPalette.cpp" />
     <ClCompile Include="src\UICombo.cpp" />
     <ClCompile Include="src\UIContainer.cpp" />
     <ClCompile Include="src\UIControl.cpp" />
@@ -604,6 +605,7 @@
     <ClCompile Include="src\UIEdit.cpp" />
     <ClCompile Include="src\UIFlash.cpp" />
     <ClCompile Include="src\UIGifAnim.cpp" />
+    <ClCompile Include="src\UIGroupBox.cpp" />
     <ClCompile Include="src\UIHorizontalLayout.cpp" />
     <ClCompile Include="src\UIHotKey.cpp" />
     <ClCompile Include="src\UIHWeightLayout.cpp" />
@@ -620,6 +622,7 @@
     <ClCompile Include="src\UIRadioBox.cpp" />
     <ClCompile Include="src\UIRender.cpp" />
     <ClCompile Include="src\UIRichEdit.cpp" />
+    <ClCompile Include="src\UIRollText.cpp" />
     <ClCompile Include="src\UIScrollBar.cpp" />
     <ClCompile Include="src\UIShadow.cpp" />
     <ClCompile Include="src\UISlider.cpp" />
@@ -628,6 +631,7 @@
     <ClCompile Include="src\UITileLayout.cpp" />
     <ClCompile Include="src\UITreeView.cpp" />
     <ClCompile Include="src\UIVerticalLayout.cpp" />
+    <ClCompile Include="src\UIWebBrowser.cpp" />
     <ClCompile Include="src\UIWkeBrowser.cpp" />
     <ClCompile Include="src\Utils.cpp" />
     <ClCompile Include="src\WinImplBase.cpp" />
@@ -661,6 +665,7 @@
     <ClInclude Include="include\duilib\ParseProperty.h" />
     <ClInclude Include="include\duilib\systemtray.h" />
     <ClInclude Include="include\duilib\UICircleProgress.h" />
+    <ClInclude Include="include\duilib\UIColorPalette.h" />
     <ClInclude Include="include\duilib\UIEffect.h" />
     <ClInclude Include="include\duilib\OleDataHelper.h" />
     <ClInclude Include="include\duilib\Subject.h" />
@@ -679,6 +684,7 @@
     <ClInclude Include="include\duilib\UIEdit.h" />
     <ClInclude Include="include\duilib\UIFlash.h" />
     <ClInclude Include="include\duilib\UIGifAnim.h" />
+    <ClInclude Include="include\duilib\UIGroupBox.h" />
     <ClInclude Include="include\duilib\UIHorizontalLayout.h" />
     <ClInclude Include="include\duilib\UIHotKey.h" />
     <ClInclude Include="include\duilib\UIHWeightLayout.h" />
@@ -694,6 +700,7 @@
     <ClInclude Include="include\duilib\UIRadioBox.h" />
     <ClInclude Include="include\duilib\UIRender.h" />
     <ClInclude Include="include\duilib\UIRichEdit.h" />
+    <ClInclude Include="include\duilib\UIRollText.h" />
     <ClInclude Include="include\duilib\UIScrollBar.h" />
     <ClInclude Include="include\duilib\UISlider.h" />
     <ClInclude Include="include\duilib\UITabLayout.h" />
@@ -701,6 +708,7 @@
     <ClInclude Include="include\duilib\UITileLayout.h" />
     <ClInclude Include="include\duilib\UITreeView.h" />
     <ClInclude Include="include\duilib\UIVerticalLayout.h" />
+    <ClInclude Include="include\duilib\UIWebBrowser.h" />
     <ClInclude Include="include\duilib\UIWkeBrowser.h" />
     <ClInclude Include="include\duilib\Utils.h" />
     <ClInclude Include="include\duilib\VirtualWnd.h" />

@@ -38,7 +38,7 @@
                 <Include source="pageSenior.xml" />
             </VBox>
 
-            <VBox triggershow="25, 50, true, false" virtualwnd="pageList">
+            <VBox triggershow="25, 100, true, false" virtualwnd="pageList">
                 <Include source="pageList.xml" />
             </VBox>
 
@@ -46,8 +46,8 @@
                 <Include source="pageActiveX.xml" />
             </VBox>
 
-            <VBox triggershow="27, 100, true, false" virtualwnd="pageRedraw">
-                <Include source="pageRedraw.xml" />
+            <VBox triggershow="28, 100, true, false" virtualwnd="pageRedraw">
+                <Include source="pageControlEx.xml" />
             </VBox>
         </TabLayout>
         

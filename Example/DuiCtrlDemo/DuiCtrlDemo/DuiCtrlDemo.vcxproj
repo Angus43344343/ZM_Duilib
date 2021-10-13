@@ -82,7 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BkSkin.h" />
+    <ClInclude Include="CtrlActiveX.h" />
     <ClInclude Include="CtrlBasics.h" />
+    <ClInclude Include="CtrlControlEx.h" />
     <ClInclude Include="CtrlList.h" />
     <ClInclude Include="CtrlSenior.h" />
     <ClInclude Include="Duilib.h" />
@@ -96,7 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BkSkin.cpp" />
+    <ClCompile Include="CtrlActiveX.cpp" />
     <ClCompile Include="CtrlBasics.cpp" />
+    <ClCompile Include="CtrlControlEx.cpp" />
     <ClCompile Include="CtrlList.cpp" />
     <ClCompile Include="CtrlSenior.cpp" />
     <ClCompile Include="fileUtil.cpp" />
@@ -130,7 +134,13 @@
     <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\menu.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\pageActiveX.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\pageBasics.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\pageControlEx.xml">
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\pageList.xml">

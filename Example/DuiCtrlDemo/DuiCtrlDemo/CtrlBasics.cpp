@@ -41,7 +41,7 @@ void CCtrlBasics::OnInitIpAddress()
 void CCtrlBasics::OnInitProgress()
 {
 	CProgressUI* pobjProgress = static_cast<CProgressUI*>(m_pobjManager->FindControl(_T("proTest1")));
-	CCircleProgressUI* pobjCircleProgress = static_cast<CCircleProgressUI*>(m_pobjManager->FindControl((_T("cirproTest"))));
+	//CCircleProgressUI* pobjCircleProgress = static_cast<CCircleProgressUI*>(m_pobjManager->FindControl((_T("cirproTest"))));
 
 	m_Thread = std::async(std::launch::async, [=, this]() //线程查看progress状态
 	{
@@ -50,7 +50,7 @@ void CCtrlBasics::OnInitProgress()
 		{
 			std::unique_lock<std::mutex> lock(CMutex::GetInstance().GetMutext());
 			pobjProgress->SetValue(++iValue);
-			pobjCircleProgress->SetValue(iValue);
+			//pobjCircleProgress->SetValue(iValue);
 
 			if (pobjProgress->GetMaxValue() == iValue) iValue = 0;
 			if (m_bThreadExit) break;

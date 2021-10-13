@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+
+    <Style name="hboxBasics" shared="true" value="inset=&quot;10,2,2,2&quot; childmargin=&quot;20&quot; childvalign=&quot;center&quot;"/>
+    
+    <HBox name="htlClient"><!--客户端-->
+        <HBox width="160" sepimm="true" sepwidth="2" sepcolor="#FF98FB98"><!--左容器-->
+
+            <VBox vscrollbar="true" >
+                <Label name="lblFlash" height="300"  text="ActiveX测试:" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+                
+                <Label name="lblFlash" height="400"  text="flash测试:" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblWkeBrowser" height="600"  text="WkeBrowser测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+            </VBox>
+        </HBox><!--============================================================左容器-->
+
+        <VBox vscrollbar="true"><!--右容器-->
+            
+            <HBox height="300" hscrollbar="true"><!--flash-->
+                <ActiveX name="ActiveXTest" clsid="{D27CDB6E-AE6D-11CF-96B8-444553540000}" height="300" width="400" />
+                <VBox width="400" height="300" float="true" pos="10,10,0,0" childmargin="20" >
+                    <Button style="styleButton" text="flash控件背景测试" />
+                    <Edit style="styleEdit" tiptext="请正常输入" />
+                    <RichEdit style="styleRichEdit" width="300" height="120" tiptext="请正常输入" />
+                </VBox>
+            </HBox><!--==============================-flash-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+            
+            <HBox height="400" style="hboxBasics" hscrollbar="true"><!--flash-->
+                <Flash name="flashTest" width="400" height="300"/>
+                <Flash name="flashTest1" width="400" height="300"/>
+                <Flash name="flashTest2" width="400" height="300"/>
+            </HBox><!--================================================-flash-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <VBox height="600" ><!--WkeBrowser-->
+                <WebBrowser name="webbrowserTest" homepage="" />
+            </VBox><!--=============WkeBrowser-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+        </VBox><!--=================右容器-->
+
+    </HBox><!--==============客户端-->
+
+</Window>

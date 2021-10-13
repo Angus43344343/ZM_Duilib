@@ -34,7 +34,8 @@ public:
 
     virtual LPCTSTR GetClass() const override;
     virtual LPVOID GetInterface(LPCTSTR pstrName) override;
-    virtual void DoInit() override;
+	//2021-10-07 zm取消XML静态属性设置
+    //virtual void DoInit() override;
     virtual UINT GetControlFlags() const override;
     virtual HWND GetNativeWindow() const override;
 
@@ -68,6 +69,7 @@ protected:
     CDuiString m_sModuleName;
     bool m_bCreated;
     bool m_bDelayCreate;
+    bool m_bMFC;
     IOleObject *m_pUnk;
     CActiveXCtrl *m_pControl;
     HWND m_hwndHost;

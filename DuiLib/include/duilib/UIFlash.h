@@ -8,6 +8,7 @@
 #pragma once
 
 
+
 namespace ShockwaveFlashObjects {
 struct IShockwaveFlash;
 }
@@ -38,6 +39,10 @@ public:
     void SetBase(CDuiString sBase);
     CDuiString GetScale(void);
     void SetScale(CDuiString sScale);
+	// 2021-10-06 zm 添加设置flash窗口背景色
+	void SetBkColor(DWORD dwBkColor);
+	DWORD GetBkColor();
+	
 
     bool IsPlaying(void);
 

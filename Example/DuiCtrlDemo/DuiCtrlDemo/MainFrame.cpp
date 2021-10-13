@@ -9,6 +9,8 @@ CMainFrame::CMainFrame()
 	RegisterVirtualWnd(DUI_VIRTUAL_WND_BASICS, new CCtrlBasics(&m_pm));
 	RegisterVirtualWnd(DUI_VIRTUAL_WND_SENIOR, new CCtrlSenior(&m_pm));
 	RegisterVirtualWnd(DUI_VIRTUAL_WND_LIST, new CCtrlList(&m_pm));
+	RegisterVirtualWnd(DUI_VIRTUAL_WND_ACTIVEX, new CCtrlActiveX(&m_pm));
+	RegisterVirtualWnd(DUI_VIRTUAL_WND_CONTROLEX, new CCtrlControlEx(&m_pm));
 }
 
 CMainFrame::~CMainFrame()

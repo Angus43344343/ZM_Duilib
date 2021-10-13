@@ -84,6 +84,12 @@
     <ClInclude Include="CtrlList.h">
       <Filter>ui\MainFrame</Filter>
     </ClInclude>
+    <ClInclude Include="CtrlActiveX.h">
+      <Filter>ui\MainFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlControlEx.h">
+      <Filter>ui\MainFrame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -111,6 +117,12 @@
       <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="CtrlList.cpp">
+      <Filter>ui\MainFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlActiveX.cpp">
+      <Filter>ui\MainFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlControlEx.cpp">
       <Filter>ui\MainFrame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -165,6 +177,12 @@
       <Filter>资源文件\skin\bkskin</Filter>
     </Xml>
     <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\pageList.xml">
+      <Filter>资源文件\skin\mainxml</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\pageActiveX.xml">
+      <Filter>资源文件\skin\mainxml</Filter>
+    </Xml>
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\pageControlEx.xml">
       <Filter>资源文件\skin\mainxml</Filter>
     </Xml>
   </ItemGroup>

@@ -711,11 +711,17 @@ STDMETHODIMP CActiveXCtrl::GetWindowContext(IOleInPlaceFrame **ppFrame, IOleInPl
 
     if (lprcClipRect == NULL) { return E_POINTER; }
 
-    if (m_pWindow)
-    {
-        ::GetClientRect(m_pWindow->GetHWND(), lprcPosRect);
-        ::GetClientRect(m_pWindow->GetHWND(), lprcClipRect);
-    }
+		if (m_pWindow)
+		{
+			::GetClientRect(m_pWindow->GetHWND(),lprcPosRect);
+			::GetClientRect(m_pWindow->GetHWND(),lprcClipRect);
+		}
+		else//2021-10-06 zm创建无窗口句柄实例
+		{
+			RECT rcItem = m_pOwner->GetPos();
+			memcpy(lprcPosRect, &rcItem, sizeof(rcItem));
+			memcpy(lprcClipRect, &rcItem, sizeof(rcItem));
+		}
 
     *ppFrame = new CActiveXFrameWnd(m_pOwner);
     *ppDoc = NULL;
@@ -1100,13 +1106,13 @@ LPVOID CActiveXUI::GetInterface(LPCTSTR pstrName)
     return CControlUI::GetInterface(pstrName);
 }
 
-void CActiveXUI::DoInit()
-{
-    CControlUI::DoInit();
-    CreateControl();
-
-    if (m_pManager != NULL && m_bCreated) { m_pManager->SendNotify(this, DUI_MSGTYPE_SHOWACTIVEX, 0, 0, false); }
-}
+//void CActiveXUI::DoInit()
+//{
+//	CControlUI::DoInit();
+//	CreateControl();
+//
+//	if (m_pManager != NULL && m_bCreated) { m_pManager->SendNotify(this, DUI_MSGTYPE_SHOWACTIVEX, 0, 0, false); }
+//}
 
 UINT CActiveXUI::GetControlFlags() const
 {
@@ -1197,7 +1203,7 @@ void CActiveXUI::Move(SIZE szOffset, bool bNeedInvalidate)
     if (!m_pControl->m_bWindowless)
     {
         ASSERT(m_pControl->m_pWindow);
-        ::MoveWindow(*m_pControl->m_pWindow, m_rcItem.left, m_rcItem.top, m_rcItem.right - m_rcItem.left,
+		::MoveWindow(*m_pControl->m_pWindow, m_rcItem.left, m_rcItem.top, m_rcItem.right - m_rcItem.left,
                      m_rcItem.bottom - m_rcItem.top, TRUE);
     }
 }
@@ -1462,24 +1468,19 @@ bool CActiveXUI::DoCreateControl()
     // Activate and done...
     m_pUnk->SetHostNames(OLESTR("UIActiveX"), NULL);
 
-    // if (m_pManager != NULL && m_bDelayCreate) { m_pManager->SendNotify((CControlUI *)this, DUI_MSGTYPE_SHOWACTIVEX, 0, 0, false); }
-    // if ((dwMiscStatus & OLEMISC_INVISIBLEATRUNTIME) == 0)
-    // {
-    //     Hr = m_pUnk->DoVerb(OLEIVERB_INPLACEACTIVATE, NULL, pOleClientSite, 0, m_pManager->GetPaintWindow(),
-    //                         &m_rcItem);
-    //     //::RedrawWindow(m_pManager->GetPaintWindow(), &m_rcItem, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE | RDW_INTERNALPAINT | RDW_FRAME);
-    // }
-    if (NULL != m_pManager)
-    {
-        m_bDelayCreate ? m_pManager->SendNotify((CControlUI *)this, DUI_MSGTYPE_SHOWACTIVEX, 0, 0, false) : NULL; //lint !e62
+	//zm
+	if( m_pManager != NULL ) m_pManager->SendNotify((CControlUI*)this, DUI_MSGTYPE_SHOWACTIVEX, 0, 0, false);
+	if( (dwMiscStatus & OLEMISC_INVISIBLEATRUNTIME) == 0 ) 
+	{
+		try
+		{
+			if(m_pManager != NULL) Hr = m_pUnk->DoVerb(OLEIVERB_INPLACEACTIVATE, NULL, pOleClientSite, 0, m_pManager->GetPaintWindow(), &m_rcItem);
+		}
+		catch (...)
+		{
+		}
+	}
 
-        if ((dwMiscStatus & OLEMISC_INVISIBLEATRUNTIME) == 0)
-        {
-            Hr = m_pUnk->DoVerb(OLEIVERB_INPLACEACTIVATE, NULL, pOleClientSite, 0, m_pManager->GetPaintWindow(),
-                                &m_rcItem);
-            //::RedrawWindow(m_pManager->GetPaintWindow(), &m_rcItem, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE | RDW_INTERNALPAINT | RDW_FRAME);
-        }
-    }
 
     IObjectWithSite *pSite = NULL;
     m_pUnk->QueryInterface(IID_IObjectWithSite, (LPVOID *) &pSite);

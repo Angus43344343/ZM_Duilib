@@ -28,7 +28,7 @@ using namespace DuiLib;
 #define DUI_VIRTUAL_WND_SENIOR		_T("pageSenior")
 #define DUI_VIRTUAL_WND_LIST		_T("pageList")
 #define DUI_VIRTUAL_WND_ACTIVEX		_T("pageActiveX")
-#define DUI_VIRTUAL_WND_REDRAW		_T("pageRedraw")
+#define DUI_VIRTUAL_WND_CONTROLEX	_T("pageControlEx")
 
 //定义语言类型
 typedef enum

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+
+    <Style name="hboxBasics" shared="true" value="inset=&quot;10,2,2,2&quot; childmargin=&quot;20&quot; childvalign=&quot;center&quot;"/>
+    <Style name="styleBtnWke" shared="true" value="width=&quot;32&quot; height=&quot;32&quot; borderround=&quot;32&quot; hotbkcolor=&quot;#ffC6E2FF&quot;" />
+
+    <HBox name="htlClient"><!--客户端-->
+        <HBox width="160" sepimm="true" sepwidth="2" sepcolor="#FF98FB98"><!--左容器-->
+
+            <VBox vscrollbar="true" >
+                <Label name="lblRollText" height="100"  text="RollText测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblGroup" height="60"  text="Group测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblColorPattle" height="200"  text="colorPattle测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblProgress" height="100" text="CircleProgress测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblWkeBrowser" height="600"  text="WkeBrowser测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+            </VBox>
+            
+        </HBox><!--============================================================左容器-->
+
+        <VBox vscrollbar="true"><!--右容器-->
+            <HBox height="100" style="hboxBasics"><!--RollText-->
+                <RollText name="rolltextTest" height="60" width="120" bkcolor="#ffFFFFE0" roll="true" direction="0" timespan="400" timeendspan="10000" text="广告大酬宾五一商品不要钱随便拿啊" />
+                <RollText name="rolltextTest1" height="60" width="120" bkcolor="#ffFFFFE0" roll="true" direction="1" timespan="200" timeendspan="10000" text="广告大酬宾五一商品不要钱随便拿啊" />
+                <RollText name="rolltextTest2" height="60" width="120" bkcolor="#ffFFFFE0" roll="true" direction="2" timespan="200" timeendspan="10000" text="广告大酬宾五一商品不要钱随便拿啊" />          
+                <RollText name="rolltextTest3" height="60" width="120" bkcolor="#ffFFFFE0" roll="true" direction="3" timespan="200" timeendspan="10000" text="广告大酬宾五一商品不要钱随便拿啊" />    
+            </HBox><!--===============================RollText-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <GroupBox name="gbTest" width="400" height="60" text="GroupBox控件" inset="10,4,4,4" ><!--GroupBox-->
+                <HBox inset="20,10,0,0" childmargin="20" childvalign="center">
+                    <Button name="btnGroup" style="styleButton" text="按钮测试1" />
+                    <Button name="btnGroup" style="styleButton" text="按钮测试2" />
+                    <Button name="btnGroup" style="styleButton" text="按钮测试3" />
+                </HBox>
+            </GroupBox><!--==========================================================================GroupBox-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox height="200" style="hboxBasics"><!--Palatte-->
+                <Palette name="paletteTest" width="300" paletteheight="170" barheight="20" thumbimage="res=&apos;palette/cursor.png&apos;"/>
+            </HBox><!--===============================Palatte-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox height="100" style="hboxBasics"><!--CircleProgress-->
+                <CircleProgress name="cirproTest" style="styleCircleProgress"/>
+            </HBox><!--===============================CircleProgress-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+        
+        </VBox><!--=================右容器-->
+
+    </HBox>
+    <!--==============客户端-->
+
+</Window>

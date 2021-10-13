@@ -2075,7 +2075,8 @@ bool CPaintManagerUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LR
             event.Type = UIEVENT_SCROLLWHEEL;
             event.pSender = pControl;
 
-            if (CDuiString(DUI_CTR_BROWSER) == pControl->GetClass())
+            if (CDuiString(DUI_CTR_WKEBROWSER) == pControl->GetClass()
+				|| (CDuiString(DUI_CTR_WEBBROWSER) == pControl->GetClass()))//zm
             {
                 event.wParam = wParam;
             }

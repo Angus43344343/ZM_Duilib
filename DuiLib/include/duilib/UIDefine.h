@@ -151,6 +151,8 @@ union DuiMessageMapFunctions
 
 #define DUI_MSGTYPE_WEBNOTIFY              (_T("webnotify"))        // WEB 控件通知消息
 #define DUI_MSGTYPE_HOTKEY				   (_T("hotkey"))			// 2021-09-07 zm 添加系统热键消息
+#define DUI_MSGTYPE_COLORCHANGED		   (_T("colorchanged"))     // zm
+#define DUI_MSGTYPE_TEXTROLLEND            (_T("textrollend"))		// zm
 //////////////////////////////////////////////////////////////////////////
 
 
@@ -323,7 +325,7 @@ struct DUI_MSGMAP_ENTRY //定义一个结构体，来存放消息信息
 #define DUI_CTR_GIFANIM                          (_T("GifAnim"))
 
 #define DUI_CTR_PROGRESS                         (_T("Progress"))
-#define DUI_CTR_CIRCLEPROGRESS				     (_T("CircleProgress")) //zm
+
 #define DUI_CTR_RICHEDIT                         (_T("RichEdit"))
 #define DUI_CTR_CHECKBOX                         (_T("CheckBox"))
 #define DUI_CTR_RADIOBOX                         (_T("RadioBox"))
@@ -341,7 +343,7 @@ struct DUI_MSGMAP_ENTRY //定义一个结构体，来存放消息信息
 #define DUI_CTR_ILISTOWNER                       (_T("IListOwner"))
 #define DUI_CTR_LISTHEADER                       (_T("ListHeader"))
 #define DUI_CTR_TILELAYOUT                       (_T("TileLayout"))
-// #define DUI_CTR_WEBBROWSER                       (_T("WebBrowser")) // 已废弃
+#define DUI_CTR_WEBBROWSER                       (_T("WebBrowser")) // 恢复
 
 #define DUI_CTR_CHILDLAYOUT                      (_T("ChildLayout"))
 #define DUI_CTR_LISTELEMENT                      (_T("ListElement"))
@@ -365,7 +367,12 @@ struct DUI_MSGMAP_ENTRY //定义一个结构体，来存放消息信息
 #define DUI_CTR_PWDCHECK                         (_T("PwdCheck"))
 #define DUI_CTR_IPADDRESS                        (_T("IpAddress"))
 #define DUI_CTR_HWEIGHTLAYOUT                    (_T("HWeightLayout"))
-#define DUI_CTR_BROWSER                          (_T("Browser"))
+#define DUI_CTR_WKEBROWSER                       (_T("WkeBrowser"))
+//2021-10-11 zm 添加控件类型
+#define DUI_CTR_CIRCLEPROGRESS				     (_T("CircleProgress")) 
+#define DUI_CTR_ROLLTEXT						 (_T("RollText"))
+#define DUI_CTR_PALETTE							 (_T("Palette"))
+#define DUI_CTR_GROUPBOX						 (_T("GroupBox"))
 
 ///
 //////////////END控件名称宏定义//////////////////////////////////////////////////

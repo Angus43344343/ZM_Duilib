@@ -112,4 +112,20 @@
     <Style name="styleTreeView" shared="true" value="margin=&quot;10,10,0,0&quot; visibleexpandbtn=&quot;true&quot; vscrollbar=&quot;true&quot;"/>
     <Default name="TreeNode" shared="true" value=" height=&quot;17&quot; dotlineattr=? height=&quot;16&quot;?  expandattr=? height=&quot;16&quot; width=&quot;16&quot; normalimage=&quot;res='default/treeview/treeview_expand.png' source='0,0,16,16'&quot; hotimage=&quot;res='default/treeview/treeview_expand.png' source='16,0,32,16'&quot; selectedimage=&quot;res='default/treeview/treeview_normal.png' source='0,0,16,16'&quot; selectedhotimage=&quot;res='default/treeview/treeview_normal.png' source='16,0,32,16'&quot; ?  checkboxattr=? height=&quot;17&quot; width=&quot;17&quot; normalimage=&quot;res='default/treeview/checkbox.png' source='0,0,17,17'&quot; hotimage=&quot;res='default/treeview/checkbox.png' source='17,0,34,17'&quot; selectedimage=&quot;res='default/treeview/checkbox.png' source='34,0,51,17'&quot; ?"/>
     
+    <!--ActiveX样式-->
+    <Default name="ActiveX" shared="true" value="mouse=&quot;false&quot;" />
+    
+    <!--Flash样式-->
+    <Default name="Flash" shared="true" value="mouse=&quot;false&quot;" />
+    
+    <!--WebBrowser样式-->
+    <Style name="styleWebBrowser" shared="true" value="autonavi=&quot;true&quot; delaycreate=&quot;false&quot;" />
+    
+    <!--RollText样式-->
+    
+    <!--GroupBox样式-->
+    <Default name="GroupBox" shared="true" value="textcolor=&quot;#FF000000&quot; bordercolor=&quot;#FF111111&quot; bordersize=&quot;1&quot;" />
+    
+    <!--Palette样式-->
+    
 </root>

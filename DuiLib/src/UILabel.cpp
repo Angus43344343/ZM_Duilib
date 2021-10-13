@@ -406,19 +406,23 @@ void CLabelUI::PaintText(HDC hDC)
     {
         if (m_sText.IsEmpty()) { return; }
 
-        if (!(m_uTextStyle & DT_SINGLELINE) && ((m_uTextStyle & DT_VCENTER) || (m_uTextStyle & DT_BOTTOM)))
-        {
-            RECT rcTxt = GetTextRect(rc);
+		//2021-10-11 zm
+		RECT rcDst = { 0 };
+		GetDrawItem(m_uTextStyle, rc);
+		if (!::IntersectRect(&rcDst, &rc, &m_rcItem)) return;
+        //if (!(m_uTextStyle & DT_SINGLELINE) && ((m_uTextStyle & DT_VCENTER) || (m_uTextStyle & DT_BOTTOM)))
+        //{
+        //    RECT rcTxt = GetTextRect(rc);
 
-            if (m_uTextStyle & DT_VCENTER)
-            {
-                rc.top += ((rc.bottom - rc.top) - (rcTxt.bottom - rcTxt.top)) / 2;
-            }
-            else if (m_uTextStyle & DT_BOTTOM)
-            {
-                rc.top += (rc.bottom - rc.top) - (rcTxt.bottom - rcTxt.top);
-            }
-        }
+        //    if (m_uTextStyle & DT_VCENTER)
+        //    {
+        //        rc.top += ((rc.bottom - rc.top) - (rcTxt.bottom - rcTxt.top)) / 2;
+        //    }
+        //    else if (m_uTextStyle & DT_BOTTOM)
+        //    {
+        //        rc.top += (rc.bottom - rc.top) - (rcTxt.bottom - rcTxt.top);
+        //    }
+        //}
 
         if (IsEnabled())
         {
@@ -625,6 +629,23 @@ RECT CLabelUI::GetTextRect(RECT rc)
     }
 
     return rc;
+}
+
+void CLabelUI::GetDrawItem(UINT& uiTextStyle, RECT& rcItem)
+{
+	if (!(uiTextStyle & DT_SINGLELINE) && ((uiTextStyle & DT_VCENTER) || (uiTextStyle & DT_BOTTOM)))
+	{
+		RECT rcTxt = GetTextRect(rcItem);
+
+		if (uiTextStyle & DT_VCENTER)
+		{
+			rcItem.top += ((rcItem.bottom - rcItem.top) - (rcTxt.bottom - rcTxt.top)) / 2;
+		}
+		else if (uiTextStyle & DT_BOTTOM)
+		{
+			rcItem.top += (rcItem.bottom - rcItem.top) - (rcTxt.bottom - rcTxt.top);
+		}
+	}
 }
 
 #ifdef USE_GDIPLUS

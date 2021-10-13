@@ -3126,9 +3126,7 @@ void CListLabelElementUI::DoEvent(TEventUI &event)
         {
             ReleaseCapture();
 
-			//2021-10-02 zm 与双击事件消息同步,方便获取行,行信息
-			//if (IsSelected()) { m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMCLICK); }
-			if (IsSelected()) { m_pManager->SendNotify((CListUI *)m_pOwner, DUI_MSGTYPE_ITEMCLICK, (WPARAM)this, (LPARAM)GetMouseColumn(event.ptMouse)); }
+			if (IsSelected()) { m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMCLICK); }
         }
 
         return;
@@ -3472,6 +3470,11 @@ void CListTextElementUI::DoEvent(TEventUI &event)
                 return;
             }
         }
+
+		//2021-10-02 zm 与双击事件消息同步,方便获取行,行信息
+		if (IsSelected()) { m_pManager->SendNotify((CListUI *)m_pOwner, DUI_MSGTYPE_ITEMCLICK, (WPARAM)this, (LPARAM)GetMouseColumn(event.ptMouse)); }
+
+		return;
     }
 
     if (m_nLinks > 0 && event.Type == UIEVENT_MOUSEMOVE)

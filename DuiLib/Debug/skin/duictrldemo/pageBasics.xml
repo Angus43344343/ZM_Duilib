@@ -85,7 +85,6 @@
                     <GifAnim bkimage="res=&apos;ani_loading.gif&apos;" autoplay="true"  width="16" height="16" margin="0,0,5,0"/>
                     <Progress name="proTest1" style="styleProgress"/>    
                 </HBox>
-                <CircleProgress name="cirproTest" style="styleCircleProgress"/>
                 <Control />
             </HBox><!--*******************************Progress==CircleProgress-->
             <Control height="1" bkcolor="#ffFF00FF"/>

@@ -227,19 +227,20 @@ bool CFlashUI::DoCreateControl()
         GetControl(__uuidof(ShockwaveFlashObjects::IShockwaveFlash), (LPVOID *)&m_pFlash);
     }
 
-    if (NULL != m_pFlash)
-    {
-        _bstr_t str;
-        str = m_sAlign;
-        m_pFlash->put_SAlign(str);
-        m_pFlash->put_BackgroundColor(m_dwBackColor);
-        str = m_sWMode;
-        m_pFlash->put_WMode(str);
-        str = (CPaintManagerUI::GetResourcePath() + m_sMovie).GetData();
-        m_pFlash->put_Movie(str);
-        str = m_sBase;
-        m_pFlash->put_Base(str);
-    }
+	//2021-10-06 zm 取消XML设置flash属性,消除控件特效失效的问题
+    //if (NULL != m_pFlash)
+    //{
+    //    _bstr_t str;
+    //    str = m_sAlign;
+    //    m_pFlash->put_SAlign(str);
+    //    m_pFlash->put_BackgroundColor(m_dwBackColor);
+    //    str = m_sWMode;
+    //    m_pFlash->put_WMode(str);
+    //    str = (CPaintManagerUI::GetResourcePath() + m_sMovie).GetData();
+    //    m_pFlash->put_Movie(str);
+    //    str = m_sBase;
+    //    m_pFlash->put_Base(str);
+    //}
 
     RegisterEventHandler(TRUE);
     return true;
@@ -322,18 +323,13 @@ void CFlashUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
     // Flash 控件不支持这两个属性
     if (_tcscmp(pstrName, _T("homepage")) == 0) { DUITRACE(_T("不支持属性:homepage")); }
     else if (_tcscmp(pstrName, _T("autonavi")) == 0) { DUITRACE(_T("不支持属性:autonavi")); }
-    else if (_tcscmp(pstrName, _T("align")) == 0)
-    {
-        m_sAlign = ParseString(pstrValue);
-    }
-    else if (_tcscmp(pstrName, _T("bkcolor")) == 0)
-    {
-        m_dwBackColor = ParseColor(pstrValue);
-    }
-    else if (_tcscmp(pstrName, _T("wmode")) == 0) { m_sWMode = ParseString(pstrValue); }
-    else if (_tcscmp(pstrName, _T("movie")) == 0) { m_sMovie = ParseString(pstrValue); }
-    else if (_tcscmp(pstrName, _T("base")) == 0)  { m_sBase = ParseString(pstrValue); }
-    else if (_tcscmp(pstrName, _T("scale")) == 0) { m_sScale = ParseString(pstrValue); }
+	//2021-10-06 zm 使用XML来初始化flash会导致滚动条滚动区域和控件特效失效的BUG，还是采用动态加载
+    //else if (_tcscmp(pstrName, _T("align")) == 0) { m_sAlign = ParseString(pstrValue); }
+    //else if (_tcscmp(pstrName, _T("bkcolor")) == 0) { m_dwBackColor = ParseColor(pstrValue); }
+    //else if (_tcscmp(pstrName, _T("wmode")) == 0) { m_sWMode = ParseString(pstrValue); }
+    //else if (_tcscmp(pstrName, _T("movie")) == 0) { m_sMovie = ParseString(pstrValue); }
+    //else if (_tcscmp(pstrName, _T("base")) == 0)  { m_sBase = ParseString(pstrValue); }
+    //else if (_tcscmp(pstrName, _T("scale")) == 0) { m_sScale = ParseString(pstrValue); }
     else if (_tcscmp(pstrName, _T("autowidth")) == 0) { DUITRACE(_T("不支持属性:autowidth")); }
     else { CActiveXUI::SetAttribute(pstrName, pstrValue); }
 }
@@ -347,6 +343,9 @@ void CFlashUI::SetAlign(CDuiString sAlign)
 {
     if (NULL != m_pFlash)
     {
+		//2021-10-06 zm修复不能动态添加flash
+		m_sAlign = sAlign;
+
         _bstr_t str = m_sAlign;
         m_pFlash->put_SAlign(str);
         Invalidate();
@@ -362,6 +361,9 @@ void CFlashUI::SetWMode(CDuiString sWMode)
 {
     if (NULL != m_pFlash)
     {
+		//2021-10-06 zm修复不能动态添加flash
+		m_sWMode = sWMode;
+
         _bstr_t str = m_sWMode;
         m_pFlash->put_WMode(str);
         Invalidate();
@@ -377,6 +379,9 @@ void CFlashUI::SetMovie(CDuiString sMovie)
 {
     if (NULL != m_pFlash)
     {
+		//2021-10-06 zm修复不能动态添加flash
+		m_sMovie = CPaintManagerUI::GetResourcePath() + sMovie;
+
         _bstr_t str = m_sMovie;
         m_pFlash->put_Movie(str);
         Invalidate();
@@ -392,6 +397,9 @@ void CFlashUI::SetBase(CDuiString sBase)
 {
     if (NULL != m_pFlash)
     {
+		//2021-10-06 zm修复不能动态添加flash
+		m_sBase = sBase;
+
         _bstr_t str = m_sBase;
         m_pFlash->put_Base(str);
     }
@@ -406,10 +414,29 @@ void CFlashUI::SetScale(CDuiString sScale)
 {
     if (NULL != m_pFlash)
     {
+		//2021-10-06 zm修复不能动态添加flash
+		m_sScale = sScale;
+
         _bstr_t str = m_sScale;
         m_pFlash->put_Scale(str);
         Invalidate();
     }
+}
+
+void CFlashUI::SetBkColor(DWORD dwBkColor)
+{
+	if (NULL != m_pFlash)
+	{
+		m_dwBackColor = dwBkColor;
+
+		m_pFlash->put_BackgroundColor(m_dwBackColor);
+		Invalidate();
+	}
+}
+
+DWORD CFlashUI::GetBkColor()
+{
+	return m_dwBackColor;
 }
 
 bool CFlashUI::IsPlaying(void)

@@ -68,6 +68,9 @@ protected:
     virtual CDuiString *GetStringLinks(void) { return NULL; }
     RECT GetTextRect(RECT rc);
 
+	//2021-10-11 zm 添加获取绘制区域的接口
+	virtual void GetDrawItem(UINT& uiTextStyle, RECT& rcItem);
+
 protected:
     LPWSTR  m_pWideText;
     int     m_iFont;

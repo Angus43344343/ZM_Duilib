@@ -1,158 +1,154 @@
-ï»¿#pragma once
+#pragma once
 #include <ExDisp.h>
 #include <ExDispid.h>
 #include <mshtmhst.h>
 
-namespace DuiLib {
-class CWebBrowserEventHandler
+namespace DuiLib
 {
-public:
-    CWebBrowserEventHandler() {}
-    virtual ~CWebBrowserEventHandler() {}
+	class CWebBrowserUI;
+	class CWebBrowserEventHandler
+	{
+	public:
+		CWebBrowserEventHandler() {}
+		~CWebBrowserEventHandler() {}
 
-    virtual void BeforeNavigate2(IDispatch *pDisp, VARIANT *&url, VARIANT *&Flags, VARIANT *&TargetFrameName,
-                                 VARIANT *&PostData, VARIANT *&Headers, VARIANT_BOOL *&Cancel) {}
-    virtual void NavigateError(IDispatch *pDisp, VARIANT *&url, VARIANT *&TargetFrameName, VARIANT *&StatusCode,
-                               VARIANT_BOOL *&Cancel) {}
-    virtual void NavigateComplete2(IDispatch *pDisp, VARIANT *&url) {}
-    virtual void DocumentComplete(IDispatch *pDisp, VARIANT *&url) {}
-    virtual void ProgressChange(LONG nProgress, LONG nProgressMax) {}
-    virtual void NewWindow3(IDispatch **pDisp, VARIANT_BOOL *&Cancel, DWORD dwFlags, BSTR bstrUrlContext,
-                            BSTR bstrUrl) {}
-    virtual void CommandStateChange(long Command, VARIANT_BOOL Enable) {};
+		virtual void BeforeNavigate2(CWebBrowserUI* pWeb, IDispatch *pDisp,VARIANT *&url,VARIANT *&Flags,VARIANT *&TargetFrameName,VARIANT *&PostData,VARIANT *&Headers,VARIANT_BOOL *&Cancel ) {}
+		virtual void NavigateError(CWebBrowserUI* pWeb, IDispatch *pDisp,VARIANT * &url,VARIANT *&TargetFrameName,VARIANT *&StatusCode,VARIANT_BOOL *&Cancel) {}
+		virtual void NavigateComplete2(CWebBrowserUI* pWeb, IDispatch *pDisp,VARIANT *&url){}
+		virtual void ProgressChange(CWebBrowserUI* pWeb, LONG nProgress, LONG nProgressMax){}
+		virtual void NewWindow3(CWebBrowserUI* pWeb, IDispatch **pDisp, VARIANT_BOOL *&Cancel, DWORD dwFlags, BSTR bstrUrlContext, BSTR bstrUrl){}
+		virtual void CommandStateChange(CWebBrowserUI* pWeb, long Command,VARIANT_BOOL Enable){};
+		virtual void TitleChange(CWebBrowserUI* pWeb, BSTR bstrTitle){};
+		virtual void DocumentComplete(CWebBrowserUI* pWeb, IDispatch *pDisp,VARIANT *&url){}
 
-    // interface IDocHostUIHandler
-    virtual HRESULT STDMETHODCALLTYPE ShowContextMenu(
-        /* [in] */ DWORD dwID,
-        /* [in] */ POINT __RPC_FAR *ppt,
-        /* [in] */ IUnknown __RPC_FAR *pcmdtReserved,
-        /* [in] */ IDispatch __RPC_FAR *pdispReserved)
-    {
-        //return E_NOTIMPL;
-        //è¿”å›ž E_NOTIMPL æ­£å¸¸å¼¹å‡ºç³»ç»Ÿå³é”®èœå•
-        return S_OK;
-        //è¿”å›žS_OK åˆ™å¯å±è”½ç³»ç»Ÿå³é”®èœå•
-    }
+		// interface IDocHostUIHandler
+		virtual HRESULT STDMETHODCALLTYPE ShowContextMenu(CWebBrowserUI* pWeb, 
+			/* [in] */ DWORD dwID,
+			/* [in] */ POINT __RPC_FAR *ppt,
+			/* [in] */ IUnknown __RPC_FAR *pcmdtReserved,
+			/* [in] */ IDispatch __RPC_FAR *pdispReserved)
+		{
+			//return E_NOTIMPL;
+			//·µ»Ø E_NOTIMPL Õý³£µ¯³öÏµÍ³ÓÒ¼ü²Ëµ¥
+			return S_OK;
+			//·µ»ØS_OK Ôò¿ÉÆÁ±ÎÏµÍ³ÓÒ¼ü²Ëµ¥
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE GetHostInfo(
-        /* [out][in] */ DOCHOSTUIINFO __RPC_FAR *pInfo)
-    {
-        //      if (pInfo != NULL)
-        //      {
-        //          pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER;
-        //      }
-        return S_OK;
-    }
+		virtual HRESULT STDMETHODCALLTYPE GetHostInfo(CWebBrowserUI* pWeb, 
+			/* [out][in] */ DOCHOSTUIINFO __RPC_FAR *pInfo)
+		{
+			return E_NOTIMPL;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE ShowUI(
-        /* [in] */ DWORD dwID,
-        /* [in] */ IOleInPlaceActiveObject __RPC_FAR *pActiveObject,
-        /* [in] */ IOleCommandTarget __RPC_FAR *pCommandTarget,
-        /* [in] */ IOleInPlaceFrame __RPC_FAR *pFrame,
-        /* [in] */ IOleInPlaceUIWindow __RPC_FAR *pDoc)
-    {
-        return S_FALSE;
-    }
+		virtual HRESULT STDMETHODCALLTYPE ShowUI(CWebBrowserUI* pWeb, 
+			/* [in] */ DWORD dwID,
+			/* [in] */ IOleInPlaceActiveObject __RPC_FAR *pActiveObject,
+			/* [in] */ IOleCommandTarget __RPC_FAR *pCommandTarget,
+			/* [in] */ IOleInPlaceFrame __RPC_FAR *pFrame,
+			/* [in] */ IOleInPlaceUIWindow __RPC_FAR *pDoc)
+		{
+			return S_FALSE;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE HideUI(void)
-    {
-        return S_OK;
-    }
+		virtual HRESULT STDMETHODCALLTYPE HideUI( CWebBrowserUI* pWeb)
+		{
+			return S_OK;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE UpdateUI(void)
-    {
-        return S_OK;
-    }
+		virtual HRESULT STDMETHODCALLTYPE UpdateUI( CWebBrowserUI* pWeb)
+		{
+			return S_OK;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE EnableModeless(
-        /* [in] */ BOOL fEnable)
-    {
-        return S_OK;
-    }
+		virtual HRESULT STDMETHODCALLTYPE EnableModeless(CWebBrowserUI* pWeb, 
+			/* [in] */ BOOL fEnable)
+		{
+			return S_OK;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE OnDocWindowActivate(
-        /* [in] */ BOOL fActivate)
-    {
-        return S_OK;
-    }
+		virtual HRESULT STDMETHODCALLTYPE OnDocWindowActivate(CWebBrowserUI* pWeb, 
+			/* [in] */ BOOL fActivate)
+		{
+			return S_OK;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE OnFrameWindowActivate(
-        /* [in] */ BOOL fActivate)
-    {
-        return S_OK;
-    }
+		virtual HRESULT STDMETHODCALLTYPE OnFrameWindowActivate(CWebBrowserUI* pWeb, 
+			/* [in] */ BOOL fActivate)
+		{
+			return S_OK;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE ResizeBorder(
-        /* [in] */ LPCRECT prcBorder,
-        /* [in] */ IOleInPlaceUIWindow __RPC_FAR *pUIWindow,
-        /* [in] */ BOOL fRameWindow)
-    {
-        return S_OK;
-    }
+		virtual HRESULT STDMETHODCALLTYPE ResizeBorder(CWebBrowserUI* pWeb, 
+			/* [in] */ LPCRECT prcBorder,
+			/* [in] */ IOleInPlaceUIWindow __RPC_FAR *pUIWindow,
+			/* [in] */ BOOL fRameWindow)
+		{
+			return S_OK;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE TranslateAccelerator(
-        /* [in] */ LPMSG lpMsg,
-        /* [in] */ const GUID __RPC_FAR *pguidCmdGroup,
-        /* [in] */ DWORD nCmdID)
-    {
-        return S_FALSE;
-    }
+		virtual HRESULT STDMETHODCALLTYPE TranslateAccelerator(CWebBrowserUI* pWeb, 
+			/* [in] */ LPMSG lpMsg,
+			/* [in] */ const GUID __RPC_FAR *pguidCmdGroup,
+			/* [in] */ DWORD nCmdID)
+		{
+			return S_FALSE;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE GetOptionKeyPath(
-        /* [out] */ LPOLESTR __RPC_FAR *pchKey,
-        /* [in] */ DWORD dw)
-    {
-        return S_OK;
-    }
+		virtual HRESULT STDMETHODCALLTYPE GetOptionKeyPath(CWebBrowserUI* pWeb, 
+			/* [out] */ LPOLESTR __RPC_FAR *pchKey,
+			/* [in] */ DWORD dw)
+		{
+			return S_OK;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE GetDropTarget(
-        /* [in] */ IDropTarget __RPC_FAR *pDropTarget,
-        /* [out] */ IDropTarget __RPC_FAR *__RPC_FAR *ppDropTarget)
-    {
-        return E_NOTIMPL;
-    }
+		virtual HRESULT STDMETHODCALLTYPE GetDropTarget(CWebBrowserUI* pWeb, 
+			/* [in] */ IDropTarget __RPC_FAR *pDropTarget,
+			/* [out] */ IDropTarget __RPC_FAR *__RPC_FAR *ppDropTarget)
+		{
+			return E_NOTIMPL;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE GetExternal(
-        /* [out] */ IDispatch __RPC_FAR *__RPC_FAR *ppDispatch)
-    {
-        return E_NOTIMPL;
-    }
+		virtual HRESULT STDMETHODCALLTYPE GetExternal(CWebBrowserUI* pWeb, 
+			/* [out] */ IDispatch __RPC_FAR *__RPC_FAR *ppDispatch)
+		{
+			return E_NOTIMPL;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE TranslateUrl(
-        /* [in] */ DWORD dwTranslate,
-        /* [in] */ OLECHAR __RPC_FAR *pchURLIn,
-        /* [out] */ OLECHAR __RPC_FAR *__RPC_FAR *ppchURLOut)
-    {
-        return S_OK;
-    }
+		virtual HRESULT STDMETHODCALLTYPE TranslateUrl(CWebBrowserUI* pWeb, 
+			/* [in] */ DWORD dwTranslate,
+			/* [in] */ OLECHAR __RPC_FAR *pchURLIn,
+			/* [out] */ OLECHAR __RPC_FAR *__RPC_FAR *ppchURLOut)
+		{
+			return S_OK;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE FilterDataObject(
-        /* [in] */ IDataObject __RPC_FAR *pDO,
-        /* [out] */ IDataObject __RPC_FAR *__RPC_FAR *ppDORet)
-    {
-        return S_OK;
-    }
+		virtual HRESULT STDMETHODCALLTYPE FilterDataObject(CWebBrowserUI* pWeb, 
+			/* [in] */ IDataObject __RPC_FAR *pDO,
+			/* [out] */ IDataObject __RPC_FAR *__RPC_FAR *ppDORet)
+		{
+			return S_OK;
+		}
 
-    //  virtual HRESULT STDMETHODCALLTYPE GetOverrideKeyPath(
-    //      /* [annotation][out] */
-    //      __deref_out  LPOLESTR *pchKey,
-    //      /* [in] */ DWORD dw)
-    //  {
-    //      return E_NOTIMPL;
-    //  }
+		// 	virtual HRESULT STDMETHODCALLTYPE GetOverrideKeyPath( 
+		// 		/* [annotation][out] */ 
+		// 		__deref_out  LPOLESTR *pchKey,
+		// 		/* [in] */ DWORD dw)
+		// 	{
+		// 		return E_NOTIMPL;
+		// 	}
 
-    // IDownloadManager
-    virtual HRESULT STDMETHODCALLTYPE Download(
-        /* [in] */ IMoniker *pmk,
-        /* [in] */ IBindCtx *pbc,
-        /* [in] */ DWORD dwBindVerb,
-        /* [in] */ LONG grfBINDF,
-        /* [in] */ BINDINFO *pBindInfo,
-        /* [in] */ LPCOLESTR pszHeaders,
-        /* [in] */ LPCOLESTR pszRedir,
-        /* [in] */ UINT uiCP)
-    {
-        return S_OK;
-    }
-};
+		// IDownloadManager
+		virtual HRESULT STDMETHODCALLTYPE Download( CWebBrowserUI* pWeb, 
+			/* [in] */ IMoniker *pmk,
+			/* [in] */ IBindCtx *pbc,
+			/* [in] */ DWORD dwBindVerb,
+			/* [in] */ LONG grfBINDF,
+			/* [in] */ BINDINFO *pBindInfo,
+			/* [in] */ LPCOLESTR pszHeaders,
+			/* [in] */ LPCOLESTR pszRedir,
+			/* [in] */ UINT uiCP)
+		{
+			return S_OK;
+		}
+	};
 }

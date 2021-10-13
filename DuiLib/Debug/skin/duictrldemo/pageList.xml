@@ -23,7 +23,7 @@
         <VBox vscrollbar="true"><!--右容器-->
             
             <HBox height="500" style="hboxBasics">
-                <List name="listTest" width="720" height="480" style="styleList" checkable="true" menu="true">
+                <List name="listTest" width="720" height="480" style="styleList" checkable="true" menu="true"><!--list-->
                     <ListHeader name="listHeader" height="30">
                         <ListHeaderItem name="listHeaderItemTest" text="序号" style="styleHeaderItem" inset="0,0,1,0" checkable="true" >
                             <CheckBox name="checkHeadeItem" style="styleCheckBox1" />
@@ -34,13 +34,13 @@
                         <ListHeaderItem name="listHeaderItemTest4" text="语文" style="styleHeaderItem"/>
                         <ListHeaderItem name="listHeaderItemTest5" text="英语" style="styleHeaderItem"/>
                     </ListHeader>
-                </List>
+                </List><!--=======================================================================================list-->
             </HBox>
             <Control height="1" bkcolor="#ffFF00FF"/>
 
             <HBox height="200" style="hboxBasics">
                 <VBox width="220">
-                    <TreeView name="treeTest" style="styleTreeView" height="100" width="200" visiblecheckbtn="true" visibledotlinebtn="true">
+                    <TreeView name="treeTest" style="styleTreeView" height="100" width="200" visiblecheckbtn="true" visibledotlinebtn="true"><!--tree-->
                         <TreeNode  bkcolor="#FFFFE1FF" optionattr="text=&quot;常规测试&quot;">
                             <TreeNode optionattr="text=&quot;二级树&quot;"/>
                             <TreeNode optionattr="text=&quot;二级树&quot; "/>
@@ -61,11 +61,11 @@
                             <Button width="30" margin="0,0,2,0" text="删除" bkcolor="#ffffffff" hotbkcolor="#FFFF0000"/>
                             <Button width="30" margin="0,0,2,0" text="添加" bkcolor="#ffffffff" hotbkcolor="#FFFF0000"/>
                             <Button width="30" text="收藏" bkcolor="#ffffffff" hotbkcolor="#FFFF0000"/>
-                            <TreeNode name="treeTabTest" expandattr="normalimage=&quot;res='tree/guangdong.png'&quot; hotimage=&quot; &quot; selectedimage=&quot; &quot; selectedhotimage=&quot; &quot;" optionattr="text=&quot;广东卫视&quot; group=&quot;tabTree&quot; bindtablayout=&quot;tabWeiShi&quot; bindtabindex=&quot;0&quot; " />
-                            <TreeNode name="treeTabTest1" expandattr="normalimage=&quot;res='tree/hubei.png'&quot; hotimage=&quot; &quot; selectedimage=&quot; &quot; selectedhotimage=&quot; &quot;" optionattr="text=&quot;湖北卫视&quot; group=&quot;tabTree&quot; bindtablayout=&quot;tabWeiShi&quot; bindtabindex=&quot;1&quot; " />
-                            <TreeNode name="treeTabTest2" expandattr="normalimage=&quot;res='tree/beijing.png'&quot; hotimage=&quot; &quot; selectedimage=&quot; &quot; selectedhotimage=&quot; &quot;" optionattr="text=&quot;北京卫视&quot; group=&quot;tabTree&quot; bindtablayout=&quot;tabWeiShi&quot; bindtabindex=&quot;2&quot; " />
+                            <TreeNode name="treeTabTest" expandattr="normalimage=&quot;res='tree/guangdong.png'&quot; hotimage=&quot; &quot; selectedimage=&quot;res='tree/guangdong.png'&quot; selectedhotimage=&quot; &quot;" optionattr="text=&quot;广东卫视&quot; group=&quot;tabTree&quot; bindtablayout=&quot;tabWeiShi&quot; bindtabindex=&quot;0&quot; " />
+                            <TreeNode name="treeTabTest1" expandattr="normalimage=&quot;res='tree/hubei.png'&quot; hotimage=&quot; &quot; selectedimage=&quot;res='tree/hubei.png'&quot; selectedhotimage=&quot; &quot;" optionattr="text=&quot;湖北卫视&quot; group=&quot;tabTree&quot; bindtablayout=&quot;tabWeiShi&quot; bindtabindex=&quot;1&quot; " />
+                            <TreeNode name="treeTabTest2" expandattr="normalimage=&quot;res='tree/beijing.png'&quot; hotimage=&quot; &quot; selectedimage=&quot;res='tree/beijing.png'&quot; selectedhotimage=&quot; &quot;" optionattr="text=&quot;北京卫视&quot; group=&quot;tabTree&quot; bindtablayout=&quot;tabWeiShi&quot; bindtabindex=&quot;2&quot; " />
                         </TreeNode>          
-                    </TreeView>
+                    </TreeView><!--===============================================================================================================tree-->
                     <Control />
                 </VBox>
 
@@ -78,7 +78,7 @@
                         <Label  float="0.3,0.2,0.7,0.8" text="湖北卫视" align="center" bkcolor="#ffFFE4C4" hotbkcolor="#ffFAEBD7" pushedbkcolor="#ffF8F8FF" disabledbkcolor="#ffF5F5F5" />
                     </VBox>
 
-                    <VBox triggershow="33, 100, true, false" bkcolor="#ffCDC9C9">
+                    <VBox triggershow="30, 100, true, false" bkcolor="#ffCDC9C9">
                         <Label  float="0.3,0.2,0.7,0.8" text="北京卫视" align="center" bkcolor="#ffFFE4C4" hotbkcolor="#ffFAEBD7" pushedbkcolor="#ffF8F8FF" disabledbkcolor="#ffF5F5F5" />
                     </VBox>
                 </TabLayout>

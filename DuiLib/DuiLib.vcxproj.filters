@@ -46,6 +46,18 @@
     <Filter Include="Source Files\Effect">
       <UniqueIdentifier>{14e4cef5-746e-4659-ab7a-a9df8b32edb0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ControlEx">
+      <UniqueIdentifier>{ea13e971-4133-4b10-81b9-4eae749716ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ControlEx">
+      <UniqueIdentifier>{9fdb5bd5-c00b-4327-9843-5dad29c6808d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ControlEx\miniblink">
+      <UniqueIdentifier>{b90eafaa-87d6-4a8f-867a-8278b92ffc4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ControlEx\miniblink">
+      <UniqueIdentifier>{9ca96b25-3eeb-4142-a854-70b5394b3b8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StdAfx.cpp">
@@ -192,12 +204,6 @@
     <ClCompile Include="src\UIFlash.cpp">
       <Filter>Source Files\Control</Filter>
     </ClCompile>
-    <ClCompile Include="src\UIWkeBrowser.cpp">
-      <Filter>Source Files\Control</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wke_dll.cpp">
-      <Filter>Source Files\Control</Filter>
-    </ClCompile>
     <ClCompile Include="src\effect\color_helper.cpp">
       <Filter>Source Files\Effect</Filter>
     </ClCompile>
@@ -217,7 +223,25 @@
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\UICircleProgress.cpp">
+      <Filter>Source Files\ControlEx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIWkeBrowser.cpp">
+      <Filter>Source Files\ControlEx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIWebBrowser.cpp">
       <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wke_dll.cpp">
+      <Filter>Source Files\ControlEx\miniblink</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIColorPalette.cpp">
+      <Filter>Source Files\ControlEx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIRollText.cpp">
+      <Filter>Source Files\ControlEx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIGroupBox.cpp">
+      <Filter>Source Files\ControlEx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -374,12 +398,6 @@
     <ClInclude Include="include\duilib\UIFlash.h">
       <Filter>Header Files\Control</Filter>
     </ClInclude>
-    <ClInclude Include="include\duilib\UIWkeBrowser.h">
-      <Filter>Header Files\Control</Filter>
-    </ClInclude>
-    <ClInclude Include="include\duilib\wke_dll.h">
-      <Filter>Header Files\Control</Filter>
-    </ClInclude>
     <ClInclude Include="src\effect\color_helper.h">
       <Filter>Source Files\Effect</Filter>
     </ClInclude>
@@ -431,11 +449,29 @@
     <ClInclude Include="include\duilib\systemtray.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="include\duilib\UICircleProgress.h">
-      <Filter>Header Files\Control</Filter>
-    </ClInclude>
     <ClInclude Include="include\duilib\VirtualWnd.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UICircleProgress.h">
+      <Filter>Header Files\ControlEx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIWkeBrowser.h">
+      <Filter>Header Files\ControlEx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIWebBrowser.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\wke_dll.h">
+      <Filter>Header Files\ControlEx\miniblink</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIColorPalette.h">
+      <Filter>Header Files\ControlEx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIRollText.h">
+      <Filter>Header Files\ControlEx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\duilib\UIGroupBox.h">
+      <Filter>Header Files\ControlEx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

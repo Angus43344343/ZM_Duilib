@@ -5,6 +5,8 @@
 #include "CtrlBasics.h"
 #include "CtrlSenior.h"
 #include "CtrlList.h"
+#include "CtrlActiveX.h"
+#include "CtrlControlEx.h"
 
 class CMainFrame : public CWndImplBase, public IObserver
 {

@@ -1927,6 +1927,7 @@ void CRenderEngine::DrawRoundRect(HDC hDC, const RECT &rc, int nSize, int width,
     // ::DeleteObject(hPen);
 
     Graphics g(hDC);
+	g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);//zm
 
     Pen pen(Color(GetBValue(dwPenColor), GetGValue(dwPenColor), GetRValue(dwPenColor)), (REAL)nSize);
     pen.SetDashStyle(DashStyleSolid);
@@ -1939,6 +1940,7 @@ void CRenderEngine::DrawRoundRect(HDC hDC, const RECT &rc, int nSize, int width,
 
     int nDiameterX = width * 2, nDiameterY = height * 2;
     GraphicsPath path;
+
     // 左上角圆弧 + 上边
     path.AddArc(rc.left, rc.top, nDiameterX, nDiameterY, 180, 90);
     path.AddLine(rc.left + width, rc.top, rc.right - width, rc.top);

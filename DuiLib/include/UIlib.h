@@ -129,8 +129,8 @@
 
 #include "duilib/UIActiveX.h"
 #include "duilib/UIFlash.h"
-//#include "duilib/WebBrowserEventHandler.h"
-//#include "duilib/UIWebBrowser.h"
+#include "duilib/WebBrowserEventHandler.h"//zm
+#include "duilib/UIWebBrowser.h"//zm
 #include "duilib/UIGifAnim.h"
 #include "duilib/wke_dll.h"
 #include "duilib/UIWkeBrowser.h"
@@ -145,5 +145,8 @@
 
 #include "duilib/UICircleProgress.h"//zm
 #include "duilib/VirtualWnd.h"//zm
+#include "duilib/UIRollText.h"//zm
+#include "duilib/UIColorPalette.h"//zm
+#include "duilib/UIGroupBox.h"//zm
 
 #endif //__UILIB_H__
