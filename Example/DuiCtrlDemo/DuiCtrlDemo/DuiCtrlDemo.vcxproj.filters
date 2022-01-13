@@ -43,6 +43,12 @@
     <Filter Include="资源文件\skin\bkskin">
       <UniqueIdentifier>{1ade1d18-87e2-449a-8df4-605082950f35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\skin\echart">
+      <UniqueIdentifier>{1bd48850-b3f3-48eb-b9be-78dc90fdbfd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\skin\miniblink">
+      <UniqueIdentifier>{055aa8a8-b3a5-4cba-b7bf-4ebf84469802}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -141,6 +147,12 @@
     <Image Include="..\..\..\DuiLib\Debug\skin\duictrldemo\menu\language.png">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="..\..\..\DuiLib\Debug\skin\duictrldemo\systemTray.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\..\..\DuiLib\Debug\skin\duictrldemo\systemTray_hide.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\pageBasics.xml">
@@ -189,6 +201,18 @@
   <ItemGroup>
     <None Include="xml1.bin">
       <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\..\DuiLib\Debug\skin\duictrldemo\echart\bar.html">
+      <Filter>资源文件\skin\echart</Filter>
+    </None>
+    <None Include="..\..\..\DuiLib\Debug\skin\duictrldemo\echart\line.html">
+      <Filter>资源文件\skin\echart</Filter>
+    </None>
+    <None Include="..\..\..\DuiLib\Debug\skin\duictrldemo\echart\pie.html">
+      <Filter>资源文件\skin\echart</Filter>
+    </None>
+    <None Include="..\..\..\DuiLib\Debug\skin\duictrldemo\miniblink\function.html">
+      <Filter>资源文件\skin\miniblink</Filter>
     </None>
   </ItemGroup>
 </Project>

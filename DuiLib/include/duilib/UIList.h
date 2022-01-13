@@ -53,9 +53,10 @@ class IListCallbackUI
 {
 public:
     virtual LPCTSTR GetItemText(CControlUI *pList, int iItem, int iSubItem) = 0;
-	//2021-10-04 zm增加动态修改文本色和单元格背景色
+	//2021-10-04 zm增加动态修改文本色,单元格背景色和单元格背景图片
 	virtual DWORD GetItemTextColor(CControlUI* pList, int iItem, int iSubItem) = 0;
 	virtual DWORD GetItemBkColor(CControlUI* pList, int iItem, int iSubItem) = 0;
+	virtual LPCTSTR GetItemBkImage(CControlUI* pList, int iItem, int iSubItem) = 0;
 };
 
 class IListCmbCallbackUI
@@ -69,10 +70,22 @@ class IListOwnerUI
 public:
     virtual TListInfoUI *GetListInfo() = 0;
     virtual int GetCurSel() const = 0;
+
+	virtual void DoEvent(TEventUI &event) = 0;
+	virtual bool ExpandItem(int iIndex, bool bExpand = true) = 0;
+	virtual int GetExpandedItem() const = 0;
+
+	//2021-10-17 zm添加多选(键盘shift,ctrl和鼠标框选等功能)
+	virtual bool IsPtInSelItem(POINT& stPoint) = 0;
+
+	virtual bool IsMultiSelect() const = 0;
     virtual bool SelectItem(int iIndex, bool bTakeFocus = false, bool bTriggerEvent = true) = 0;
-    virtual void DoEvent(TEventUI &event) = 0;
-    virtual bool ExpandItem(int iIndex, bool bExpand = true) = 0;
-    virtual int GetExpandedItem() const = 0;
+	virtual bool SelectMultiItem(int iIndex, bool bTakeFocus = false) = 0;
+	virtual bool UnSelectItem(int iIndex, bool bOthers = false) = 0;
+
+	virtual void DragBegin(TEventUI& event) = 0;
+	virtual void Draging(TEventUI& event) = 0;
+	virtual void DragEnd(TEventUI& event) = 0;
 };
 
 class IListUI : public IListOwnerUI
@@ -87,7 +100,7 @@ public:
     virtual void HideEdit() = 0;
     virtual IListCmbCallbackUI *GetCmbItemCallback() const = 0;
     virtual void SetCmbItemCallback(IListCmbCallbackUI *pCallback) = 0;
-    virtual void ShowCombo(int nRow, int nColumn, RECT &rt) = 0;
+	virtual void ShowCombo(int nRow, int nColumn, RECT &rt, CDuiString &sItemTxt) = 0;
     virtual void HideCombo() = 0;
 };
 
@@ -102,9 +115,21 @@ public:
     virtual void SetOwner(CControlUI *pOwner) = 0;
     virtual bool IsSelected() const = 0;
     virtual bool Select(bool bSelect = true, bool bTriggerEvent = true) = 0;
+	virtual bool SelectMulti(bool bSelect = true) = 0;//zm
     virtual bool IsExpanded() const = 0;
     virtual bool Expand(bool bExpand = true) = 0;
     virtual void DrawItemText(HDC hDC, const RECT &rcItem) = 0;
+};
+
+//2021-10-17 zm 设置checkbox的属性
+class ICheckBoxUI
+{
+public:
+	virtual TDrawInfo &GetUnSelImage(void) = 0;
+	virtual TDrawInfo &GetSelImage(void) = 0;
+	virtual int GetCheckBoxWidth() const = 0;
+	virtual int GetCheckBoxHeight() const = 0;
+	virtual RECT GetCheckBoxRect(RECT rc) = 0;
 };
 
 
@@ -115,7 +140,7 @@ class CListBodyUI;
 class CListHeaderUI;
 class CComboUI;
 
-class DUILIB_API CListUI : public CVerticalLayoutUI, public IListUI
+class DUILIB_API CListUI : public CVerticalLayoutUI, public IListUI, public ICheckBoxUI
 {
 public:
     CListUI();
@@ -234,8 +259,13 @@ public:
     virtual CScrollBarUI *GetHorizontalScrollBar() const override;
     bool SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData);
 
-    TDrawInfo &GetUnSelImage(void);
-    TDrawInfo &GetSelImage(void);
+	//2021-10-17 zm 设置checkbox的属性
+    virtual TDrawInfo &GetUnSelImage(void) override;
+    virtual TDrawInfo &GetSelImage(void) override;
+	virtual int GetCheckBoxWidth() const override;  
+	virtual int GetCheckBoxHeight() const override;      
+	virtual RECT GetCheckBoxRect(RECT rc) override;
+
     void GetAllSelectedItem(CDuiValArray &arySelIdx, int nColumn = 0);
     void SetAllItemSelected(bool bSelect, int nColumn = 0);
     virtual void DoInit() override;
@@ -247,11 +277,32 @@ public:
 
     virtual IListCmbCallbackUI *GetCmbItemCallback() const override;
     virtual void SetCmbItemCallback(IListCmbCallbackUI *pCallback) override;
-	virtual void ShowCombo(int nRow, int nColumn, RECT &rt) override;
+	virtual void ShowCombo(int nRow, int nColumn, RECT &rt, CDuiString &sItemTxt) override;
     virtual void HideCombo() override;
     CComboUI *GetComboUI();
 
     int GetMouseColumn(POINT pt);                       // 返回鼠标所在的列
+
+	//2021-10-16 zm添加多选,键盘多选和鼠标框选
+	void SetMultiSelect(bool bMultiSel);
+	virtual bool IsMultiSelect() const override;
+
+	void SelectAllItems();
+	void UnSelectAllItems();
+
+	virtual bool IsPtInSelItem(POINT& stPoint) override;
+
+	int GetMinSelItemIndex();
+	int GetMaxSelItemIndex();
+
+	virtual bool SelectMultiItem(int iIndex, bool bTakeFocus = false) override;
+	virtual bool UnSelectItem(int iIndex, bool bOthers = false) override;
+
+	int GetComboIndex(CDuiString& strItemText);
+
+	virtual void DragBegin(TEventUI& event) override;
+	virtual void Draging(TEventUI& event) override;
+	virtual void DragEnd(TEventUI& event) override;
 
 protected:
     bool OnHeaderCheckBoxNotify(void *pParam);
@@ -270,6 +321,13 @@ protected:
 
     TDrawInfo        m_diUnSel;         // 复选框未选中状态图片
     TDrawInfo        m_diSel;           // 复选框选中状态图片
+
+	//2021-10-17 zm
+	bool			m_bMultiSel;		// 是否多选
+	CDuiPtrArray	m_aSelItems;		// 多选item的序号数组
+	int				m_iDragBeginIndex;	// 鼠标框选时的item起始序号
+
+	SIZE			m_szCheckBox;
 
     // 2019-05-19 zhuyadong 编辑框、下拉框使用说明：
     // 1. ListHeaderItem 的属性 editable/comboable，用于标识该列是否可编辑、下拉框
@@ -355,6 +413,10 @@ public:
 	//2021-10-02 zm 添加获取当前表头位置，用于进行排序使用
 	int GetIndex();
 
+	void SetCheckState(bool bChecked);
+	bool GetCheckState() const;
+
+	void SetOwner(ICheckBoxUI* pCheckBox);
 protected:
     POINT     m_ptLastMouse;
     bool      m_bDragable;
@@ -372,6 +434,9 @@ protected:
     TDrawInfo m_diPushed;
     TDrawInfo m_diFocused;
     TDrawInfo m_diSep;
+
+	bool m_bChecked;//zm
+	ICheckBoxUI* m_pOwner;
 };
 
 
@@ -400,6 +465,7 @@ public:
 
     virtual bool IsSelected() const override;
     virtual bool Select(bool bSelect = true, bool bTriggerEvent = true) override;
+	virtual bool SelectMulti(bool bSelect = true) override;//zm
     virtual bool IsExpanded() const override;
     virtual bool Expand(bool bExpand = true) override;
 
@@ -410,6 +476,7 @@ public:
     virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue) override;
 
     virtual void DrawItemBk(HDC hDC, const RECT &rcItem);
+	virtual void DrawItemImage(HDC hDC, const RECT &rcItem);
 
     int GetMouseColumn(POINT pt);                       // 返回鼠标所在的列
     // 返回鼠标所在列的矩形。
@@ -419,6 +486,10 @@ public:
     virtual void SetCheckBoxState(bool bSelect, int nColumn = 0) { }
     virtual bool GetCheckBoxState(int nColumn = 0) { return false; }
 
+	//2021-10-17 zm Shift多选
+	void SetShiftEnble(bool bShiftEnble);
+	bool GetShiftEnble();
+
 protected:
     int m_iIndex;
     int m_iDrawIndex;
@@ -426,6 +497,8 @@ protected:
     UINT m_uButtonState;
     IListOwnerUI *m_pOwner;
     bool m_bCustomBk;
+
+	bool m_bShiftEnble;//zm
 };
 
 
@@ -451,7 +524,6 @@ public:
     virtual bool DoPaint(HDC hDC, const RECT &rcPaint, CControlUI *pStopControl) override;
 
     virtual void DrawItemText(HDC hDC, const RECT &rcItem) override;
-
 protected:
     SIZE    m_cxyFixedLast;
     bool    m_bNeedEstimateSize;
@@ -498,7 +570,11 @@ public:
 	DWORD GetItemColor(int iIndex) const;
 	void SetItemColor(int iIndex, DWORD dwItemColor);
 
+	LPCTSTR GetItemImage(int iIndex) const;
+	void SetItemImage(int iIndex, LPCTSTR lpImage);
+
 	virtual void DrawItemBk(HDC hDC, const RECT& rcItem) override;
+	virtual void DrawItemImage(HDC hDC, const RECT &rcItem) override;
 protected:
     enum { MAX_LINK = 8 };
     int m_nLinks;
@@ -514,6 +590,7 @@ protected:
 	//2021-09-17 zm
 	CDuiStringPtrMap m_mapTextColors;
 	CDuiStringPtrMap m_mapItemColors;
+	CDuiStringPtrMap m_mapItemImage;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -540,6 +617,7 @@ public:
 
     virtual bool IsSelected() const override;
     virtual bool Select(bool bSelect = true, bool bTriggerEvent = true) override;
+	virtual bool SelectMulti(bool bSelect = true) override;//zm
     virtual bool IsExpanded() const override;
     virtual bool Expand(bool bExpand = true) override;
     bool IsExpandable() const;
@@ -560,6 +638,10 @@ public:
     virtual void SetCheckBoxState(bool bSelect, int nColumn = 0);
     virtual bool GetCheckBoxState(int nColumn = 0);
 
+	//2021-10-17 zm Shift多选
+	void SetShiftEnble(bool bShiftEnble);
+	bool GetShiftEnble();
+
 protected:
     int m_iIndex;
     int m_iDrawIndex;
@@ -568,6 +650,7 @@ protected:
     bool m_bExpand;
     UINT m_uButtonState;
     IListOwnerUI *m_pOwner;
+	bool m_bShiftEnble;//zm
 };
 
 /////////////////////////////////////////////////////////////////////////////////////

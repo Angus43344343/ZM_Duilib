@@ -153,6 +153,8 @@ union DuiMessageMapFunctions
 #define DUI_MSGTYPE_HOTKEY				   (_T("hotkey"))			// 2021-09-07 zm 添加系统热键消息
 #define DUI_MSGTYPE_COLORCHANGED		   (_T("colorchanged"))     // zm
 #define DUI_MSGTYPE_TEXTROLLEND            (_T("textrollend"))		// zm
+
+#define DUI_MSGTYPE_EDITKEYDOWN			   (_T("editkeydown"))		// zm
 //////////////////////////////////////////////////////////////////////////
 
 
@@ -329,7 +331,7 @@ struct DUI_MSGMAP_ENTRY //定义一个结构体，来存放消息信息
 #define DUI_CTR_RICHEDIT                         (_T("RichEdit"))
 #define DUI_CTR_CHECKBOX                         (_T("CheckBox"))
 #define DUI_CTR_RADIOBOX                         (_T("RadioBox"))
-#define DUI_CTR_COMBOBOX                         (_T("ComboBox"))   // Combo
+//#define DUI_CTR_COMBOBOX                         (_T("ComboBox"))   // Combo//zm
 #define DUI_CTR_DATETIME                         (_T("DateTime"))
 #define DUI_CTR_TREEVIEW                         (_T("TreeView"))
 #define DUI_CTR_TREENODE                         (_T("TreeNode"))

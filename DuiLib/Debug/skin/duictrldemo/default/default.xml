@@ -17,7 +17,7 @@
     <Font shared="true" id="12" name="宋体" size="14" />
     <Font shared="true" id="13" name="宋体" size="15" />
     <Font shared="true" id="14" name="宋体" size="16" bold="true"/>
-    <Font shared="true" id="15" name="宋体" size="17" />
+    <Font shared="true" id="15" name="宋体" size="30" />
 
     <!--默认滚动条-->
     <Default name="VScrollBar" shared="true" value="width=&quot;8&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='default/scrollbar/vscrollbar.png' source='0,60,8,100' corner='0,4,0,4'&quot; thumbhotimage=&quot;file='default/scrollbar/vscrollbar.png' source='8,60,16,100' corner='0,4,0,4'&quot; thumbpushedimage=&quot;file='default/scrollbar/vscrollbar.png' source='16,60,24,100' corner='0,4,0,4'&quot; railnormalimage=&quot;&quot; railhotimage=&quot;&quot; railpushedimage=&quot;&quot; raildisabledimage=&quot;&quot; bknormalimage=&quot;file='default/scrollbar/vscrollbar.png' source='0,0,8,60' corner='0,4,0,4'&quot; bkhotimage=&quot;&quot; bkpushedimage=&quot;&quot; bkdisabledimage=&quot;&quot; "/>
@@ -53,8 +53,8 @@
     <!--Label普通样式-->
     <Style name="styleLabel" shared="true" value="autowidth=&quot;true&quot; valign=&quot;center&quot; textpadding=&quot;0,2,0,0&quot;"/>
     <!--Label特效文字样式-->
-    <Style name="styleLabelLum" shared="true" value="width=&quot;120&quot; autoheight=&quot;true&quot; enabledeffect=&quot;true&quot; enabledluminous=&quot;true&quot; luminousfuzzy=&quot;3&quot; gradientangle=&quot;90&quot; enabledstroke=&quot;true&quot; enabledshadow=&quot;true&quot; gradientlength=&quot;2&quot; shadowoffset=&quot;2,2&quot; textshadowcolora=&quot;#FFFFF68F&quot; textshadowcolorb=&quot;#FFADFF2F&quot; strokecolor=&quot;#ffFF00FF&quot;" />
-    
+    <Style name="styleLabelLum" shared="true" value="enabledeffect=&quot;true&quot; textcolor=&quot;#FF00BFFF&quot; textcolor1=&quot;#FFFFFFFF&quot; gradientangle=&quot;1000&quot; gradientlength=&quot;500&quot;  enabledluminous=&quot;true&quot; luminousfuzzy=&quot;5&quot; shadowoffset=&quot;2,45&quot; enabledstroke=&quot;true&quot; strokecolor=&quot;#FFFFE1FF&quot; enabledshadow=&quot;true&quot; textshadowcolora=&quot;#FFFFF5EE&quot; textshadowcolorb=&quot;#FFFF83FA&quot;" />
+
     <!--Text样式-->
     
     <!--IpAddress样式-->
@@ -91,7 +91,7 @@
     <Style name="stylePwdCheck" shared="true" value="width=&quot;120&quot; height=&quot;16&quot; text=&quot;弱,中,强&quot; clrweak=&quot;#ffFF0000&quot; clrmiddle=&quot;#ffFFFF00&quot; clrstrong=&quot;#ff00FF00&quot; showtext=&quot;true&quot;" />
     
     <!--Combo样式-->
-    <Style name="styleCombo" shared="true" value="width=&quot;100&quot; height=&quot;22&quot; textpadding=&quot;3,0,0,0&quot; itemtextpadding=&quot;10,0,0,0&quot; dropboxsize=&quot;100,66&quot; normalimage=&quot;res='default/combo/combo.png' source='0,0,100,22'&quot; hotimage=&quot;res='default/combo/combo.png' source='0,22,100,44'&quot; pushedlimage=&quot;res='default/combo/combo.png' source='0,44,100,66'&quot;"/>
+    <Style name="styleCombo" shared="true" value="width=&quot;100&quot; height=&quot;22&quot; itemalign=&quot;center&quot; dropboxsize=&quot;100,66&quot; normalimage=&quot;res='default/combo/combo.png' source='0,0,100,22'&quot; hotimage=&quot;res='default/combo/combo.png' source='0,22,100,44'&quot; pushedlimage=&quot;res='default/combo/combo.png' source='0,44,100,66'&quot;"/>
     <Style name="styleDropBox" shared="true" value="bordersize=&quot;1&quot; bordercolor=&quot;#ff00BFFF&quot;"/>
 
     <!--Edit样式-->
@@ -105,7 +105,7 @@
     <!--MenuElement样式-->
     
     <!--List样式-->
-    <Style name="styleList" shared="true" value="vscrollbar=&quot;true&quot; bordersize=&quot;1&quot; bordercolor=&quot;#ffDCDCDC&quot; itemalign=&quot;center&quot; itemvalign=&quot;vcenter&quot; itemhlinesize=&quot;1&quot; itemhlinecolor=&quot;#ffDCDCDC&quot; itemvlinesize=&quot;1&quot; itemvlinecolor=&quot;#ffDCDCDC&quot; unselimage=&quot;res='default/list/unsel.png' &quot; selimage=&quot;res='default/list/sel.png'&quot;"/>
+    <Style name="styleList" shared="true" value="vscrollbar=&quot;true&quot; bordersize=&quot;1&quot; bordercolor=&quot;#ffDCDCDC&quot; itemalign=&quot;center&quot; itemvalign=&quot;vcenter&quot; itemhlinesize=&quot;1&quot; itemhlinecolor=&quot;#ffDCDCDC&quot; itemvlinesize=&quot;1&quot; itemvlinecolor=&quot;#ffDCDCDC&quot; checkunselimage=&quot;res='default/list/checkbox.png' source='0,0,17,17'&quot; checkselimage=&quot;res='default/list/checkbox.png' source='34,0,51,17'&quot; checkwidth=&quot;17&quot; checkheight=&quot;17&quot;"/>
     <Style name="styleHeaderItem" shared="true" value="width=&quot;120&quot; align=&quot;center&quot; valign=&quot;center&quot; dragable=&quot;true&quot; sepwidth=&quot;1&quot; sepimage=&quot;res=&apos;default/list/list_header_sep.png&apos;&quot; normalimage=&quot;res=&apos;default/list/list_header_bg.png&apos; corner=&apos;2,2,2,2&apos;&quot; hotimage=&quot;res=&apos;default/list/list_header_hot.png&apos; corner=&apos;2,2,2,2&apos;&quot; pushedimage=&quot;res=&apos;default/list/list_header_pushed.png&apos; corner=&apos;2,2,2,2&apos;&quot;"/>
     
     <!--Treeview样式-->

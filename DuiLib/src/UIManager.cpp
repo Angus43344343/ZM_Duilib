@@ -1867,7 +1867,7 @@ bool CPaintManagerUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LR
 
             if (NULL == pControl || pControl->GetManager() != this) { break; }
 
-            if (m_pEventCapture != NULL) { pControl = m_pEventCapture; }
+            //if (m_pEventCapture != NULL) { pControl = m_pEventCapture; }//zm
 
             pControl->SetFocus();
 
@@ -1896,7 +1896,7 @@ bool CPaintManagerUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LR
 
             if (NULL == pControl || pControl->GetManager() != this) { break; }
 
-            if (m_pEventCapture != NULL) { pControl = m_pEventCapture; }
+            //if (m_pEventCapture != NULL) { pControl = m_pEventCapture; } //zm
 
             TEventUI event = { 0 };
             event.Type = UIEVENT_LBUTTONDBLDOWN;
@@ -1922,11 +1922,14 @@ bool CPaintManagerUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LR
 
             POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
             m_ptLastMousePos = pt;
-            CControlUI *pControl = FindControl(pt);
+
+			//2021-10-16 zm 当鼠标移出窗口时,鼠标消息不被捕获的bug
+            //CControlUI *pControl = FindControl(pt);
+			CControlUI* pControl = IsCaptured() ? m_pEventCapture : FindControl(pt);
 
             if (NULL == pControl || pControl->GetManager() != this) { break; }
 
-            if (m_pEventCapture != NULL) { pControl = m_pEventCapture; }
+            /*if (m_pEventCapture != NULL) { pControl = m_pEventCapture; }*/
 
             TEventUI event = { 0 };
             event.Type = UIEVENT_BUTTONUP;
@@ -1959,7 +1962,7 @@ bool CPaintManagerUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LR
 
             if (NULL == pControl || pControl->GetManager() != this) { break; }
 
-            if (m_pEventCapture != NULL) { pControl = m_pEventCapture; }
+            //if (m_pEventCapture != NULL) { pControl = m_pEventCapture; } //zm
 
             pControl->SetFocus();
             TEventUI event = { 0 };
@@ -1987,7 +1990,7 @@ bool CPaintManagerUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LR
 
             if (NULL == pControl || pControl->GetManager() != this) { break; }
 
-            if (m_pEventCapture != NULL) { pControl = m_pEventCapture; }
+            //if (m_pEventCapture != NULL) { pControl = m_pEventCapture; } //zm
 
             TEventUI event = { 0 };
             event.Type = UIEVENT_RBUTTONDBLDOWN;
@@ -2013,11 +2016,14 @@ bool CPaintManagerUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LR
 
             POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
             m_ptLastMousePos = pt;
-            CControlUI *pControl = FindControl(pt);
+
+			//2021-10-16 zm 当鼠标移出窗口时,鼠标消息不被捕获的bug
+			//CControlUI *pControl = FindControl(pt);
+			CControlUI* pControl = IsCaptured() ? m_pEventCapture : FindControl(pt);
 
             if (NULL == pControl || pControl->GetManager() != this) { break; }
 
-            if (m_pEventCapture != NULL) { pControl = m_pEventCapture; }
+           /* if (m_pEventCapture != NULL) { pControl = m_pEventCapture; }*/
 
             TEventUI event = { 0 };
             event.Type = UIEVENT_RBUTTONUP;
@@ -2044,7 +2050,7 @@ bool CPaintManagerUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LR
 
             if (NULL == pControl || pControl->GetManager() != this) { break; }
 
-            if (m_pEventCapture != NULL) { pControl = m_pEventCapture; }
+            //if (m_pEventCapture != NULL) { pControl = m_pEventCapture; } //zm
 
             TEventUI event = { 0 };
             event.Type = UIEVENT_CONTEXTMENU;
@@ -4435,6 +4441,8 @@ void CPaintManagerUI::SetWindowAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
     else if (_tcsicmp(pstrName, _T("shadowdarkness")) == 0) { m_pWndShadow->SetDarkness(ParseByte(pstrValue)); }
     else if (_tcscmp(pstrName, _T("shadowimage")) == 0) { m_pWndShadow->SetImage(ParseString(pstrValue)); }
     else if (_tcscmp(pstrName, _T("focusedctrl")) == 0) { m_sDefFocusedCtrl = ParseString(pstrValue); }
+	//2021-10-16 zm添加鼠标悬停多久后弹出提示窗口
+	else if (_tcsicmp(pstrName, _T("tooltiphovertime")) == 0) { SetHoverTime(ParseInt(pstrValue)); }
     else { AddWindowCustomAttribute(pstrName, ParseString(pstrValue).GetData()); }
 }
 

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <p id="demo">原始数据</p>
+    <button type="button" onclick="window.msgBox(3,'函数被调用')">JS调用C++函数</button>
+    <button type="button" onclick="window.msgBoxEx(4, 'JS传递参数')">Js调用C++函数扩展</button>
+
+    <script type="text/javascript">
+        function myFunction(a) {
+            document.getElementById("demo").innerHTML = a;
+            
+        }
+
+    </script>
+
+</body>
+</html>

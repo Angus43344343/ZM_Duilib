@@ -244,15 +244,24 @@ LRESULT CEditWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
             ::InvalidateRect(m_hWnd, &rcClient, FALSE);
         }
     }
-    else if (uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_RETURN)
+    //else if (uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_RETURN)
+	else if (uMsg == WM_KEYDOWN)//zm
     {
-        // 2019-04-24 zhuyadong 仅数字模式，按回车键时立即执行越界检查，并发送文本变化通知
-        if (m_pOwner->IsNumberOnly())
-        {
-            CheckValidNumber() ? SendTxtChangeNty() : NULL; //lint !e62
-        }
+		//2021-10-18 zm 添加事件消息
+		if (TCHAR(wParam) == VK_RETURN)
+		{
+			// 2019-04-24 zhuyadong 仅数字模式，按回车键时立即执行越界检查，并发送文本变化通知
+			if (m_pOwner->IsNumberOnly())
+			{
+				CheckValidNumber() ? SendTxtChangeNty() : NULL; //lint !e62
+			}
 
-        m_pOwner->GetManager()->SendNotify(m_pOwner, DUI_MSGTYPE_RETURN);
+			m_pOwner->GetManager()->SendNotify(m_pOwner, DUI_MSGTYPE_RETURN);
+		}
+		else
+		{
+			m_pOwner->GetManager()->SendNotify(m_pOwner, DUI_MSGTYPE_EDITKEYDOWN, wParam, lParam);//zm
+		}
     }
     else if (uMsg == OCM__BASE + WM_CTLCOLOREDIT  || uMsg == OCM__BASE + WM_CTLCOLORSTATIC)
     {

@@ -16,7 +16,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
 	CMainFrame* pobjMainFrame = new CMainFrame();
 	ASSERT(nullptr != pobjMainFrame);
 
-	pobjMainFrame->Create(NULL, _T("Duilib control demo"), UI_WNDSTYLE_FRAME, UI_WNDSTYLE_EX_FRAME);
+	//pobjMainFrame->Create(NULL, _T("Duilib control demo"), UI_WNDSTYLE_FRAME, UI_WNDSTYLE_EX_FRAME);
+	pobjMainFrame->Create(NULL, _T("Duilib control demo"), UI_WNDSTYLE_DIALOG, UI_WNDSTYLE_EX_DIALOG);
 	pobjMainFrame->CenterWindow();
 	pobjMainFrame->ShowWindow(true);
 

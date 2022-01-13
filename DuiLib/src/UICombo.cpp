@@ -33,6 +33,12 @@ bool CComboBodyUI::DoPaint(HDC hDC, const RECT &rcPaint, CControlUI *pStopContro
 
     if (m_pOwner) { pListInfo = m_pOwner->GetListInfo(); }
 
+	//2021-10-16 zm
+	if (m_pOwner && m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible())
+	{ 
+		m_pOwner->SetWndVScroolbarWidth(m_pVerticalScrollBar->GetFixedWidth());
+	}
+
     CRenderClip clip;
     CRenderClip::GenerateClip(hDC, rcTemp, clip);
     CControlUI::DoPaint(hDC, rcPaint, pStopControl);
@@ -160,34 +166,36 @@ bool CComboBodyUI::DoPaint(HDC hDC, const RECT &rcPaint, CControlUI *pStopContro
     return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+////
+////
 //
+//class CComboWnd : public CWindowWnd, public INotifyUI
+//{
+//public:
+//    void Init(CComboUI *pOwner);
+//    LPCTSTR GetWindowClassName() const;
+//    void OnFinalMessage(HWND hWnd);
 //
-
-class CComboWnd : public CWindowWnd, public INotifyUI
-{
-public:
-    void Init(CComboUI *pOwner);
-    LPCTSTR GetWindowClassName() const;
-    void OnFinalMessage(HWND hWnd);
-
-    LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
-    void Notify(TNotifyUI &msg);
-
-    void EnsureVisible(int iIndex);
-    void Scroll(int dx, int dy);
-
-#if(_WIN32_WINNT >= 0x0501)
-    virtual UINT GetClassStyle() const;
-#endif
-
-public:
-    CPaintManagerUI m_pm;
-    CComboUI *m_pOwner;
-    CVerticalLayoutUI *m_pLayout;
-    int m_iOldSel;
-    bool m_bScrollbarClicked;
-};
+//    LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+//    void Notify(TNotifyUI &msg);
+//
+//    void EnsureVisible(int iIndex);
+//    void Scroll(int dx, int dy);
+//
+//#if(_WIN32_WINNT >= 0x0501)
+//    virtual UINT GetClassStyle() const;
+//#endif
+//
+//public:
+//    CPaintManagerUI m_pm;
+//    CComboUI *m_pOwner;
+//    CVerticalLayoutUI *m_pLayout;
+//    int m_iOldSel;
+//    bool m_bScrollbarClicked;
+//
+//	CEditUI* m_pEditUI;//zm
+//};
 
 void CComboWnd::Notify(TNotifyUI &msg)
 {
@@ -195,6 +203,22 @@ void CComboWnd::Notify(TNotifyUI &msg)
     {
         EnsureVisible(m_iOldSel);
     }
+	////zm
+	//else if (DUI_MSGTYPE_TEXTCHANGED == msg.sType)
+	//{
+	//	m_pLayout->RemoveCount(1, m_pOwner->GetCount());
+	//	m_pOwner->RemoveAll();
+	//	
+	//	m_pLayout->Invalidate();
+	//}
+	//else if (DUI_MSGTYPE_EDITKEYDOWN == msg.sType)
+	//{
+	//	TEventUI event;
+	//	event.Type = UIEVENT_KEYDOWN;
+	//	event.chKey = (TCHAR)msg.wParam;
+	//	m_pOwner->DoEvent(event);
+	//	EnsureVisible(m_pOwner->GetCurSel());
+	//}
 }
 
 void CComboWnd::Init(CComboUI *pOwner)
@@ -280,7 +304,7 @@ LRESULT CComboWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
         // The trick is to add the items to the new container. Their owner gets
         // reassigned by this operation - which is why it is important to reassign
         // the items back to the righfull owner/manager when the window closes.
-        m_pLayout = new CComboBodyUI(m_pOwner);
+		m_pLayout = new CComboBodyUI(m_pOwner);
         m_pLayout->SetManager(&m_pm, NULL, true);
         LPCTSTR pDefAttr = m_pOwner->m_pManager->GetDefaultAttributeList(DUI_CTR_VERTICALLAYOUT, true);
         m_pLayout->SetAttributeList(pDefAttr);
@@ -307,6 +331,9 @@ LRESULT CComboWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         m_pm.AttachDialog(m_pLayout);
         m_pm.AddNotifier(this);
+
+		OnInitWindow();//zm
+
         return 0;
     }
     else if (uMsg == WM_CLOSE)
@@ -447,6 +474,10 @@ void CComboWnd::Scroll(int dx, int dy)
     m_pLayout->SetScrollPos(CDuiSize(sz.cx + dx, sz.cy + dy));
 }
 
+void CComboWnd::OnInitWindow(void)
+{
+}
+
 #if(_WIN32_WINNT >= 0x0501)
 UINT CComboWnd::GetClassStyle() const
 {
@@ -479,6 +510,8 @@ CComboUI::CComboUI() : m_pWindow(NULL), m_iCurSel(-1), m_uButtonState(0)
     m_ListInfo.dwVLineColor = 0xFF3C3C3C;
     m_ListInfo.bShowHtml = false;
     m_ListInfo.bMultiExpandable = false;
+
+	m_iVBboxScrollBarWidth = 0;//zm
 
     m_bShowText = true;
     m_bSelectCloseFlag = true;
@@ -586,6 +619,26 @@ bool CComboUI::SelectItem(int iIndex, bool bTakeFocus, bool bTriggerEvent)
     Invalidate();
 
     return true;
+}
+
+bool CComboUI::IsMultiSelect() const
+{
+	return false;
+}
+
+bool CComboUI::IsPtInSelItem(POINT& stPoint)
+{
+	return false;
+}
+
+bool CComboUI::SelectMultiItem(int iIndex, bool bTakeFocus /*= false*/)
+{
+	return false;
+}
+
+bool CComboUI::UnSelectItem(int iIndex, bool bOthers /*= false*/)
+{
+	return false;
 }
 
 bool CComboUI::ExpandItem(int iIndex, bool bExpand)
@@ -1491,7 +1544,11 @@ void CComboUI::PaintText(HDC hDC)
 
     RECT rcText = m_rcItem;
     rcText.left += (m_rcBorderSize.left + m_rcPadding.left);
-    rcText.right -= (m_rcBorderSize.right + m_rcPadding.right);
+
+	//2021-10-16 zm修复Combo下拉框存在滚动?时，显示区域文本与下拉框文本对齐位置不一致
+    //rcText.right -= (m_rcBorderSize.right + m_rcPadding.right);
+	rcText.right -= (m_rcBorderSize.right + m_rcPadding.right + GetWndVScrololbarWidth());//zm
+
     rcText.top += (m_rcBorderSize.top + m_rcPadding.top);
     rcText.bottom -= (m_rcBorderSize.bottom + m_rcPadding.bottom);
 
@@ -1502,7 +1559,7 @@ void CComboUI::PaintText(HDC hDC)
 
         if (pElement != NULL)
         {
-            pElement->DrawItemText(hDC, rcText);
+			pElement->DrawItemText(hDC, rcText);
         }
         else
         {
@@ -1539,6 +1596,17 @@ bool CComboUI::SelectItemByUserData(LPCTSTR pstrText)
 
     return false;
 }
+
+void CComboUI::SetWndVScroolbarWidth(int iVScrollbarWidth)
+{
+	m_iVBboxScrollBarWidth = iVScrollbarWidth;
+}
+
+int CComboUI::GetWndVScrololbarWidth()
+{
+	return m_iVBboxScrollBarWidth;
+}
+
 
 void CComboUI::SendDropUpNty()
 {

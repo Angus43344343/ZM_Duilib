@@ -30,7 +30,16 @@ public:
 		m_pobjManager->AddNotifier(this);
 		m_pobjManager->AddMessageFilter(this);
 	}
-	
+
+	/*@移除窗口消息到虚拟窗口*/
+	virtual void RemoveDuiMessage()
+	{
+		if (nullptr == m_pobjManager)return;
+
+		m_pobjManager->RemoveNotifier(this);
+		m_pobjManager->RemoveMessageFilter(this);
+	}
+
 	/*@Duilib内部消息响应*/
 	virtual void Notify(TNotifyUI& msg) = 0;
 

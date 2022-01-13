@@ -11,6 +11,14 @@
 namespace DuiLib {
 class CSystemTrayImpl;
 
+//2021-10-15 zm 添加窗口消息回调
+class CSystemTray;
+class ICallBackTray
+{
+public:
+	virtual HRESULT MessageTray(CSystemTray* pobjSystemTray, WPARAM wParam, LPARAM lParam) = 0;
+};
+
 class DUILIB_API CSystemTray
 {
 public:
@@ -72,12 +80,17 @@ public:
     HWND  GetHWnd() const;
     UINT_PTR GetTimerID() const;
 
+	//2021-10-15 zm
+	void SetCallbackTray(ICallBackTray* pobjCallbackTray);
+	ICallBackTray* GetCallbackTray();
+
 public:
     static void MinimiseToTray(HWND hWnd);
     static void MaximiseFromTray(HWND hWnd);
 
 private:
     CSystemTrayImpl    *m_pImpl;
+	ICallBackTray	   *m_pobjCallbackTray;
 };
 
 }

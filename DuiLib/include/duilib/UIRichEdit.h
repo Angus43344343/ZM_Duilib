@@ -97,6 +97,9 @@ public:
     UINT SetUndoLimit(UINT nLimit);
     long StreamIn(int nFormat, EDITSTREAM &es);
     long StreamOut(int nFormat, EDITSTREAM &es);
+	//2021-10-14 zm
+	void SetAccumulateDBCMode(bool bDBCMode);
+	bool IsAccumulateDBCMode();
 
     virtual void SetPadding(RECT rc) override;
 
@@ -158,6 +161,11 @@ protected:
     CDuiString m_sTipText;
     CDuiString m_sTipTextOrig;
     DWORD m_dwTipColor;
+
+	// 2021-10-14 zm
+	bool  m_fAccumulateDBC; // TRUE - need to cumulate ytes from 2 WM_CHAR msgs
+	// we are in this mode when we receive VK_PROCESSKEY
+	UINT m_chLeadByte; // use when we are in _fAccumulateDBC mode
 };
 
 } // namespace DuiLib

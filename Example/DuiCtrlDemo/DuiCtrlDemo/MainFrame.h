@@ -8,7 +8,7 @@
 #include "CtrlActiveX.h"
 #include "CtrlControlEx.h"
 
-class CMainFrame : public CWndImplBase, public IObserver
+class CMainFrame : public CWndImplBase, public IObserver, public ICallBackTray
 {
 public:
 	//资源文件管理
@@ -31,6 +31,9 @@ public:
 	//进行消息发送到窗口过程前的过滤处理
 	virtual LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool &bHandled) override;
 
+	//系统托盘的窗口消息
+	virtual HRESULT MessageTray(CSystemTray* pobjSystemTray, WPARAM wParam, LPARAM lParam) override;
+
 
 	//处理观察对象变化事件
 	virtual bool OnSubjectUpdate(WPARAM p1, WPARAM p2 = NULL, LPARAM p3 = NULL, CSubjectBase *pSub = NULL) override;
@@ -40,10 +43,12 @@ public:
 	void UnRegisterVirtualWnd();
 
 private:
+	void OnInitSystemTray();
 	void OnMenuClick(TNotifyUI& msg);
 	void OnCreateMenu(TNotifyUI& msg);
 	void OnBkSkin(TNotifyUI& msg);
 
+	void CheckProExist();
 private:
 	void SetLanguage(int nLangType, const LPCTSTR xml, LPCTSTR szResType = NULL);
 
@@ -56,5 +61,7 @@ public:
 
 private:
 	std::vector<CVirtualWnd*> m_vecVirtualWnd;
+
+	CSystemTray	m_objSysTray;// 系统托盘图标
 };
 

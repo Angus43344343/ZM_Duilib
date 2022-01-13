@@ -446,7 +446,7 @@ CControlUI *CDialogBuilder::_Parse(CMarkupNode *pRoot, CControlUI *pParent, CPai
                 else if (_tcsicmp(pstrClass, DUI_CTR_RICHEDIT) == 0)         { pControl = new CRichEditUI; }
                 else if (_tcsicmp(pstrClass, DUI_CTR_CHECKBOX) == 0)         { pControl = new CCheckBoxUI; }
                 else if (_tcsicmp(pstrClass, DUI_CTR_RADIOBOX) == 0)         { pControl = new CRadioBoxUI; }
-                else if (_tcsicmp(pstrClass, DUI_CTR_COMBOBOX) == 0)         { pControl = new CComboUI; }
+                //else if (_tcsicmp(pstrClass, DUI_CTR_COMBOBOX) == 0)         { pControl = new CComboUI; }//zm
                 else if (_tcsicmp(pstrClass, DUI_CTR_DATETIME) == 0)         { pControl = new CDateTimeUI; }
                 else if (_tcsicmp(pstrClass, DUI_CTR_TREEVIEW) == 0)         { pControl = new CTreeViewUI; }
                 else if (_tcsicmp(pstrClass, DUI_CTR_TREENODE) == 0)         { pControl = new CTreeNodeUI; }

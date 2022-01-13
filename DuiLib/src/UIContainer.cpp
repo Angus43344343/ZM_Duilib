@@ -1233,15 +1233,16 @@ void CContainerUI::SetFloatPos(int iIndex)
 
     SIZE szXY = pControl->GetFixedXY();
     SIZE sz = {pControl->GetFixedWidth(), pControl->GetFixedHeight()};
-    TPercentInfo rcPercent = pControl->GetFloatPercent();
-    LONG width = m_rcItem.right - m_rcItem.left;
-    LONG height = m_rcItem.bottom - m_rcItem.top;
-    RECT rcCtrl = { 0 };
-    rcCtrl.left = (LONG)(width * rcPercent.left) + szXY.cx;
-    rcCtrl.top = (LONG)(height * rcPercent.top) + szXY.cy;
-    rcCtrl.right = (LONG)(width * rcPercent.right) + szXY.cx + sz.cx;
-    rcCtrl.bottom = (LONG)(height * rcPercent.bottom) + szXY.cy + sz.cy;
-    pControl->SetPos(rcCtrl, false);
+
+	TPercentInfo rcPercent = pControl->GetFloatPercent();
+	LONG width = m_rcItem.right - m_rcItem.left;
+	LONG height = m_rcItem.bottom - m_rcItem.top;
+	RECT rcCtrl = { 0 };
+	rcCtrl.left = (LONG)(width * rcPercent.left) + szXY.cx;
+	rcCtrl.top = (LONG)(height * rcPercent.top) + szXY.cy;
+	rcCtrl.right = (LONG)(width * rcPercent.right) + szXY.cx + sz.cx;
+	rcCtrl.bottom = (LONG)(height * rcPercent.bottom) + szXY.cy + sz.cy;
+	pControl->SetPos(rcCtrl, false);
 }
 
 void CContainerUI::ProcessScrollBar(RECT rc, int cxRequired, int cyRequired)

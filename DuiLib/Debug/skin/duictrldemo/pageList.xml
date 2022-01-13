@@ -23,16 +23,15 @@
         <VBox vscrollbar="true"><!--右容器-->
             
             <HBox height="500" style="hboxBasics">
-                <List name="listTest" width="720" height="480" style="styleList" checkable="true" menu="true"><!--list-->
+                <List name="listTest" width="820" height="480" style="styleList" multiselect="true" menu="true"><!--list-->
                     <ListHeader name="listHeader" height="30">
-                        <ListHeaderItem name="listHeaderItemTest" text="序号" style="styleHeaderItem" inset="0,0,1,0" checkable="true" >
-                            <CheckBox name="checkHeadeItem" style="styleCheckBox1" />
-                        </ListHeaderItem>
-                        <ListHeaderItem name="listHeaderItemTest1" text="姓名" style="styleHeaderItem" editable="true"/>
-                        <ListHeaderItem name="listHeaderItemTest2" text="性别" style="styleHeaderItem" comboable="true"/>
-                        <ListHeaderItem name="listHeaderItemTest3" text="点击排序" style="styleHeaderItem" textcolor="0xFFFF0000"/>
+                        <ListHeaderItem name="listHeaderItemTest" text="序号(check)" style="styleHeaderItem" width="100" checkable="true" />
+                        <ListHeaderItem name="listHeaderItemTest1" text="姓名(Edit)" style="styleHeaderItem" editable="true"/>
+                        <ListHeaderItem name="listHeaderItemTest2" text="性别(Combo)" style="styleHeaderItem" comboable="true"/>
+                        <ListHeaderItem name="listHeaderItemTest3" text="数学(Sort)" style="styleHeaderItem" textcolor="0xFFFF0000"/>
                         <ListHeaderItem name="listHeaderItemTest4" text="语文" style="styleHeaderItem"/>
                         <ListHeaderItem name="listHeaderItemTest5" text="英语" style="styleHeaderItem"/>
+                        <ListHeaderItem name="listHeaderItemTest6" text="物理" style="styleHeaderItem" />
                     </ListHeader>
                 </List><!--=======================================================================================list-->
             </HBox>

@@ -47,6 +47,9 @@ void CWebBrowserUI::ReleaseControl()
 
 CWebBrowserUI::~CWebBrowserUI()
 {
+	//2021-10-15 zm
+	if (NULL != m_pWebBrowser2) { m_pWebBrowser2->Release(); m_pWebBrowser2 = NULL; }
+
     ReleaseControl();
 }
 

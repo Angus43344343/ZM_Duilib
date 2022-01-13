@@ -105,7 +105,9 @@ std::map<HWND, CShadowUI *> &CShadowUI::GetShadowMap()
 
 LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    _ASSERT(GetShadowMap().find(hwnd) != GetShadowMap().end()); // Shadow must have been attached
+	//2021-10-14 zm Debug模式下窗口的销毁过程可能会导致断点错误(本质上不影响release)
+    //_ASSERT(GetShadowMap().find(hwnd) != GetShadowMap().end()); // Shadow must have been attached
+	if (GetShadowMap().find(hwnd) == GetShadowMap().end()) { return S_FALSE; }
 
     CShadowUI *pThis = GetShadowMap()[hwnd];
 

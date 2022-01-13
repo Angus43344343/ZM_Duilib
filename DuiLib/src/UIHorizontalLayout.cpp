@@ -146,6 +146,16 @@ void CHorizontalLayoutUI::SetPos(RECT rc, bool bNeedInvalidate)
     {
         iPosX -= m_pHorizontalScrollBar->GetScrollPos();
     }
+	//2021-10-16 zm修复HBox的childalign属性无效
+	else
+	{
+		if (nAdjustables <= 0)// 子控件横向对其方式
+		{
+			UINT iChildAlign = GetChildAlign();
+			if (iChildAlign == DT_CENTER){ iPosX += (szAvailable.cx - cxFixed) / 2; }
+			else if (iChildAlign == DT_RIGHT) { iPosX += (szAvailable.cx - cxFixed); }
+		}
+	}
 
     int iEstimate = 0;
     int iAdjustable = 0;

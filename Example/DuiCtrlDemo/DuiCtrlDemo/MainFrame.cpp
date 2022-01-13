@@ -15,7 +15,6 @@ CMainFrame::CMainFrame()
 
 CMainFrame::~CMainFrame()
 {
-	
 	PostQuitMessage(0);//程序退出 
 }
 
@@ -36,6 +35,16 @@ void CMainFrame::SetLanguage(int nLangType, const LPCTSTR xml, LPCTSTR szResType
 {
 	CPaintManagerUI::LoadLanguage(nLangType, xml, szResType);
 	CPaintManagerUI::ChangeLanguage();
+}
+
+void CMainFrame::OnInitSystemTray()
+{
+	m_objSysTray.Create(&m_pm, _T("DuiCtrlDemo程序的托盘图标"), ::LoadIcon(CPaintManagerUI::GetInstance(), MAKEINTRESOURCE(IDI_ICON_TRAY)), _T("menu.xml"), _T("xml"));
+
+	m_objSysTray.SetIconList(IDI_ICON_TRAY, IDI_ICON_TRAY_HIDE);
+	m_objSysTray.Animate(300);//模拟QQ的闪烁图标效果
+
+	m_objSysTray.SetCallbackTray(this);//如果用户需要对托盘窗口消息进行处理,可以添加回调处理
 }
 
 void CMainFrame::OnMenuClick(TNotifyUI& msg)
@@ -78,6 +87,41 @@ void CMainFrame::OnBkSkin(TNotifyUI& msg)
 	//pobjSkinWnd->CenterWindow();
 }
 
+//=========================================================================================
+//检测程序是否已存在，如果存在，则弹出该程序窗口
+TCHAR g_acProName[] = _T("{E91C1C60-DC70-460D-9299-FC67422ECA23}");
+HANDLE g_hValue = (HANDLE)9527;
+
+BOOL CALLBACK EnumExistPro(HWND hWnd, LPARAM lParam)
+{
+	HANDLE hValue = ::GetProp(hWnd, g_acProName);
+	if (g_hValue == hValue)//获取值 
+	{
+		*(HWND*)lParam = hWnd;//将窗口句柄传出去
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+void CMainFrame::CheckProExist()
+{
+	HWND hWnd = nullptr;
+	::EnumWindows(EnumExistPro, (LPARAM)&hWnd);
+	if (nullptr != hWnd)//说明窗口存在了
+	{
+		::MessageBox(nullptr, _T("已经有一个程序正在运行..."), nullptr, MB_OK);
+		::ShowWindow(hWnd, SW_SHOWNORMAL);
+		::SetForegroundWindow(hWnd);
+
+		ExitProcess(0);
+		return;
+	}
+
+	::SetProp(m_hWnd, g_acProName, g_hValue);//设置属性
+}
+
+
 LPCTSTR CMainFrame::GetWindowClassName(void) const 
 {
 	return _T("UIDuiCtrlDemo");
@@ -100,7 +144,11 @@ void CMainFrame::OnPrepare(void)
 
 void CMainFrame::OnInitWindow(void)
 {
+	CheckProExist();//检测程序是否已经在运行
+
 	__super::OnInitWindow();
+
+	OnInitSystemTray();//添加系统托盘图标
 
 	CSubjectSkin::GetInstance().AddObserver(this);//添加观察者
 
@@ -112,7 +160,12 @@ void CMainFrame::OnFinalMessage(HWND hWnd)
 {
 	__super::OnFinalMessage(hWnd);
 
+	//移除虚拟窗口到消息列表
+	for (auto atVirtualWnd : m_vecVirtualWnd) { atVirtualWnd->RemoveDuiMessage(); }
+
 	UnRegisterVirtualWnd();
+
+	::RemoveProp(m_hWnd, g_acProName);//删除属性
 	CSubjectSkin::GetInstance().RemoveObserver(this);
 
 	delete this;
@@ -147,6 +200,20 @@ LRESULT CMainFrame::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool
 {
 
 	return __super::MessageHandler(uMsg, wParam, lParam, bHandled);
+}
+
+HRESULT CMainFrame::MessageTray(CSystemTray* pobjSystemTray, WPARAM wParam, LPARAM lParam)
+{
+	if (nullptr == pobjSystemTray) return S_FALSE;
+
+	if (WM_LBUTTONDBLCLK == LOWORD(lParam))//双击系统图标,解除QQ闪烁效果,同时弹出窗口
+	{
+		pobjSystemTray->StopAnimation();
+		ShowWindow(true);
+		::SetForegroundWindow(m_hWnd);
+	}
+
+	return S_OK;
 }
 
 bool CMainFrame::OnSubjectUpdate(WPARAM p1, WPARAM p2, LPARAM p3, CSubjectBase *pSub)

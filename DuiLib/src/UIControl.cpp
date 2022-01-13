@@ -1180,8 +1180,8 @@ void CControlUI::DoEvent(TEventUI &event)
 {
     if (event.Type == UIEVENT_SETCURSOR)
     {
-        ::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_ARROW)));
-        return;
+		::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_ARROW)));
+		return;
     }
 
     if (event.Type == UIEVENT_SETFOCUS)

@@ -50,12 +50,12 @@
                     <Label name="lblTest1" width="120" height="40" valign="top" multiline="true" bkcolor="#ffFFFFE0" text="%[lblTest1]" textpadding="4,4,4,4" wordbreak="true"/>
                     <Label name="lblTest2" style="labelBasics" text="自动填充控件宽和高测试" />
                     <Label name="lblTest3" style="labelBasics" showhtml="true" text="{c #FF69B4}{b}富文本测试{/b}{a}www.baidu.com{/a}{/c}"/>
+                    <Label name="lblTest4" style="labelBasics" font="1" textpadding="20,10,0,0" text="字体，文本边距测试"/>
                 </HBox>
                 
                 <HBox style="hboxBasics"> <!--发光文字测试-->
-                    <Label name="lblTest4" style="labelBasics" font="1" textpadding="20,10,0,0" text="字体，文本边距测试"/>
-                    <Label name="lblTest7" width="120" height="40" bkcolor="#ffFFFFE0" enabledeffect="true" enabledluminous="true" luminousfuzzy="3" gradientangle="90" enabledstroke="true" enabledshadow="true" gradientlength="2" shadowoffset="1,1" textshadowcolora="#FFBBFFFF" textshadowcolorb="#FFFF6A6A"  text="特效发光文字测试"/>
-                    <Label name="lblTest8" font="15" text="特效发光文字测试" style="styleLabelLum" width="160"/>
+                    <Label name="lblTest7" width="240" height="40" bkcolor="#ffFFFFE0" text="特效发光文字" font="15" enabledeffect="true" textcolor="#ffFFFFFF" textcolor1="#FFFFFFFF" gradientangle="720" gradientlength="500"  enabledstroke="true" strokecolor="#FF00FFFF"/>
+                    <Label name="lblTest7" width="240" height="40" bkcolor="#ffFFFFE0" text="特效发光文字" font="15" style="styleLabelLum"/>
                 </HBox>  
             </VBox><!--===========Label-->
             <Control height="1" bkcolor="#ffFF00FF"/>

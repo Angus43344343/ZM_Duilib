@@ -20,6 +20,12 @@
                 <Label name="lblProgress" height="100" text="CircleProgress测试：" align="right" valign="vcenter"/>
                 <Control height="1" bkcolor="#ffFF00FF"/>
 
+                <Label name="lblWkeBrowser" height="400"  text="echarts测试：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+
+                <Label name="lblWkeBrowser" height="100"  text="C++与JS调用：" align="right" valign="vcenter"/>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+                
                 <Label name="lblWkeBrowser" height="600"  text="WkeBrowser测试：" align="right" valign="vcenter"/>
                 <Control height="1" bkcolor="#ffFF00FF"/>
             </VBox>
@@ -53,10 +59,41 @@
                 <CircleProgress name="cirproTest" style="styleCircleProgress"/>
             </HBox><!--===============================CircleProgress-->
             <Control height="1" bkcolor="#ffFF00FF"/>
-        
+
+            <VBox height="400" childlign="center" childvalign="center" childmargin="10" vscrollbarstyle="styleVScrollBar"><!--echarts-->
+                <WkeBrowser name="WkeLine" width="720" height="350"/>
+                <WkeBrowser name="WkeBar" width="720" height="350"/>
+                <WkeBrowser name="WkePie" width="720" height="350"/>
+            </VBox><!--===============================echarts-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <HBox height="100" style="hboxBasics"><!--C++与JS相互调用-->
+                <Button name="btnJs" style="styleButton" text="C++调用JS函数" />
+                <WkeBrowser name="WkeFunction" width="400" />
+                <Label name="lblArg" style="styleLabel" width="200" height="60" bkcolor="#ffFFFFE0"/>
+            </HBox><!--===============================C++与JS相互调用-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+
+            <VBox height="600"><!--WkeBrowser-->
+                <HBox height="30" childalign="left" childvalign="center">
+                    <Label name="lblWke" autowidth="true" text="miniblink:" textcolor="ffFF00FF"/>
+                    <Button name="btnWkeBackward" width="36" height="26" normalimage="res=&apos;ie/backward.png&apos; source=&apos;0,0,36,26&apos;" hotimage="res=&apos;ie/backward.png&apos; source=&apos;72,0,108,26&apos;" />
+                    <Button name="btnWkeGo" width="36" height="26" normalimage="res=&apos;ie/go.png&apos; source=&apos;0,0,36,26&apos;" hotimage="res=&apos;ie/go.png&apos; source=&apos;36,0,72,26&apos;" />
+                    <Button name="btnWkeRefresh" margin="0,0,3,0" width="26" height="26" normalimage="res=&apos;ie/refresh.png&apos; source=&apos;0,0,26,26&apos;" hotimage="res=&apos;ie/refresh.png&apos; source=&apos;52,0,78,26&apos;" />
+                    <HBox childvalign="center">
+                        <Edit name="editUrl" height="26" borderround="26" bordersize="1" textpadding="26,0,26,0" autoselall="true"/>
+                        <Button name="btnWkeReturn" float="1.0,0.5,1.0,0.5" pos="-16,-8,0,8" normalimage="res=&apos;ie/return_normal.png&apos; corner=&apos;2,2,2,2&apos;" hotimage="res=&apos;ie/return_hot.png&apos; corner=&apos;2,2,2,2&apos;" />
+                    </HBox>
+
+                    <Button name="btnWkeGame" margin="3,0,3,0" width="21" height="28" normalimage="res=&apos;ie/game.png&apos; source=&apos;0,0,21,28&apos;" hotimage="res=&apos;ie/game.png&apos; source=&apos;21,0,42,28&apos;" />
+                </HBox>
+                <Control height="1" bkcolor="#ffFF00FF"/>
+                <WkeBrowser name="WkeTest"/>
+            </VBox><!--============WkeBrowser-->
+            <Control height="1" bkcolor="#ffFF00FF"/>
+            
         </VBox><!--=================右容器-->
 
-    </HBox>
-    <!--==============客户端-->
+    </HBox><!--==============客户端-->
 
 </Window>

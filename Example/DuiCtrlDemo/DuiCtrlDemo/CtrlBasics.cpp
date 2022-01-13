@@ -48,7 +48,7 @@ void CCtrlBasics::OnInitProgress()
 		int iValue = pobjProgress->GetValue();
 		while (pobjProgress->GetMaxValue() > iValue)
 		{
-			std::unique_lock<std::mutex> lock(CMutex::GetInstance().GetMutext());
+			std::unique_lock<std::mutex> lock(CMutex::GetInstance().GetMutex());
 			pobjProgress->SetValue(++iValue);
 			//pobjCircleProgress->SetValue(iValue);
 

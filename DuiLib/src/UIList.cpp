@@ -18,6 +18,11 @@ public:
     bool DoPaint(HDC hDC, const RECT &rcPaint, CControlUI *pStopControl);
     bool SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData, int &iCurSel);
 
+	//2021-10-17 zm 添加橡皮筋框选
+	POINT GetSatrtPoint();
+	void SetStartPoint(POINT stPoint);
+	virtual void DoPostPaint(HDC hDC, const RECT &rcPaint) override;
+
 protected:
     static int __cdecl ItemComareFunc(void *pvlocale, const void *item1, const void *item2);
     int __cdecl ItemComareFunc(const void *item1, const void *item2);
@@ -26,6 +31,8 @@ protected:
     CListUI *m_pOwner;
     PULVCompareFunc m_pCompareFunc;
     UINT_PTR m_compareData;
+
+	POINT m_stMousePoint;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +40,8 @@ protected:
 //
 
 CListUI::CListUI() : m_pCallback(NULL), m_bScrollSelect(false), m_iCurSel(-1), m_iExpandedItem(-1),
-    m_nRow(-1), m_nColumn(-1), m_pCmbCallback(NULL), m_pEdit(NULL), m_pCombo(NULL)
+m_nRow(-1), m_nColumn(-1), m_pCmbCallback(NULL), m_pEdit(NULL), m_pCombo(NULL), m_bMultiSel(false)
+, m_iDragBeginIndex(-1), m_szCheckBox({ 0 })//zm
 {
     m_pList = new CListBodyUI(this);
     m_pHeader = new CListHeaderUI;
@@ -346,6 +354,7 @@ void CListUI::RemoveAll()
     m_iCurSel = -1;
     m_iExpandedItem = -1;
     m_pList->RemoveAll();
+	m_aSelItems.Empty();//zm
 }
 
 bool CListUI::RemoveCount(int iIndex, int iCount, bool bDoNotDestroy)
@@ -545,6 +554,31 @@ void CListUI::DoEvent(TEventUI &event)
         HideCombo();
     }
 
+	//2021-10-16 zm 添加鼠标点击/弹起事件
+	if (event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_RBUTTONDOWN)
+	{
+		if (m_pManager && m_pList)
+		{
+			m_pList->SetStartPoint(event.ptMouse);//设置鼠标落点的初始位置
+			m_pManager->AddPostPaint(m_pList);
+		}
+	}
+
+	if (event.Type == UIEVENT_BUTTONUP || event.Type == UIEVENT_RBUTTONUP)
+	{
+		if (m_pManager && m_pList)
+		{
+			m_pManager->RemovePostPaint(m_pList);
+			Invalidate();
+		}
+	}
+
+	if (event.Type == UIEVENT_MOUSEMOVE)
+	{
+		if (IsEnabled()) { Invalidate(); }
+	}
+
+
     if (event.Type == UIEVENT_SETFOCUS)
     {
         if (IsEnabled()) { m_bFocused = true; }
@@ -565,9 +599,30 @@ void CListUI::DoEvent(TEventUI &event)
             switch (event.chKey)
             {
             //2017-02-25 zhuyadong 修复 case 语句没有 break 的 bug
-            case VK_UP:     SelectItem(FindSelectable(m_iCurSel - 1, false), true); break;
+			//2021-10-16 zm 添加键盘多选
+			case VK_UP:
+			{
+				if (m_aSelItems.GetSize() > 0)
+				{
+					int index = GetMinSelItemIndex() - 1;
 
-            case VK_DOWN:   SelectItem(FindSelectable(m_iCurSel + 1, true), true);  break;
+					UnSelectAllItems();
+					index > 0 ? SelectItem(index, true) : SelectItem(0, true);
+				}
+			}
+			break;
+				
+			case VK_DOWN:
+			{
+				if (m_aSelItems.GetSize() > 0)
+				{
+					int index = GetMaxSelItemIndex() + 1;
+
+					UnSelectAllItems();
+					index + 1 > m_pList->GetCount() ? SelectItem(GetCount() - 1, true) : SelectItem(index, true);
+				}
+			}
+			break;
 
             case VK_PRIOR:  PageUp();                                               break;
 
@@ -578,6 +633,14 @@ void CListUI::DoEvent(TEventUI &event)
             case VK_END:    SelectItem(FindSelectable(GetCount() - 1, true), true); break;
 
             case VK_RETURN: if (m_iCurSel != -1) GetItemAt(m_iCurSel)->Activate();  break;
+
+			case 'A'://zm
+			{
+				if (IsMultiSelect() && (GetKeyState(VK_CONTROL) & 0x8000)) { SelectAllItems(); }
+			}
+			break;
+
+			default: break;
             }
 
             return;
@@ -632,6 +695,8 @@ int CListUI::GetCurSel() const
 
 bool CListUI::SelectItem(int iIndex, bool bTakeFocus, bool bTriggerEvent)
 {
+	UnSelectAllItems();// 取消所有选择项
+
     if (iIndex == m_iCurSel) { return true; }
 
     int iOldSel = m_iCurSel;
@@ -673,6 +738,12 @@ bool CListUI::SelectItem(int iIndex, bool bTakeFocus, bool bTriggerEvent)
         return false;
     }
 
+	//2021-10-17 zm
+	if (0 > m_aSelItems.Find((LPVOID)iIndex))
+	{
+		m_aSelItems.Add((LPVOID)iIndex);
+	}
+
     EnsureVisible(m_iCurSel);
 
     if (bTakeFocus) { pControl->SetFocus(); }
@@ -683,6 +754,275 @@ bool CListUI::SelectItem(int iIndex, bool bTakeFocus, bool bTriggerEvent)
     }
 
     return true;
+}
+
+void CListUI::SetMultiSelect(bool bMultiSel)
+{
+	m_bMultiSel = bMultiSel;
+	if (!bMultiSel) UnSelectAllItems();
+}
+
+bool CListUI::IsMultiSelect() const
+{
+	return m_bMultiSel;
+}
+
+void CListUI::SelectAllItems()
+{
+	m_aSelItems.Empty();
+
+	for (int i = 0; i < GetCount(); ++i)
+	{
+		CControlUI* pControl = GetItemAt(i);
+		if (pControl == NULL) continue;
+		if (!pControl->IsVisible()) continue;
+		if (!pControl->IsEnabled()) continue;
+		IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(DUI_CTR_ILISTITEM));
+		if (pListItem == NULL) continue;
+		if (!pListItem->SelectMulti(true)) continue;
+
+		m_aSelItems.Add((LPVOID)i);
+		m_iCurSel = i;
+	}
+}
+
+void CListUI::UnSelectAllItems()
+{
+	for (int i = 0; i < m_aSelItems.GetSize(); ++i)
+	{
+		int iSelIndex = (int)m_aSelItems.GetAt(i);
+		CControlUI* pControl = GetItemAt(iSelIndex);
+		if (pControl == NULL) continue;
+		if (!pControl->IsEnabled()) continue;
+		IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(DUI_CTR_ILISTITEM));
+		if (pListItem == NULL) continue;
+		if (!pListItem->SelectMulti(false)) continue;
+	}
+
+	m_aSelItems.Empty();
+	m_iCurSel = -1;
+}
+
+bool CListUI::IsPtInSelItem(POINT& stPoint)
+{
+	for (int iIndex = 0; iIndex < m_aSelItems.GetSize(); iIndex++)
+	{
+		int iSelIndex = (int)m_aSelItems.GetAt(iIndex);
+		CControlUI* pContorl = GetItemAt(iSelIndex);
+
+		if (pContorl && ::PtInRect(&pContorl->GetPos(), stPoint)) { return true; }
+	}
+
+	return false; 
+}
+
+int CListUI::GetMinSelItemIndex()
+{
+	if (m_aSelItems.GetSize() <= 0){ return -1; }
+
+	int min = (int)m_aSelItems.GetAt(0);
+
+	for (int i = 0; i < m_aSelItems.GetSize(); ++i)
+	{
+		int index = (int)m_aSelItems.GetAt(i);
+
+		if (min > index) { min = index; }
+	}
+
+	return min;
+}
+
+int CListUI::GetMaxSelItemIndex()
+{
+	if (m_aSelItems.GetSize() <= 0) { return -1; }
+
+	int max = (int)m_aSelItems.GetAt(0);
+	
+	for (int i = 0; i < m_aSelItems.GetSize(); ++i)
+	{
+		int index = (int)m_aSelItems.GetAt(i);
+
+		if (max < index) { max = index; }
+	}
+
+	return max;
+}
+
+bool CListUI::SelectMultiItem(int iIndex, bool bTakeFocus /*= false*/)
+{
+	if (!IsMultiSelect()) return SelectItem(iIndex, bTakeFocus);
+
+	if (iIndex < 0) { return false; }
+
+	CControlUI* pControl = GetItemAt(iIndex);
+	if (pControl == NULL) { return false; }
+
+	CListElementUI* pListElement = static_cast<CListElementUI*>(pControl->GetInterface(DUI_CTR_LISTELEMENT));
+	if (pListElement == NULL) { return false; }
+
+	if ((pListElement->GetShiftEnble()) && (m_aSelItems.GetSize() > 0))
+	{
+		int iMaxIndex = max(GetMinSelItemIndex(), iIndex);
+		int iMinIndex = (GetMinSelItemIndex() == -1) ? 0 : min(GetMinSelItemIndex(), iIndex);
+
+		UnSelectAllItems();
+
+		for (int iCount = iMinIndex; iCount < iMaxIndex + 1; iCount++)
+		{
+			CControlUI* pControl = GetItemAt(iCount);
+			if (pControl == NULL) continue;
+			if (!pControl->IsVisible()) continue;
+			if (!pControl->IsEnabled()) continue;
+			IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(DUI_CTR_ILISTITEM));
+			if (pListItem == NULL) continue;
+			if (!pListItem->SelectMulti(true)) continue;
+
+			m_aSelItems.Add((LPVOID)iCount);
+			m_iCurSel = -1;
+		}
+	}
+	else
+	{
+		IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(DUI_CTR_ILISTITEM));
+		if (pListItem == NULL) { return false; }
+
+		if (m_aSelItems.Find((LPVOID)iIndex) >= 0) return false;
+		if (!pListItem->SelectMulti(true)) return false;
+
+		m_iCurSel = iIndex;
+		m_aSelItems.Add((LPVOID)iIndex);
+
+		if (bTakeFocus) pControl->SetFocus();
+	}
+
+	if (m_pManager != NULL)
+	{
+		m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMSELECT, iIndex);
+	}
+	return true;
+}
+
+bool CListUI::UnSelectItem(int iIndex, bool bOthers /*= false*/)
+{
+	if (!IsMultiSelect()) { return false; }
+
+	if (bOthers)
+	{
+		for (int i = m_aSelItems.GetSize() - 1; i >= 0; --i)
+		{
+			int iSelIndex = (int)m_aSelItems.GetAt(i);
+			if (iSelIndex == iIndex) continue;
+			CControlUI* pControl = GetItemAt(iSelIndex);
+			if (pControl == NULL) continue;
+			if (!pControl->IsEnabled()) continue;
+			IListItemUI* pSelListItem = static_cast<IListItemUI*>(pControl->GetInterface(DUI_CTR_ILISTITEM));
+			if (pSelListItem == NULL) continue;
+			if (!pSelListItem->SelectMulti(false)) continue;
+			m_aSelItems.Remove(i);
+		}
+	}
+	else
+	{
+		if (iIndex < 0) return false;
+		CControlUI* pControl = GetItemAt(iIndex);
+		if (pControl == NULL) return false;
+		if (!pControl->IsEnabled()) return false;
+		IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(DUI_CTR_ILISTITEM));
+		if (pListItem == NULL) return false;
+		int aIndex = m_aSelItems.Find((LPVOID)iIndex);
+		if (aIndex < 0) return false;
+		if (!pListItem->SelectMulti(false)) return false;
+		if (m_iCurSel == iIndex) m_iCurSel = -1;
+		m_aSelItems.Remove(aIndex);
+	}
+
+	return true;
+}
+
+int CListUI::GetComboIndex(CDuiString& strItemText)
+{
+	if (nullptr == m_pCombo) { return -1; }
+	if (0 >= m_pCombo->GetCount()) { return -1; }
+
+	for (int i = 0; i < m_pCombo->GetCount(); i++)
+	{
+		CListElementUI* pobjElement = (CListElementUI*)(m_pCombo->GetItemAt(i));
+
+		if (pobjElement && (0 == pobjElement->GetText().Compare(strItemText))) { return i; }
+	}
+
+	return -1;
+}
+
+void CListUI::DragBegin(TEventUI& event)
+{
+	if ((m_uButtonState & UISTATE_CAPTURED) || (m_pManager == NULL)) return;
+
+	m_uButtonState |= UISTATE_CAPTURED;
+
+	RECT rcListBody = GetList()->CControlUI::GetClientPos();
+	if (::PtInRect(&rcListBody, event.ptMouse))
+	{
+		CControlUI* pControl = m_pManager->FindControl(event.ptMouse);
+		if (NULL != pControl)
+		{
+			IListItemUI* pobjBeginItem = static_cast<IListItemUI*>(pControl->GetInterface(DUI_CTR_ILISTITEM));
+			if (NULL != pobjBeginItem)
+			{
+				m_iDragBeginIndex = pobjBeginItem->GetIndex();
+			}
+		}
+	}
+}
+
+void CListUI::Draging(TEventUI& event)
+{
+	if ((m_uButtonState & UISTATE_CAPTURED) && (m_pManager != NULL) && IsMultiSelect())
+	{
+		int iMinIndex = -1;
+		int iMaxIndex = -1;
+		RECT rcListBody = GetList()->CControlUI::GetClientPos();
+
+		if (::PtInRect(&rcListBody, event.ptMouse))
+		{
+			CControlUI* pControlEnd = m_pManager->FindControl(event.ptMouse);
+			if (NULL != pControlEnd)
+			{
+				IListItemUI* pobjEndItem = static_cast<IListItemUI*>(pControlEnd->GetInterface(DUI_CTR_ILISTITEM));
+				if (NULL != pobjEndItem)
+				{
+					iMinIndex = max(min(m_iDragBeginIndex, pobjEndItem->GetIndex()), 0);
+					iMaxIndex = min(max(m_iDragBeginIndex, pobjEndItem->GetIndex()), GetCount());
+				}
+			}
+		}
+
+		if ((iMinIndex == -1) || (iMaxIndex == -1)) return;
+
+		UnSelectAllItems();
+		for (int iCount = iMinIndex; iCount < iMaxIndex + 1; iCount++)
+		{
+			CControlUI* pControl = GetItemAt(iCount);
+			if (pControl == NULL) continue;
+			if (!pControl->IsVisible()) continue;
+			if (!pControl->IsEnabled()) continue;
+			IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(DUI_CTR_ILISTITEM));
+			if (pListItem == NULL) continue;
+			if (!pListItem->SelectMulti(true)) continue;
+
+			m_aSelItems.Add((LPVOID)iCount);
+			m_iCurSel = iCount;
+		}
+	}
+}
+
+void CListUI::DragEnd(TEventUI& event)
+{
+	if (m_uButtonState & UISTATE_CAPTURED)
+	{
+		m_iDragBeginIndex = -1;
+		m_uButtonState &= ~UISTATE_CAPTURED;
+	}
 }
 
 TListInfoUI *CListUI::GetListInfo()
@@ -1175,13 +1515,18 @@ void CListUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
         SetItemHLineColor(clr);
     }
     else if (_tcscmp(pstrName, _T("itemshowhtml")) == 0) { SetItemShowHtml(ParseBool(pstrValue)); }
+	//2021-10-17 zm 由表头来决定是否使用checkble
     // ischeckbox 属性废弃，改用 checkable
-    else if (_tcscmp(pstrName, _T("ischeckbox")) == 0 || _tcscmp(pstrName, _T("checkable")) == 0)
-    {
-        m_ListInfo.bCheckBox = ParseBool(pstrValue);
-    }
-    else if (_tcscmp(pstrName, _T("unselimage")) == 0) { m_diUnSel.sDrawString = ParseString(pstrValue); }
-    else if (_tcscmp(pstrName, _T("selimage")) == 0) { m_diSel.sDrawString = ParseString(pstrValue); }
+    //else if (_tcscmp(pstrName, _T("ischeckbox")) == 0 || _tcscmp(pstrName, _T("checkable")) == 0)
+    //{
+    //    m_ListInfo.bCheckBox = ParseBool(pstrValue);
+    //}
+	//2021-10-17 zm 
+    else if (_tcscmp(pstrName, _T("checkunselimage")) == 0) { m_diUnSel.sDrawString = ParseString(pstrValue); }
+    else if (_tcscmp(pstrName, _T("checkselimage")) == 0) { m_diSel.sDrawString = ParseString(pstrValue); }
+	else if (_tcscmp(pstrName, _T("checkwidth")) == 0) { m_szCheckBox.cx = ParseInt(pstrValue); }
+	else if (_tcscmp(pstrName, _T("checkheight")) == 0) { m_szCheckBox.cy = ParseInt(pstrValue); }
+	else if (_tcscmp(pstrName, _T("multiselect")) == 0) { SetMultiSelect(ParseBool(pstrValue)); }
     else { CVerticalLayoutUI::SetAttribute(pstrName, pstrValue); }
 }
 
@@ -1313,6 +1658,27 @@ TDrawInfo &CListUI::GetSelImage(void)
     return m_diSel;
 }
 
+int CListUI::GetCheckBoxWidth() const
+{
+	return m_szCheckBox.cx;
+}
+
+int CListUI::GetCheckBoxHeight()  const
+{
+	return m_szCheckBox.cy;
+}
+
+RECT CListUI::GetCheckBoxRect(RECT rc)
+{
+	RECT rcItem = rc;
+	rcItem.left += 6;
+	rcItem.top += (rc.bottom - rc.top - GetCheckBoxHeight()) / 2;
+	rcItem.right = rcItem.left + GetCheckBoxWidth();
+	rcItem.bottom = rcItem.top + GetCheckBoxHeight();
+
+	return rcItem;
+}
+
 void CListUI::GetAllSelectedItem(CDuiValArray &arySelIdx, int nColumn)
 {
     arySelIdx.Empty();
@@ -1336,13 +1702,13 @@ void CListUI::SetAllItemSelected(bool bSelect, int nColumn)
         return;
     }
 
-    // 设置表头中的复选框状态
+    // 2021-10-17 zm 设置表头中的复选框状态
     {
-        CListHeaderItemUI *pHItem = dynamic_cast<CListHeaderItemUI *>(m_pHeader->GetItemAt(nColumn));
-        ASSERT(NULL != pHItem);
-        CCheckBoxUI *pCtrl = dynamic_cast<CCheckBoxUI *>(m_pManager->FindSubControlByClass(pHItem, DUI_CTR_CHECKBOX));
-        ASSERT(NULL != pCtrl);
-        pCtrl ? pCtrl->SetCheck(bSelect) : NULL; //lint !e62
+        //CListHeaderItemUI *pHItem = dynamic_cast<CListHeaderItemUI *>(m_pHeader->GetItemAt(nColumn));
+        //ASSERT(NULL != pHItem);
+        //CCheckBoxUI *pCtrl = dynamic_cast<CCheckBoxUI *>(m_pManager->FindSubControlByClass(pHItem, DUI_CTR_CHECKBOX));
+        //ASSERT(NULL != pCtrl);
+        //pCtrl ? pCtrl->SetCheck(bSelect) : NULL; //lint !e62
     }
 
     for (int i = 0; i < GetCount(); ++i)
@@ -1382,8 +1748,13 @@ void CListUI::DoInit()
 
         if (NULL == pHItem || !pHItem->IsCheckable()) { continue; }
 
-        CControlUI *pCtrl = m_pManager->FindSubControlByClass(pHItem, DUI_CTR_CHECKBOX);
-        pCtrl ? (pCtrl->OnNotify += MakeDelegate(this, &CListUI::OnHeaderCheckBoxNotify)) : NULL; //lint !e62
+		//2021-10-17 zm 简化checkbox的xml设置
+		pHItem->SetOwner(this);
+		m_ListInfo.bCheckBox = true;
+		pHItem->OnNotify += MakeDelegate(this, &CListUI::OnHeaderCheckBoxNotify);
+
+        //CControlUI *pCtrl = m_pManager->FindSubControlByClass(pHItem, DUI_CTR_CHECKBOX);
+        //pCtrl ? (pCtrl->OnNotify += MakeDelegate(this, &CListUI::OnHeaderCheckBoxNotify)) : NULL; //lint !e62
     }
 }
 
@@ -1474,7 +1845,7 @@ void CListUI::SetCmbItemCallback(IListCmbCallbackUI *pCallback)
     m_pCmbCallback = pCallback;
 }
 
-void CListUI::ShowCombo(int nRow, int nColumn, RECT &rt)
+void CListUI::ShowCombo(int nRow, int nColumn, RECT &rt, CDuiString &sItemTxt)
 {
     if (!GetComboUI()) { return; }
 
@@ -1494,6 +1865,8 @@ void CListUI::ShowCombo(int nRow, int nColumn, RECT &rt)
     {
         m_pCmbCallback->GetComboItems(m_pCombo, nRow, nColumn);
     }
+
+	m_pCombo->SelectItem(GetComboIndex(sItemTxt));//2021-10-16 zm更符合显示逻辑
 }
 
 void CListUI::HideCombo()
@@ -1562,11 +1935,14 @@ bool CListUI::OnHeaderCheckBoxNotify(void *pParam)
 
     TNotifyUI *pMsg = (TNotifyUI *)pParam;
 
-    if (pMsg->sType != DUI_MSGTYPE_SELECTCHANGED) { return false; }
+	if (pMsg->sType != DUI_MSGTYPE_HEADERCLICK) { return false; }
 
-    // 列表支持复选框时，用户单击表头的复选框，则自动 选中/取消 列表中的所有项
+    //if (pMsg->sType != DUI_MSGTYPE_SELECTCHANGED) { return false; }
+
+    //// 列表支持复选框时，用户单击表头的复选框，则自动 选中/取消 列表中的所有项
     int nColumn = GetMouseColumn(pMsg->ptMouse);
-    SetAllItemSelected(((CCheckBoxUI *)pMsg->pSender)->IsSelected(), nColumn);
+	SetAllItemSelected(((CListHeaderItemUI*)pMsg->pSender)->GetCheckState(), nColumn);
+    //SetAllItemSelected(((CCheckBoxUI *)pMsg->pSender)->IsSelected(), nColumn);
     return true;
 }
 
@@ -1631,7 +2007,7 @@ bool CListUI::OnScrollNotify(void *pParam)
 //
 //
 
-CListBodyUI::CListBodyUI(CListUI *pOwner) : m_pOwner(pOwner), m_pCompareFunc(NULL), m_compareData(0)
+CListBodyUI::CListBodyUI(CListUI *pOwner) : m_pOwner(pOwner), m_pCompareFunc(NULL), m_compareData(0), m_stMousePoint({ 0 })
 {
     ASSERT(m_pOwner);
 }
@@ -1664,6 +2040,59 @@ bool CListBodyUI::SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData, int &iC
     }
 
     return true;
+}
+
+POINT CListBodyUI::GetSatrtPoint()
+{
+	return m_stMousePoint;
+}
+
+void CListBodyUI::SetStartPoint(POINT stPoint)
+{
+	m_stMousePoint = stPoint;
+}
+
+void CListBodyUI::DoPostPaint(HDC hDC, const RECT &rcPaint)
+{
+	POINT ptSatrtPoint = GetSatrtPoint();
+	POINT ptMovePoint = m_pManager->GetMousePos();
+
+	if (!::PtInRect(&m_rcItem, ptSatrtPoint)) { return; }
+
+	CDuiRect duircItem = { ptSatrtPoint.x, ptSatrtPoint.y, ptSatrtPoint.x + ptMovePoint.x - ptSatrtPoint.x, ptSatrtPoint.y + ptMovePoint.y - ptSatrtPoint.y };
+	duircItem.Normalize();//重新调整坐标位置
+
+	//绘制区域的大小
+	RECT rcItem = duircItem;
+	if (rcItem.left < m_rcItem.left)  { rcItem.left = m_rcItem.left; }
+
+	if (GetVerticalScrollBar() && (rcItem.right > m_rcItem.right - GetVerticalScrollBar()->GetFixedWidth()))
+	{
+		rcItem.right = m_rcItem.right - GetVerticalScrollBar()->GetFixedWidth();
+	}
+	else if (!GetVerticalScrollBar() && (rcItem.right > m_rcItem.right))
+	{
+		rcItem.right = m_rcItem.right;
+	}
+
+	if (rcItem.top < m_rcItem.top) { rcItem.top = m_rcItem.top; }
+
+	if (GetHorizontalScrollBar() && (rcItem.bottom > m_rcItem.bottom - GetHorizontalScrollBar()->GetFixedHeight()))
+	{
+		rcItem.bottom = m_rcItem.bottom - GetHorizontalScrollBar()->GetFixedHeight();
+	}
+	else if (!GetHorizontalScrollBar() && (rcItem.bottom > m_rcItem.bottom))
+	{
+		rcItem.bottom = m_rcItem.bottom;
+	}
+
+	RECT rcScale9 = { 0 };
+	RECT rcBmpPart = { 0, 0, rcPaint.right - rcPaint.left, rcPaint.bottom - rcPaint.top };
+
+	//生成的源图片大小
+	HBITMAP hBitmap = CRenderEngine::GenerateBitmap(m_pManager, this, rcPaint, 0xffFFFAFA);//生成颜色位图
+
+	CRenderEngine::DrawImage(hDC, hBitmap, rcItem, rcItem, rcBmpPart, rcScale9, true, 0x64);//透明绘制
 }
 
 int __cdecl CListBodyUI::ItemComareFunc(void *pvlocale, const void *item1, const void *item2)
@@ -2146,7 +2575,8 @@ SIZE CListHeaderUI::EstimateSize(SIZE szAvailable)
 
 CListHeaderItemUI::CListHeaderItemUI() : m_bDragable(true), m_uButtonState(0), m_iSepWidth(4),
     m_uTextStyle(DT_LEFT | DT_VCENTER | DT_SINGLELINE), m_dwSepColor(0),
-    m_iFont(-1), m_bShowHtml(false), m_bEditable(false), m_bComboable(false), m_bCheckable(false)
+	m_iFont(-1), m_bShowHtml(false), m_bEditable(false), m_bComboable(false), m_bCheckable(false), 
+	m_bChecked(false), m_pOwner(NULL)//zm
 {
     //设置内边距，防止遮挡拖放的间隔条。在资源文件中设置
     // m_rcPadding.left = m_rcPadding.right = 2;
@@ -2440,6 +2870,7 @@ void CListHeaderItemUI::DoEvent(TEventUI &event)
         }
         else
         {
+			SetCheckState(!m_bChecked);//zm
             m_uButtonState |= UISTATE_PUSHED;
             // 2018-05-23 单击事件放在鼠标弹起时发送
             //m_pManager->SendNotify(this, DUI_MSGTYPE_HEADERCLICK);
@@ -2638,6 +3069,22 @@ bool CListHeaderItemUI::IsCheckable()
     return m_bCheckable;
 }
 
+void CListHeaderItemUI::SetCheckState(bool bChecked)
+{
+	m_bChecked = bChecked;
+	Invalidate();
+}
+
+bool CListHeaderItemUI::GetCheckState() const
+{
+	return m_bChecked;
+}
+
+void CListHeaderItemUI::SetOwner(ICheckBoxUI* pCheckBox)
+{
+	m_pOwner = pCheckBox;
+}
+
 int CListHeaderItemUI::GetIndex()
 {
 	if (GetParent())
@@ -2654,13 +3101,29 @@ void CListHeaderItemUI::PaintText(HDC hDC)
 
     DWORD clrText = IsEnabled() ? m_dwTextColor : m_pManager->GetDefaultDisabledColor();
 
+	if (m_sText.IsEmpty()) { return; }
+
+	//2021-10-17 zm 
+	RECT rcCheck = { 0 };
+	if (IsCheckable() && m_pOwner && m_pManager)
+	{
+		rcCheck = m_pOwner->GetCheckBoxRect(m_rcItem);
+
+		if (GetCheckState())
+		{
+			CRenderEngine::DrawImage(hDC, m_pManager, rcCheck, m_rcPaint, m_pOwner->GetSelImage());
+		}
+		else
+		{
+			CRenderEngine::DrawImage(hDC, m_pManager, rcCheck, m_rcPaint, m_pOwner->GetUnSelImage());
+		}
+	}
+
     RECT rcText = m_rcItem;
-    rcText.left += (m_rcBorderSize.left + m_rcPadding.left);
+    rcText.left += (m_rcBorderSize.left + m_rcPadding.left + (rcCheck.right - rcCheck.left));
     rcText.top += (m_rcBorderSize.top + m_rcPadding.top);
     rcText.right -= (m_rcBorderSize.right + m_rcPadding.right);
     rcText.bottom -= (m_rcBorderSize.bottom + m_rcPadding.bottom);
-
-    if (m_sText.IsEmpty()) { return; }
 
     if (m_bShowHtml)
     { CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, m_sText, clrText, NULL, NULL, NULL, m_iFont, m_uTextStyle); }
@@ -2678,7 +3141,8 @@ m_iDrawIndex(0),
 m_pOwner(NULL),
 m_bSelected(false),
 m_uButtonState(0),
-m_bCustomBk(false)
+m_bCustomBk(false),
+m_bShiftEnble(false)//zm
 {
 }
 
@@ -2833,6 +3297,8 @@ bool CListElementUI::Select(bool bSelect, bool bTriggerEvent)
 {
     if (!IsEnabled()) { return false; }
 
+	if (m_pOwner != NULL && m_bSelected) m_pOwner->UnSelectItem(m_iIndex, true);//zm
+
     if (bSelect == m_bSelected) { return true; }
 
     m_bSelected = bSelect;
@@ -2842,6 +3308,19 @@ bool CListElementUI::Select(bool bSelect, bool bTriggerEvent)
     Invalidate();
 
     return true;
+}
+
+bool CListElementUI::SelectMulti(bool bSelect)
+{
+	if (!IsEnabled()) { return false; }
+	if (bSelect == m_bSelected) { return true; }
+
+	m_bSelected = bSelect;
+
+	if (bSelect && m_pOwner != NULL) m_pOwner->SelectMultiItem(m_iIndex);
+
+	Invalidate();
+	return true;
 }
 
 bool CListElementUI::IsExpanded() const
@@ -2994,6 +3473,11 @@ void CListElementUI::DrawItemBk(HDC hDC, const RECT &rcItem)
     }
 }
 
+void CListElementUI::DrawItemImage(HDC hDC, const RECT &rcItem)
+{
+
+}
+
 int CListElementUI::GetMouseColumn(POINT pt)
 {
     CListHeaderUI *pHeader = ((CListUI *)m_pOwner)->GetHeader();
@@ -3045,6 +3529,18 @@ RECT CListElementUI::GetSubItemPos(int nColumn, bool bList)
     }
 
     return rtColumn;
+}
+
+void CListElementUI::SetShiftEnble(bool bShiftEnble)
+{
+	if (m_bShiftEnble == bShiftEnble) { return; }
+
+	m_bShiftEnble = bShiftEnble;
+}
+
+bool CListElementUI::GetShiftEnble()
+{
+	return m_bShiftEnble;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -3107,13 +3603,15 @@ void CListLabelElementUI::DoEvent(TEventUI &event)
 
     if (event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_RBUTTONDOWN)
     {
-        if (IsEnabled())
+		//2021-10-16 zm添加键盘选选择
+		if (IsEnabled() && (m_pOwner != NULL))
         {
             SetCapture();
             // 2018-05-23 单击事件放在鼠标弹起时发送
             //m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMCLICK);
-            Select();
-            Invalidate();
+
+			Select();
+			Invalidate();
         }
 
         return;
@@ -3122,7 +3620,7 @@ void CListLabelElementUI::DoEvent(TEventUI &event)
     // 2018-05-23 单击事件放在鼠标弹起时发送
     if (event.Type == UIEVENT_BUTTONUP || event.Type == UIEVENT_RBUTTONUP)
     {
-        if (IsEnabled() && NULL != m_pManager)
+		if (IsEnabled() && NULL != m_pManager && (m_pOwner != NULL))
         {
             ReleaseCapture();
 
@@ -3277,6 +3775,7 @@ SIZE CListLabelElementUI::EstimateSize(SIZE szAvailable)
 bool CListLabelElementUI::DoPaint(HDC hDC, const RECT &rcPaint, CControlUI *pStopControl)
 {
     DrawItemBk(hDC, m_rcItem);
+	DrawItemImage(hDC, m_rcItem);//zm
     DrawItemText(hDC, m_rcItem);
     return true;
 }
@@ -3441,9 +3940,58 @@ void CListTextElementUI::DoEvent(TEventUI &event)
         }
     }
 
-    if (event.Type == UIEVENT_BUTTONUP && IsEnabled())
+	//2021-10-17 zm 添加键盘多选，鼠标框选
+	if (event.Type == UIEVENT_BUTTONDOWN && m_pOwner)
+	{
+		SetCapture();
+
+		if (m_pOwner->IsMultiSelect())
+		{
+			if ((GetKeyState(VK_CONTROL) & 0x8000))
+			{
+				SelectMulti(!IsSelected());
+			}
+			else if ((GetKeyState(VK_SHIFT) & 0x8000))
+			{
+				SetShiftEnble(true);
+				m_pOwner->SelectMultiItem(m_iIndex);
+			}
+			else
+			{
+				Select();
+				m_pOwner->DragBegin(event);
+			}
+
+			m_pOwner->DoEvent(event);
+		}
+		else
+		{
+			Select();
+		}
+
+		Invalidate();
+		return;
+	}
+
+	//当多选之后，在多选区域右键弹出菜单时，希望多选的项不被取消
+	if (event.Type == UIEVENT_RBUTTONDOWN && m_pOwner)
+	{
+		SetCapture();
+
+		if (m_pOwner)
+		{
+			if (m_pOwner->IsPtInSelItem(event.ptMouse)) { return; }
+	
+			Select();
+			Invalidate();
+		}
+
+		return;
+	}
+
+    if (event.Type == UIEVENT_BUTTONUP)
     {
-        ReleaseCapture();
+		ReleaseCapture();
 
         TListInfoUI *pInfo = m_pOwner->GetListInfo();
 
@@ -3472,7 +4020,18 @@ void CListTextElementUI::DoEvent(TEventUI &event)
         }
 
 		//2021-10-02 zm 与双击事件消息同步,方便获取行,行信息
-		if (IsSelected()) { m_pManager->SendNotify((CListUI *)m_pOwner, DUI_MSGTYPE_ITEMCLICK, (WPARAM)this, (LPARAM)GetMouseColumn(event.ptMouse)); }
+		if (IsSelected() && m_pManager) { m_pManager->SendNotify((CListUI *)m_pOwner, DUI_MSGTYPE_ITEMCLICK, (WPARAM)this, (LPARAM)GetMouseColumn(event.ptMouse)); }
+
+		//2021-10-17 zm
+		if (m_pOwner && m_pOwner->IsMultiSelect())
+		{
+			if (GetShiftEnble()) { SetShiftEnble(false); }
+
+			m_pOwner->DragEnd(event);
+
+			m_pOwner->DoEvent(event);
+
+		}
 
 		return;
     }
@@ -3497,8 +4056,22 @@ void CListTextElementUI::DoEvent(TEventUI &event)
                 Invalidate();
                 m_nHoverLink = nHoverLink;
             }
+
         }
     }
+
+	//2021-10-17 zm
+	if (event.Type == UIEVENT_MOUSEMOVE)
+	{
+		if (m_pOwner && m_pOwner->IsMultiSelect())
+		{
+			m_pOwner->Draging(event);
+
+			m_pOwner->DoEvent(event);
+		}
+
+		return;
+	}
 
     if (m_nLinks > 0 && event.Type == UIEVENT_MOUSELEAVE)
     {
@@ -3541,7 +4114,7 @@ void CListTextElementUI::DoEvent(TEventUI &event)
             }
             else if (pHeader->IsComboable())
             {
-                m_pOwner->ShowCombo(GetIndex(), nColumn, rt);
+                m_pOwner->ShowCombo(GetIndex(), nColumn, rt, sTxt);
             }
             else
             {
@@ -3754,30 +4327,62 @@ void CListTextElementUI::DrawItemText(HDC hDC, const RECT &rcItem)
 			//DWORD dwTempTextColor = GetTextColor(i);
 			//dwTextColor = (0 != dwTempTextColor) ? dwTempTextColor : iTextColor;
 
-            if (0 == i && pInfo->bCheckBox)
+            if (0 == i && pInfo->bCheckBox)//只有首列才能设置checkbox
             {
                 CListUI *pListUI = (CListUI *)m_pOwner;
                 CListHeaderItemUI *pHeaderItem = (CListHeaderItemUI *)pListUI->GetHeader()->GetItemAt(0);
                 RECT rt = pHeaderItem->GetPadding();
-                CDuiString str;
 
-                if (m_bCheckBoxSelect == false)
-                {
-                    TDrawInfo &di = pListUI->GetUnSelImage();
-                    str.Format(_T("{x %d}{i %s}{x 1}%s "), rt.left, di.sDrawString.GetData(), strText.GetData());
-                }
-                else
-                {
-                    TDrawInfo &di = pListUI->GetSelImage();
-                    str.Format(_T("{x %d}{i %s}{x 1}%s "), rt.left, di.sDrawString.GetData(), strText.GetData());
-                }
+				//2021-10-17 zm 同步表头的checkbox
+				RECT rcCheck = { 0 };
+				if (pInfo->bCheckBox && pListUI && m_pManager)
+				{
+					rcCheck = pListUI->GetCheckBoxRect(rcItem);
 
-                strText = str.GetData();
-                DWORD dwWriteStype = DT_SINGLELINE | pInfo->uTextStyle;
-                dwWriteStype = (dwWriteStype & (~DT_CENTER)) | DT_LEFT;
-				CRenderEngine::DrawHtmlText(hDC, m_pManager, rcItem, strText.GetData(), dwTextColor,
-                                            &m_rcLinks[m_nLinks], &m_sLinks[m_nLinks], &nLinks,
-                                            pInfo->nFont, dwWriteStype);
+					if (GetCheckBoxState())
+					{
+						CRenderEngine::DrawImage(hDC, m_pManager, rcCheck, rcItem, pListUI->GetSelImage());
+					}
+					else
+					{
+						CRenderEngine::DrawImage(hDC, m_pManager, rcCheck, rcItem, pListUI->GetUnSelImage());
+					}
+				}
+
+				RECT rcText = rcItem;
+				rcText.left += rt.left + (rcCheck.right - rcCheck.left);
+				rcText.top += rt.top;
+				rcText.right -= rt.right;
+				rcText.bottom -= rt.bottom;
+
+				if (pInfo->bShowHtml)
+				{
+					CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, strText.GetData(), dwTextColor, NULL, NULL, NULL, pInfo->nFont, pInfo->uTextStyle);
+				}
+				else
+				{
+					CRenderEngine::DrawText(hDC, m_pManager, rcText, strText.GetData(), dwTextColor, pInfo->nFont, pInfo->uTextStyle);
+				}
+
+				//CDuiString str;
+
+				//if (m_bCheckBoxSelect == false)
+				//{
+				//	TDrawInfo &di = pListUI->GetUnSelImage();
+				//	str.Format(_T("{x %d}{i %s}{x 1}%s "), rt.left, di.sDrawString.GetData(), strText.GetData());
+				//}
+				//else
+				//{
+				//	TDrawInfo &di = pListUI->GetSelImage();
+				//	str.Format(_T("{x %d}{i %s}{x 1}%s "), rt.left, di.sDrawString.GetData(), strText.GetData());
+				//}
+
+				//strText = str.GetData();
+				//DWORD dwWriteStype = DT_SINGLELINE | pInfo->uTextStyle;
+				//dwWriteStype = (dwWriteStype & (~DT_CENTER)) | DT_LEFT;
+				//CRenderEngine::DrawHtmlText(hDC, m_pManager, rcItem, strText.GetData(), dwTextColor,
+				//	&m_rcLinks[m_nLinks], &m_sLinks[m_nLinks], &nLinks,
+				//	pInfo->nFont, dwWriteStype);
             }
             else
             {
@@ -3906,6 +4511,35 @@ void CListTextElementUI::SetTextColor(int iIndex, DWORD dwTextColor)
 	Invalidate();
 }
 
+LPCTSTR CListTextElementUI::GetItemImage(int iIndex) const
+{
+	if (m_pOwner == NULL) return 0;
+	TListInfoUI* pInfo = m_pOwner->GetListInfo();
+
+	if (iIndex < 0 || iIndex >= pInfo->nColumns || m_mapItemImage.GetSize() <= 0) return 0;
+
+	TCHAR acBuffer[16];
+	::ZeroMemory(acBuffer, sizeof(acBuffer));
+	_itot(iIndex, acBuffer, 10);
+
+	return (LPCTSTR)m_mapItemImage.Find(acBuffer);
+}
+
+void CListTextElementUI::SetItemImage(int iIndex, LPCTSTR lpImage)
+{
+	if (m_pOwner == NULL) return;
+	TListInfoUI* pInfo = m_pOwner->GetListInfo();
+
+	if (iIndex < 0 || iIndex >= pInfo->nColumns) return;
+
+	TCHAR acBuffer[16];
+	::ZeroMemory(acBuffer, sizeof(acBuffer));
+	_itot(iIndex, acBuffer, 10);
+
+	m_mapItemImage.Insert(acBuffer, (LPVOID)lpImage);
+	Invalidate();
+}
+
 void CListTextElementUI::DrawItemBk(HDC hDC, const RECT& rcItem)
 {
 	CListElementUI::DrawItemBk(hDC, rcItem);
@@ -3938,6 +4572,23 @@ void CListTextElementUI::DrawItemBk(HDC hDC, const RECT& rcItem)
 	//}
 }
 
+void CListTextElementUI::DrawItemImage(HDC hDC, const RECT &rcItem)
+{
+	if (m_pOwner == NULL) return;
+	TListInfoUI* pInfo = m_pOwner->GetListInfo();
+	IListCallbackUI *pCallback = m_pOwner->GetTextCallback();
+
+	for (int iIndex = 0; iIndex < pInfo->nColumns; iIndex++)
+	{
+		RECT rcItem = { pInfo->rcColumn[iIndex].left, m_rcItem.top, pInfo->rcColumn[iIndex].right, m_rcItem.bottom };
+
+		TDrawInfo stDrawInfo = { 0 };
+		if (pCallback) { stDrawInfo.sDrawString = pCallback->GetItemBkImage(this, m_iIndex, iIndex); }
+		if (stDrawInfo.sDrawString.IsEmpty()) { stDrawInfo.sDrawString= GetItemImage(iIndex); }
+		if (!stDrawInfo.sDrawString.IsEmpty()) { CRenderEngine::DrawImage(hDC, m_pManager, rcItem, rcItem, stDrawInfo); }
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -3949,7 +4600,8 @@ CListContainerElementUI::CListContainerElementUI() :
     m_bSelected(false),
     m_bExpandable(false),
     m_bExpand(false),
-    m_uButtonState(0)
+    m_uButtonState(0),
+	m_bShiftEnble(false)//zm
 {
 }
 
@@ -4115,6 +4767,19 @@ bool CListContainerElementUI::Select(bool bSelect, bool bTriggerEvent)
     return true;
 }
 
+bool CListContainerElementUI::SelectMulti(bool bSelect)
+{
+	if (!IsEnabled()) { return false; }
+	if (bSelect == m_bSelected) { return true; }
+
+	m_bSelected = bSelect;
+
+	if (bSelect && m_pOwner != NULL) m_pOwner->SelectMultiItem(m_iIndex);
+
+	Invalidate();
+	return true;
+}
+
 bool CListContainerElementUI::IsExpandable() const
 {
     return m_bExpandable;
@@ -4193,9 +4858,32 @@ void CListContainerElementUI::DoEvent(TEventUI &event)
         if (IsEnabled())
         {
             SetCapture();
-            // 2018-05-23 单击事件放在鼠标弹起时发送
-            //m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMCLICK);
-            Select();
+
+			//2021-10-17 zm 添加键盘多选和鼠标框选
+			if (m_pOwner->IsMultiSelect())
+			{
+				if ((GetKeyState(VK_CONTROL) & 0x8000))
+				{
+					SelectMulti(!IsSelected());
+				}
+				else if ((GetKeyState(VK_SHIFT) & 0x8000))
+				{
+					SetShiftEnble(true);
+					m_pOwner->SelectMultiItem(m_iIndex);
+				}
+				else
+				{
+					Select();
+					m_pOwner->DragBegin(event);
+				}
+
+				m_pOwner->DoEvent(event);
+			}
+			else
+			{
+				Select();
+			}
+
             Invalidate();
         }
 
@@ -4210,6 +4898,17 @@ void CListContainerElementUI::DoEvent(TEventUI &event)
             ReleaseCapture();
 
             if (IsSelected()) { m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMCLICK); }
+
+			//2021-10-17 zm
+			if (m_pOwner && m_pOwner->IsMultiSelect())
+			{
+				if (GetShiftEnble()) { SetShiftEnble(false); }
+
+				m_pOwner->DragEnd(event);
+
+				m_pOwner->DoEvent(event);
+
+			}
         }
 
         return;
@@ -4218,6 +4917,14 @@ void CListContainerElementUI::DoEvent(TEventUI &event)
     // 2018-08-28 zhuyadong 解决 List 不支持拖拽源、目的的问题
     if (event.Type == UIEVENT_MOUSEMOVE && (event.wParam & MK_LBUTTON) && m_bDragEnable)
     {
+		//2021-10-17 zm
+		if (m_pOwner && m_pOwner->IsMultiSelect())
+		{
+			m_pOwner->Draging(event);
+
+			m_pOwner->DoEvent(event);
+		}
+
         if (IsEnabled()) { OnDoDragDrop(event); }
 
         return;
@@ -4414,6 +5121,18 @@ bool CListContainerElementUI::GetCheckBoxState(int nColumn)
     }
 
     return false;
+}
+
+void CListContainerElementUI::SetShiftEnble(bool bShiftEnble)
+{
+	if (m_bShiftEnble == bShiftEnble) { return; }
+
+	m_bShiftEnble = bShiftEnble;
+}
+
+bool CListContainerElementUI::GetShiftEnble()
+{
+	return m_bShiftEnble;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////

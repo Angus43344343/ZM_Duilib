@@ -1074,6 +1074,12 @@ CRichEditUI::CRichEditUI() : m_pTwh(NULL), m_bVScrollBarFixing(false), m_bWantTa
     m_iFont(-1), m_dwTipColor(0xFFBAC0C5), m_iLimitText(cInitTextMax), m_lTwhStyle(ES_MULTILINE),
 	m_bDrawCaret(true), m_bInited(false)
 {
+//2021-10-14 zm
+#ifndef _UNICODE
+		m_fAccumulateDBC =true;
+#else
+		m_fAccumulateDBC= false;
+#endif
 }
 
 CRichEditUI::~CRichEditUI()
@@ -1770,6 +1776,16 @@ long CRichEditUI::StreamOut(int nFormat, EDITSTREAM &es)
     return (long)lResult;
 }
 
+	//2021-10-14 zm
+	void CRichEditUI::SetAccumulateDBCMode( bool bDBCMode )
+	{
+		m_fAccumulateDBC = bDBCMode;
+	}
+	bool CRichEditUI::IsAccumulateDBCMode()
+	{
+		return m_fAccumulateDBC;
+	}
+
 void CRichEditUI::SetPadding(RECT rc)
 {
     m_rcPadding = rc;
@@ -1832,6 +1848,7 @@ void CRichEditUI::DoInit()
         m_pManager->AddMessageFilter(this);
         HideSelection(false);
 
+		m_pManager->SetTimer(this, TIMERID_CARET, ::GetCaretBlinkTime());
         if (m_pManager->IsLayered()) { m_pManager->SetTimer(this, TIMERID_CARET, ::GetCaretBlinkTime()); }
     }
 
@@ -2083,82 +2100,80 @@ void CRichEditUI::DoEvent(TEventUI &event)
         Invalidate();
         return;
     }
-    else if (event.Type == UIEVENT_TIMER)
-    {
-        if (event.wParam == TIMERID_CARET)
-        {
-            if (m_pTwh && m_pManager->IsLayered() && IsFocused())
-            {
-                if (::GetFocus() != m_pManager->GetPaintWindow()) { return; }
+	else if (event.Type == UIEVENT_TIMER)
+	{
+		if (event.wParam == TIMERID_CARET)
+		{
+			if (m_pTwh && m_pManager->IsLayered() && IsFocused())
+			{
+				if (::GetFocus() != m_pManager->GetPaintWindow()) { return; }
 
-                m_bDrawCaret = !m_bDrawCaret;
-                POINT ptCaret;
-                ::GetCaretPos(&ptCaret);
-                RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x + m_pTwh->GetCaretWidth(),
-                                 ptCaret.y + m_pTwh->GetCaretHeight()
-                               };
-                RECT rcTemp = rcCaret;
+				m_bDrawCaret = !m_bDrawCaret;
+				POINT ptCaret;
+				::GetCaretPos(&ptCaret);
+				RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x + m_pTwh->GetCaretWidth(),
+					ptCaret.y + m_pTwh->GetCaretHeight()
+				};
+				RECT rcTemp = rcCaret;
 
-                if (!::IntersectRect(&rcCaret, &rcTemp, &m_rcItem)) { return; }
+				if (!::IntersectRect(&rcCaret, &rcTemp, &m_rcItem)) { return; }
 
-                CControlUI *pParent = this;
-                RECT rcParent;
+				CControlUI *pParent = this;
+				RECT rcParent;
 
-                while (pParent = pParent->GetParent())
-                {
-                    rcTemp = rcCaret;
-                    rcParent = pParent->GetPos();
+				while (pParent = pParent->GetParent())
+				{
+					rcTemp = rcCaret;
+					rcParent = pParent->GetPos();
 
-                    if (!::IntersectRect(&rcCaret, &rcTemp, &rcParent))
-                    {
-                        return;
-                    }
-                }
+					if (!::IntersectRect(&rcCaret, &rcTemp, &rcParent)) { return; }
+				}
 
-                m_pManager->Invalidate(rcCaret);
-            }
+				if (m_pManager->IsLayered() && IsFocused() && m_pTwh && m_pTwh->IsShowCaret())
+				{
+					m_pManager->Invalidate(rcCaret);
+				}
+				else if (IsFocused() && m_pTwh)
+				{
+					//2021-10-14 zm 同步输入光标闪烁速度(同一般软件一致)
+					if (m_pTwh->IsShowCaret()) { m_pTwh->TxShowCaret(FALSE); }
+					else { m_pTwh->TxShowCaret(TRUE); }
+				}
+				return;
+			}
+			else if (m_pTwh)
+			{
+				m_pTwh->GetTextServices()->TxSendMessage(WM_TIMER, event.wParam, event.lParam, 0);
+			}
+			//return; //导致特效失效
+		}
+	}
 
-            return;
-        }
-
-        if (m_pTwh)
-        {
-            m_pTwh->GetTextServices()->TxSendMessage(WM_TIMER, event.wParam, event.lParam, 0);
-        }
-
-        //return; // 会导致特效无法播放
-    }
-
-    if (event.Type == UIEVENT_SCROLLWHEEL)
-    {
-        if ((event.wKeyState & MK_CONTROL) != 0)
-        {
-            return;
-        }
-    }
-
-    if (event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_LBUTTONDBLDOWN)
-    {
-        return;
-    }
-
-    if (event.Type == UIEVENT_MOUSEMOVE)
-    {
-        return;
-    }
-
-    if (event.Type == UIEVENT_BUTTONUP)
-    {
-        return;
-    }
-
-    if (event.Type > UIEVENT__KEYBEGIN && event.Type < UIEVENT__KEYEND)
-    {
-        return;
-    }
-
-    CContainerUI::DoEvent(event);
-}
+	if( event.Type == UIEVENT_SCROLLWHEEL ) 
+	{
+		if( (event.wKeyState & MK_CONTROL) != 0  ) 
+		{
+			return;
+		}
+	}
+	if( event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_LBUTTONDBLDOWN ) 
+	{
+		return;
+	}
+	if( event.Type == UIEVENT_MOUSEMOVE ) 
+	{
+		return;
+	}
+	if( event.Type == UIEVENT_BUTTONUP ) 
+	{
+		return;
+	}
+	if( event.Type > UIEVENT__KEYBEGIN && event.Type < UIEVENT__KEYEND )
+	{
+		return;
+	}
+		CContainerUI::DoEvent(event);
+	}
 
 SIZE CRichEditUI::EstimateSize(SIZE szAvailable)
 {
@@ -2757,15 +2772,15 @@ LRESULT CRichEditUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, boo
         POINT ptMouse = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
         STRINGorID xml(_T("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
                        _T("<Window layered=\"true\"><Menu>")
-                       _T("<MenuElement name=\"me_undo\" text=\"%[撤销](U)\" shortcut=\"U\" />")
-                       _T("<MenuElement name=\"me_undo\" text=\"%[重做](R)\" shortcut=\"R\" />")
+                       _T("<MenuElement name=\"me_undo\" text=\"%[undo](U)\" shortcut=\"U\" />")
+                       _T("<MenuElement name=\"me_undo\" text=\"%[redo](R)\" shortcut=\"R\" />")
                        _T("<MenuElement name=\"\" line=\"true\" />")
-                       _T("<MenuElement name=\"me_cut\" text=\"%[剪切](T)\" shortcut=\"T\" />")
-                       _T("<MenuElement name=\"me_copy\" text=\"%[复制](C)\" shortcut=\"C\" />")
-                       _T("<MenuElement name=\"me_paste\" text=\"%[粘贴](P)\" shortcut=\"P\" />")
-                       _T("<MenuElement name=\"me_delete\" text=\"%[删除](D)\" shortcut=\"D\" />")
+                       _T("<MenuElement name=\"me_cut\" text=\"%[cut](T)\" shortcut=\"T\" />")
+                       _T("<MenuElement name=\"me_copy\" text=\"%[copy](C)\" shortcut=\"C\" />")
+                       _T("<MenuElement name=\"me_paste\" text=\"%[paste](P)\" shortcut=\"P\" />")
+                       _T("<MenuElement name=\"me_delete\" text=\"%[delete](D)\" shortcut=\"D\" />")
                        _T("<MenuElement name=\"\" line=\"true\" />")
-                       _T("<MenuElement name=\"me_selall\" text=\"%[全选](A)\" shortcut=\"A\" />")
+                       _T("<MenuElement name=\"me_selall\" text=\"%[selall](A)\" shortcut=\"A\" />")
                        _T("</Menu></Window>")
                       );
         CMenuWnd *pWnd = CMenuWnd::CreateMenu(NULL, xml, _T("xml"), ptMouse, m_pManager);
@@ -2825,6 +2840,50 @@ LRESULT CRichEditUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, boo
             return 0;
         }
     }
+		//2021-10-14 zm
+		if(WM_CHAR == uMsg)
+		{
+#ifndef _UNICODE
+			// check if we are waiting for 2 consecutive WM_CHAR messages
+			if ( IsAccumulateDBCMode() )
+			{
+				if ( (GetKeyState(VK_KANA) & 0x1) )
+				{
+					// turn off accumulate mode
+					SetAccumulateDBCMode ( false );
+					m_chLeadByte = 0;
+				}
+				else
+				{
+					if ( !m_chLeadByte )
+					{
+						// This is the first WM_CHAR message, 
+						// accumulate it if this is a LeadByte.  Otherwise, fall thru to
+						// regular WM_CHAR processing.
+						if ( IsDBCSLeadByte ( (WORD)wParam ) )
+						{
+							// save the Lead Byte and don't process this message
+							m_chLeadByte = (WORD)wParam << 8 ;
+
+							//TCHAR a = (WORD)wParam << 8 ;
+							return 0;
+						}
+					}
+					else
+					{
+						// This is the second WM_CHAR message,
+						// combine the current byte with previous byte.
+						// This DBC will be handled as WM_IME_CHAR.
+						wParam |= m_chLeadByte;
+						uMsg = WM_IME_CHAR;
+
+						// setup to accumulate more WM_CHAR
+						m_chLeadByte = 0; 
+					}
+				}
+			}
+#endif
+		}
 
     LRESULT lResult = 0;
     HRESULT Hr = TxSendMessage(uMsg, wParam, lParam, &lResult);

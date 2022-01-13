@@ -38,7 +38,7 @@
             <Control height="1" bkcolor="#ffFF00FF"/>
 
             <VBox height="600" ><!--WkeBrowser-->
-                <WebBrowser name="webbrowserTest" homepage="" />
+                <!--<WebBrowser name="webbrowserTest" homepage="" />-->
             </VBox><!--=============WkeBrowser-->
             <Control height="1" bkcolor="#ffFF00FF"/>
 

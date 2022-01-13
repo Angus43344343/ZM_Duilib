@@ -553,6 +553,7 @@ void CLabelUI::PaintTextEffect(HDC hDC, RECT rt)
 
     if (GetEnabledStroke() && GetStrokeColor() > 0)
     {
+		//渐变画刷
         LinearGradientBrush nLineGrBrushStroke(Point(GetGradientAngle(), 0), Point(0, rt.bottom - rt.top + 2),
                                                ARGB2Color(GetStrokeColor()), ARGB2Color(GetStrokeColor()));
 #ifdef _UNICODE

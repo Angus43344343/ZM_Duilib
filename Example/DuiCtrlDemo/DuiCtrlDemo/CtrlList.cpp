@@ -3,17 +3,17 @@
 
 #define EN_LIST_ITEM_NUM	(500)
 
-const CDuiString g_astrList[][6] = 
-{ { _T("0"), _T("张三"), _T("男"), _T("65"), _T("74"), _T("35") }
-, { _T("1"), _T("李四"), _T("女"), _T("58"),  _T("74"), _T("35") }
-, { _T("2"), _T("王五"), _T("男"), _T("78"), _T("74"), _T("35") }
-, { _T("3"), _T("王六"), _T("男"), _T("84"), _T("74"), _T("35") }
-, { _T("4"), _T("腊七"), _T("女"), _T("82"), _T("74"), _T("35") }
-, { _T("5"), _T("冬八"), _T("男"), _T("100"), _T("74"), _T("35") }
-, { _T("6"), _T("临九"), _T("男"), _T("90"), _T("74"), _T("35") }
-, { _T("7"), _T("银十"), _T("女"), _T("65"), _T("74"), _T("35") }
-, { _T("8"), _T("周一"), _T("男"), _T("90"), _T("74"), _T("35") }
-, { _T("9"), _T("孙二"), _T("女"), _T("65"), _T("74"), _T("35") }};
+const CDuiString g_astrList[][7] = 
+{ { _T("0"), _T("张三"), _T("男"), _T("65"), _T("74"), _T("35"), _T("35") }
+, { _T("1"), _T("李四"), _T("女"), _T("58"), _T("74"), _T("35"), _T("35") }
+, { _T("2"), _T("王五"), _T("男"), _T("78"), _T("74"), _T("35"), _T("35") }
+, { _T("3"), _T("王六"), _T("男"), _T("84"), _T("74"), _T("35"), _T("35") }
+, { _T("4"), _T("腊七"), _T("女"), _T("82"), _T("74"), _T("35"), _T("35") }
+, { _T("5"), _T("冬八"), _T("男"), _T("100"), _T("74"), _T("35"), _T("35") }
+, { _T("6"), _T("临九"), _T("男"), _T("90"), _T("74"), _T("35"), _T("35") }
+, { _T("7"), _T("银十"), _T("女"), _T("65"), _T("74"), _T("35"), _T("35") }
+, { _T("8"), _T("周一"), _T("男"), _T("90"), _T("74"), _T("35"), _T("35") }
+, { _T("9"), _T("孙二"), _T("女"), _T("65"), _T("74"), _T("35"), _T("35") } };
 
 
 CCtrlList::CCtrlList(CPaintManagerUI* pobjManager)
@@ -51,6 +51,11 @@ void CCtrlList::OnDoInitList()
 			{
 				pobjListItem->SetText(iColumn, _T("双击测试"));
 				continue;
+			}
+
+			if ((8 == iRow) && (5 == iColumn))
+			{
+				pobjListItem->SetItemImage(iColumn, _T("list/bkimage.jpg"));
 			}
 
 			pobjListItem->SetText(iColumn, g_astrList[iRow % (sizeof (g_astrList) / sizeof (g_astrList[0]))][iColumn]);
@@ -195,10 +200,18 @@ DWORD CCtrlList::GetItemBkColor(CControlUI* pList, int iItem, int iSubItem)
 	return 0;
 }
 
+LPCTSTR CCtrlList::GetItemBkImage(CControlUI* pList, int iItem, int iSubItem)
+{
+	if (6 == iSubItem) { return _T("list/bkimage.jpg"); }//设置列图片
+
+	return nullptr;
+}
+
 void CCtrlList::GetComboItems(CControlUI *pCtrl, int iItem, int iSubItem)
 {
 	CComboUI* pobjCombo = (CComboUI*)pCtrl;
 	CDuiString astrInfo[] = { _T("张三"), _T("李四"), _T("王五") };
+	pobjCombo->SetAttribute(_T("itemalign"), _T("center"));
 
 	for (int iCount = 0; iCount < sizeof (astrInfo) / sizeof (astrInfo[0]); iCount++)
 	{

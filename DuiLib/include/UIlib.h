@@ -143,10 +143,11 @@
 #include "duilib/OleDataHelper.h"
 #include "duilib/systemtray.h"
 
-#include "duilib/UICircleProgress.h"//zm
-#include "duilib/VirtualWnd.h"//zm
-#include "duilib/UIRollText.h"//zm
-#include "duilib/UIColorPalette.h"//zm
-#include "duilib/UIGroupBox.h"//zm
+//2021-10-18 zm
+#include "duilib/UICircleProgress.h"
+#include "duilib/VirtualWnd.h"
+#include "duilib/UIRollText.h"
+#include "duilib/UIColorPalette.h"
+#include "duilib/UIGroupBox.h"
 
 #endif //__UILIB_H__

@@ -117,6 +117,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\DuiLib\Debug\skin\duictrldemo\menu\language.png" />
+    <Image Include="..\..\..\DuiLib\Debug\skin\duictrldemo\systemTray.ico" />
+    <Image Include="..\..\..\DuiLib\Debug\skin\duictrldemo\systemTray_hide.ico" />
     <Image Include="DuiCtrlDemo.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
@@ -127,7 +129,9 @@
     <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\default\default.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\duilib.xml" />
+    <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\duilib.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\language\chinese.xml" />
     <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\language\english.xml" />
     <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\language\japanese.xml" />
@@ -155,6 +159,10 @@
     <Xml Include="..\..\..\DuiLib\Debug\skin\duictrldemo\popxml\nonmodal.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\DuiLib\Debug\skin\duictrldemo\echart\bar.html" />
+    <None Include="..\..\..\DuiLib\Debug\skin\duictrldemo\echart\line.html" />
+    <None Include="..\..\..\DuiLib\Debug\skin\duictrldemo\echart\pie.html" />
+    <None Include="..\..\..\DuiLib\Debug\skin\duictrldemo\miniblink\function.html" />
     <None Include="xml1.bin" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

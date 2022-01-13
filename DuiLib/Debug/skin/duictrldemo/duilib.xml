@@ -4,10 +4,8 @@
     <Include source="default/default.xml" style="true" />
 
     <VBox name="vRoot" bkcolor="#FFE0FFFF" >
-        
-        <HBox height="40" childvalign="top" ><!--标题栏-->
-            
-            <Control />
+
+        <HBox height="40" childalign="right" childvalign="top"><!--标题栏-->
             <Button name="btnSkin" style="styleSkin"/>
             <Button name="btnMenu" style="styleMenu"/>
             <Button name="btnmin" style="styleMin" />
@@ -17,24 +15,22 @@
         </HBox><!--==============================标题栏-->
         <Control height="1" bkcolor="#ffFF00FF"/>
 
-        <HBox name="hGroup" height="30" childvalign="vcenter" ><!--Tab标签页-->
-            <Control />
+        <HBox name="hGroup" height="30" childalign="center" childvalign="center" ><!--Tab标签页-->
             <Option name="optCtrlBasics" text="%[optCtrlBasics]"  style="styleOption" bindtablayout="tabClient" bindtabindex="0" selected="true"/>
             <Option name="optCtrlSenior" text="%[optCtrlSenior]" style="styleOption" bindtablayout="tabClient" bindtabindex="1" />
             <Option name="optCtrlList" text="%[optCtrlList]" style="styleOption" bindtablayout="tabClient" bindtabindex="2"/>
             <Option name="optCtrlActiveX" text="%[optCtrlActiveX]" style="styleOption" bindtablayout="tabClient" bindtabindex="3"/>
             <Option name="optCtrlRedraw" text="%[optCtrlRedraw]" style="styleOption" bindtablayout="tabClient" bindtabindex="4"/>
-            <Control />
         </HBox><!--================================================Tab标签页-->
         <Control height="1" bkcolor="#ffFF00FF"/>
 
         <TabLayout name="tabClient" >
            
-            <VBox triggershow="23, 100, true, false" virtualwnd="pageBasics">
+            <VBox triggershow="19, 100, true, false" virtualwnd="pageBasics">
                 <Include source="pageBasics.xml" />
             </VBox>
 
-            <VBox triggershow="24, 100, true, false" virtualwnd="pageSenior">
+            <VBox triggershow="20, 100, true, false" virtualwnd="pageSenior">
                 <Include source="pageSenior.xml" />
             </VBox>
 
@@ -42,11 +38,11 @@
                 <Include source="pageList.xml" />
             </VBox>
 
-            <VBox triggershow="26, 100, true, false" virtualwnd="pageActiveX">
+            <VBox triggershow="28, 100, true, false" virtualwnd="pageActiveX">
                 <Include source="pageActiveX.xml" />
             </VBox>
 
-            <VBox triggershow="28, 100, true, false" virtualwnd="pageRedraw">
+            <VBox triggershow="26, 100, true, false" virtualwnd="pageRedraw">
                 <Include source="pageControlEx.xml" />
             </VBox>
         </TabLayout>

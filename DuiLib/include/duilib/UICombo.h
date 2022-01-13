@@ -6,9 +6,35 @@
 namespace DuiLib {
 /////////////////////////////////////////////////////////////////////////////////////
 //
+class DUILIB_API CComboWnd : public CWindowWnd, public INotifyUI
+{
+public:
+    virtual void Init(CComboUI *pOwner);
+    LPCTSTR GetWindowClassName() const;
+    virtual void OnFinalMessage(HWND hWnd) override;
 
-class CComboWnd;
+	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+    virtual void Notify(TNotifyUI &msg) override;
 
+    void EnsureVisible(int iIndex);
+    void Scroll(int dx, int dy);
+
+	virtual void OnInitWindow(void);//zm
+
+#if(_WIN32_WINNT >= 0x0501)
+    virtual UINT GetClassStyle() const;
+#endif
+
+public:
+    CPaintManagerUI m_pm;
+    CComboUI *m_pOwner;
+    CVerticalLayoutUI *m_pLayout;
+    int m_iOldSel;
+    bool m_bScrollbarClicked;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
 class DUILIB_API CComboUI : public CContainerUI, public IListOwnerUI
 {
     friend class CComboWnd;
@@ -33,8 +59,18 @@ public:
     bool GetSelectCloseFlag();
     void SetSelectCloseFlag(bool flag);
     virtual bool SelectItem(int iIndex, bool bTakeFocus = false, bool bTriggerEvent = true) override;
+
+	//2021-10-17 zm IListOwnerUI接口
+	virtual bool IsMultiSelect() const override;
+	virtual bool IsPtInSelItem(POINT& stPoint) override;
+	virtual bool SelectMultiItem(int iIndex, bool bTakeFocus = false) override;
+	virtual bool UnSelectItem(int iIndex, bool bOthers = false) override;
     virtual bool ExpandItem(int iIndex, bool bExpand = true) override;
     virtual int GetExpandedItem() const override;
+
+	virtual void DragBegin(TEventUI& event) {}
+	virtual void Draging(TEventUI& event) {}
+	virtual void DragEnd(TEventUI& event) {}
 
     virtual bool SetItemIndex(CControlUI *pControl, int iNewIndex) override;
     virtual bool SetMultiItemIndex(CControlUI *pStartControl, int iCount, int iNewStartIndex) override;
@@ -119,6 +155,10 @@ public:
     bool SelectItemByTag(UINT_PTR pTag);
     bool SelectItemByUserData(LPCTSTR pstrText);
 
+	//2021-10-16 zm
+	void SetWndVScroolbarWidth(int iVScrollbarWidth);
+	int GetWndVScrololbarWidth();
+
 protected:
     void SendDropUpNty();   // 2018-08-21 zhuyadong 下拉框收起通知
 
@@ -139,6 +179,7 @@ protected:
     TDrawInfo   m_diDisabled;
 
     TListInfoUI m_ListInfo;
+	int			m_iVBboxScrollBarWidth;//zm
 };
 
 } // namespace DuiLib

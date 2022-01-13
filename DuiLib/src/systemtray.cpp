@@ -7,11 +7,15 @@ namespace DuiLib {
 using namespace std;
 typedef vector<HICON> CVecHIcon;
 
+class CSystemTray;
 class CSystemTrayImpl
 {
 public:
     CSystemTrayImpl();
     virtual ~CSystemTrayImpl();
+
+	//2021-10-15 zm 添加CSystemTray类的接口
+	void SetOwner(CSystemTray* pobjSystemTray);
 
     BOOL Create(CPaintManagerUI *pTargetPM, LPCTSTR szTip, HICON hIcon, STRINGorID xml, LPCTSTR pSkinType = NULL,
                 BOOL bHidden = FALSE, LPCTSTR szBalloonText = NULL, LPCTSTR szBalloonTitle = NULL,
@@ -125,6 +129,8 @@ private:
     // 菜单资源
     STRINGorID      m_xml;
     CDuiString      m_sSkinType;
+
+	CSystemTray*	m_pobjSystemTray;
 };
 
 const UINT CSystemTrayImpl::m_nTimerID = 4567;
@@ -151,6 +157,7 @@ CSystemTrayImpl::CSystemTrayImpl()
     , m_nCurrentIcon(NULL)
     , m_StartTime(0)
     , m_nAnimationPeriod(0)
+	, m_pobjSystemTray(NULL)
 {
     m_pThis = this;
     memset(&m_tnd, 0, sizeof(m_tnd));
@@ -167,6 +174,13 @@ CSystemTrayImpl::~CSystemTrayImpl()
     m_IconList.clear();
 
     if (m_hWnd) { ::DestroyWindow(m_hWnd); m_hWnd = NULL; }
+}
+
+void CSystemTrayImpl::SetOwner(CSystemTray* pobjSystemTray)
+{
+	if (m_pobjSystemTray == pobjSystemTray) return;
+
+	m_pobjSystemTray = pobjSystemTray;
 }
 
 BOOL CSystemTrayImpl::Create(CPaintManagerUI *pTargetPM, LPCTSTR szTip, HICON hIcon, STRINGorID xml,
@@ -915,7 +929,13 @@ LRESULT CSystemTrayImpl::OnTrayNotification(WPARAM wParam, LPARAM lParam)
         CMenuWnd::PostMenuItemClickMsg(m_pTargetPM, m_sItemName, m_sItemUserData, m_ptrItemTag);
     }
 
-    return 1;
+	//2021-10-15 zm将窗口消息路由给用户处理,以满足用户的各种需求
+	if (m_pobjSystemTray && m_pobjSystemTray->GetCallbackTray())
+	{
+		m_pobjSystemTray->GetCallbackTray()->MessageTray(m_pobjSystemTray, wParam, lParam);
+	}
+
+    return S_OK;
 }
 
 LRESULT CSystemTrayImpl::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
@@ -969,6 +989,9 @@ BOOL CSystemTray::Create(CPaintManagerUI *pTargetPM, LPCTSTR szTip, HICON hIcon,
     if (NULL == m_pImpl) { m_pImpl = new CSystemTrayImpl(); }
 
     if (NULL == m_pImpl) { return FALSE; }
+
+	//2021-10-15 zm 添加CSystemTray接口,并将窗口消息转接给用户处理
+	m_pImpl->SetOwner(this);
 
     return m_pImpl->Create(pTargetPM, szTip, hIcon, xml, pSkinType, bHidden,
                            szBalloonText, szBalloonTitle, dwBalloonIcon, uBalloonTimeout);
@@ -1138,6 +1161,16 @@ HWND CSystemTray::GetHWnd() const
 UINT_PTR CSystemTray::GetTimerID() const
 {
     return (NULL != m_pImpl) ? m_pImpl->GetTimerID() : 0;
+}
+
+void CSystemTray::SetCallbackTray(ICallBackTray* pobjCallbackTray)
+{
+	m_pobjCallbackTray = pobjCallbackTray;
+}
+
+ICallBackTray* CSystemTray::GetCallbackTray()
+{
+	return m_pobjCallbackTray;
 }
 
 void CSystemTray::MinimiseToTray(HWND hWnd)

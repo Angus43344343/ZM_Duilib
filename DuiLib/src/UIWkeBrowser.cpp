@@ -64,7 +64,7 @@ bool PromptBoxCallback(wkeWebView webView, void *param, const wkeString msg,
 }
 
 //////////////////////////////////////////////////////////////////////////
-CWkeBrowserUI::CWkeBrowserUI(void) : m_pWeb(NULL)
+CWkeBrowserUI::CWkeBrowserUI(void) : m_pWeb(NULL), m_iCurCursor(-1)
 {
     LoadMiniBlink(_T("node.dll"));
 }
@@ -84,6 +84,63 @@ LPVOID CWkeBrowserUI::GetInterface(LPCTSTR pstrName)
 	if (_tcscmp(pstrName, DUI_CTR_WKEBROWSER) == 0) { return static_cast<CWkeBrowserUI *>(this); }
 
     return CControlUI::GetInterface(pstrName);
+}
+
+UINT CWkeBrowserUI::GetFlags(DWORD dwParam)
+{
+	UINT uiFlags = 0;
+
+	if (dwParam & MK_CONTROL) { uiFlags |= WKE_CONTROL; }
+
+	if (dwParam & MK_SHIFT) { uiFlags |= WKE_SHIFT; }
+
+	if (dwParam & MK_LBUTTON) { uiFlags |= WKE_LBUTTON; }
+
+	if (dwParam & MK_MBUTTON) { uiFlags |= WKE_MBUTTON; }
+
+	if (dwParam & MK_RBUTTON) { uiFlags |= WKE_RBUTTON; }
+
+	if (dwParam & KF_REPEAT) { uiFlags |= WKE_REPEAT; }
+
+	if (dwParam& KF_EXTENDED) { uiFlags |= WKE_EXTENDED; }
+
+	return uiFlags;
+}
+
+void CWkeBrowserUI::UpdateCursor()
+{
+	int iCursor = wkeGetCursorInfoType(m_pWeb);
+	if (m_iCurCursor == iCursor) return;
+
+	m_iCurCursor = iCursor;
+
+	HCURSOR curosr = ::LoadCursor(NULL, IDC_ARROW);
+	switch (iCursor)
+	{
+	case WkeCursorInfoPointer:					curosr = ::LoadCursor(NULL, IDC_ARROW);		break;
+	case WkeCursorInfoCross:					curosr = ::LoadCursor(NULL, IDC_CROSS);		break;
+	case WkeCursorInfoHand:						curosr = ::LoadCursor(NULL, IDC_HAND);		break;
+	case WkeCursorInfoIBeam:					curosr = ::LoadCursor(NULL, IDC_IBEAM);		break;
+	case WkeCursorInfoWait:						curosr = ::LoadCursor(NULL, IDC_WAIT);		break;
+	case WkeCursorInfoHelp:						curosr = ::LoadCursor(NULL, IDC_HELP);		break;
+	case WkeCursorInfoEastResize:				curosr = ::LoadCursor(NULL, IDC_SIZEWE);	break;
+	case WkeCursorInfoNorthResize:				curosr = ::LoadCursor(NULL, IDC_SIZENS);	break;
+	case WkeCursorInfoNorthEastResize:			curosr = ::LoadCursor(NULL, IDC_SIZENESW);	break;
+	case WkeCursorInfoNorthWestResize:			curosr = ::LoadCursor(NULL, IDC_SIZENWSE);	break;
+	case WkeCursorInfoSouthResize:				curosr = ::LoadCursor(NULL, IDC_SIZENS);	break;
+	case WkeCursorInfoSouthEastResize:			curosr = ::LoadCursor(NULL, IDC_SIZENWSE);	break;
+	case WkeCursorInfoSouthWestResize:			curosr = ::LoadCursor(NULL, IDC_SIZENESW);	break;
+	case WkeCursorInfoWestResize:				curosr = ::LoadCursor(NULL, IDC_SIZEWE);	break;
+	case WkeCursorInfoNorthSouthResize:			curosr = ::LoadCursor(NULL, IDC_SIZENS);	break;
+	case WkeCursorInfoEastWestResize:			curosr = ::LoadCursor(NULL, IDC_SIZEWE);	break;
+	case WkeCursorInfoNorthEastSouthWestResize:	curosr = ::LoadCursor(NULL, IDC_SIZEALL);	break;
+	case WkeCursorInfoNorthWestSouthEastResize:	curosr = ::LoadCursor(NULL, IDC_SIZEALL);	break;
+	case WkeCursorInfoColumnResize:
+	case WkeCursorInfoRowResize:				curosr = ::LoadCursor(NULL, IDC_ARROW);		break;
+	default: break;
+	}
+
+	::SetCursor(curosr);
 }
 
 void CWkeBrowserUI::DoEvent(TEventUI &event)
@@ -115,19 +172,9 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
             x -= m_rcPaint.left;
             y -= m_rcPaint.top;
 
-            unsigned int flags = 0;
+			UINT uiFlags = GetFlags((DWORD)(event.wParam));
 
-            if (event.wParam & MK_CONTROL) { flags |= WKE_CONTROL; }
-
-            if (event.wParam & MK_SHIFT) { flags |= WKE_SHIFT; }
-
-            if (event.wParam & MK_LBUTTON) { flags |= WKE_LBUTTON; }
-
-            if (event.wParam & MK_MBUTTON) { flags |= WKE_MBUTTON; }
-
-            if (event.wParam & MK_RBUTTON) { flags |= WKE_RBUTTON; }
-
-            bool handled = wkeFireMouseEvent(m_pWeb, WM_LBUTTONDOWN, x, y, flags);
+			bool handled = wkeFireMouseEvent(m_pWeb, WM_LBUTTONDOWN, x, y, uiFlags);
 
             if (handled) { return; }
         }
@@ -141,24 +188,16 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
             x -= m_rcPaint.left;
             y -= m_rcPaint.top;
 
-            unsigned int flags = 0;
+			UINT uiFlags = GetFlags((DWORD)(event.wParam));
 
-            if (event.wParam & MK_CONTROL) { flags |= WKE_CONTROL; }
-
-            if (event.wParam & MK_SHIFT) { flags |= WKE_SHIFT; }
-
-            if (event.wParam & MK_LBUTTON) { flags |= WKE_LBUTTON; }
-
-            if (event.wParam & MK_MBUTTON) { flags |= WKE_MBUTTON; }
-
-            if (event.wParam & MK_RBUTTON) { flags |= WKE_RBUTTON; }
-
-            bool handled = wkeFireMouseEvent(m_pWeb, WM_LBUTTONUP, x, y, flags);
+			bool handled = wkeFireMouseEvent(m_pWeb, WM_LBUTTONUP, x, y, uiFlags);
 
             if (handled) { return; }
         }
         break;
 
+	case UIEVENT_MOUSEENTER:
+	case UIEVENT_MOUSELEAVE://zm
     case UIEVENT_MOUSEMOVE:
         {
             int x = GET_X_LPARAM(event.lParam);
@@ -166,19 +205,10 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
             x -= m_rcPaint.left;
             y -= m_rcPaint.top;
 
-            unsigned int flags = 0;
+			UINT uiFlags = GetFlags((DWORD)(event.wParam));
 
-            if (event.wParam & MK_CONTROL) { flags |= WKE_CONTROL; }
-
-            if (event.wParam & MK_SHIFT) { flags |= WKE_SHIFT; }
-
-            if (event.wParam & MK_LBUTTON) { flags |= WKE_LBUTTON; }
-
-            if (event.wParam & MK_MBUTTON) { flags |= WKE_MBUTTON; }
-
-            if (event.wParam & MK_RBUTTON) { flags |= WKE_RBUTTON; }
-
-            bool handled = wkeFireMouseEvent(m_pWeb, WM_MOUSEMOVE, x, y, flags);
+			bool handled = wkeFireMouseEvent(m_pWeb, WM_MOUSEMOVE, x, y, uiFlags);
+			UpdateCursor();//zm 更新鼠标样式
 
             if (handled) { return; }
         }
@@ -192,19 +222,9 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
             x -= m_rcPaint.left;
             y -= m_rcPaint.top;
 
-            unsigned int flags = 0;
+			UINT uiFlags = GetFlags((DWORD)(event.wParam));
 
-            if (event.wParam & MK_CONTROL) { flags |= WKE_CONTROL; }
-
-            if (event.wParam & MK_SHIFT) { flags |= WKE_SHIFT; }
-
-            if (event.wParam & MK_LBUTTON) { flags |= WKE_LBUTTON; }
-
-            if (event.wParam & MK_MBUTTON) { flags |= WKE_MBUTTON; }
-
-            if (event.wParam & MK_RBUTTON) { flags |= WKE_RBUTTON; }
-
-            bool handled = wkeFireMouseEvent(m_pWeb, WM_RBUTTONDOWN, x, y, flags);
+			bool handled = wkeFireMouseEvent(m_pWeb, WM_RBUTTONDOWN, x, y, uiFlags);
 
             if (handled) { return; }
         }
@@ -217,19 +237,9 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
             x -= m_rcPaint.left;
             y -= m_rcPaint.top;
 
-            unsigned int flags = 0;
+			UINT uiFlags = GetFlags((DWORD)(event.wParam));
 
-            if (event.wParam & MK_CONTROL) { flags |= WKE_CONTROL; }
-
-            if (event.wParam & MK_SHIFT) { flags |= WKE_SHIFT; }
-
-            if (event.wParam & MK_LBUTTON) { flags |= WKE_LBUTTON; }
-
-            if (event.wParam & MK_MBUTTON) { flags |= WKE_MBUTTON; }
-
-            if (event.wParam & MK_RBUTTON) { flags |= WKE_RBUTTON; }
-
-            bool handled = wkeFireMouseEvent(m_pWeb, WM_RBUTTONUP, x, y, flags);
+			bool handled = wkeFireMouseEvent(m_pWeb, WM_RBUTTONUP, x, y, uiFlags);
 
             if (handled) { return; }
         }
@@ -242,43 +252,33 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
             x -= m_rcPaint.left;
             y -= m_rcPaint.top;
 
-            unsigned int flags = 0;
+			UINT uiFlags = GetFlags((DWORD)(event.wParam));
 
-            if (event.wParam & MK_CONTROL) { flags |= WKE_CONTROL; }
-
-            if (event.wParam & MK_SHIFT) { flags |= WKE_SHIFT; }
-
-            if (event.wParam & MK_LBUTTON) { flags |= WKE_LBUTTON; }
-
-            if (event.wParam & MK_MBUTTON) { flags |= WKE_MBUTTON; }
-
-            if (event.wParam & MK_RBUTTON) { flags |= WKE_RBUTTON; }
-
-            bool handled = wkeFireMouseEvent(m_pWeb, WM_LBUTTONDBLCLK, x, y, flags);
+			bool handled = wkeFireMouseEvent(m_pWeb, WM_LBUTTONDBLCLK, x, y, uiFlags);
 
             if (handled) { return; }
         }
         break;
 
-    // case UIEVENT_CONTEXTMENU:
-    //     {
-    //         unsigned int flags = 0;
-    //
-    //         if (event.wParam & MK_CONTROL) { flags |= WKE_CONTROL; }
-    //
-    //         if (event.wParam & MK_SHIFT) { flags |= WKE_SHIFT; }
-    //
-    //         if (event.wParam & MK_LBUTTON) { flags |= WKE_LBUTTON; }
-    //
-    //         if (event.wParam & MK_MBUTTON) { flags |= WKE_MBUTTON; }
-    //
-    //         if (event.wParam & MK_RBUTTON) { flags |= WKE_RBUTTON; }
-    //
-    //         bool handled = wkeFireContextMenuEvent(m_pWeb, event.ptMouse.x, event.ptMouse.y, flags);
-    //
-    //         if (handled) { return; }
-    //     }
-    //     break;
+     //case UIEVENT_CONTEXTMENU:
+     //    {
+     //        unsigned int flags = 0;
+    
+     //        if (event.wParam & MK_CONTROL) { flags |= WKE_CONTROL; }
+    
+     //        if (event.wParam & MK_SHIFT) { flags |= WKE_SHIFT; }
+    
+     //        if (event.wParam & MK_LBUTTON) { flags |= WKE_LBUTTON; }
+    
+     //        if (event.wParam & MK_MBUTTON) { flags |= WKE_MBUTTON; }
+    
+     //        if (event.wParam & MK_RBUTTON) { flags |= WKE_RBUTTON; }
+    
+     //        bool handled = wkeFireContextMenuEvent(m_pWeb, event.ptMouse.x, event.ptMouse.y, flags);
+    
+     //        if (handled) { return; }
+     //    }
+     //    break;
 
     case UIEVENT_SCROLLWHEEL:
         {
@@ -293,19 +293,11 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
             int delta = GET_WHEEL_DELTA_WPARAM(event.wParam);
             //int nFlag = GET_X_LPARAM(event.wParam);
             //int delta = (nFlag == SB_LINEDOWN) ? -120 : 120;
-            unsigned int flags = 0;
 
-            if (event.wParam & MK_CONTROL) { flags |= WKE_CONTROL; }
+			UINT uiFlags = GetFlags((DWORD)(event.wParam));
 
-            if (event.wParam & MK_SHIFT) { flags |= WKE_SHIFT; }
 
-            if (event.wParam & MK_LBUTTON) { flags |= WKE_LBUTTON; }
-
-            if (event.wParam & MK_MBUTTON) { flags |= WKE_MBUTTON; }
-
-            if (event.wParam & MK_RBUTTON) { flags |= WKE_RBUTTON; }
-
-			bool handled = wkeFireMouseWheelEvent(m_pWeb, pt.x, pt.y, delta, flags);
+			bool handled = wkeFireMouseWheelEvent(m_pWeb, pt.x, pt.y, delta, uiFlags);
 
             if (handled) { return; }
         }
@@ -314,13 +306,10 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
     case UIEVENT_KEYDOWN:
         {
             unsigned int virtualKeyCode = event.wParam;
-            unsigned int flags = 0;
 
-            if (HIWORD(event.lParam) & KF_REPEAT) { flags |= WKE_REPEAT; }
+			UINT uiFlags = GetFlags((DWORD)(HIWORD(event.lParam)));
 
-            if (HIWORD(event.lParam) & KF_EXTENDED) { flags |= WKE_EXTENDED; }
-
-            bool handled = wkeFireKeyDownEvent(m_pWeb, virtualKeyCode, flags, false);
+			bool handled = wkeFireKeyDownEvent(m_pWeb, virtualKeyCode, uiFlags, false);
 
             if (event.wParam == VK_F5) { Reload(); }
 
@@ -331,13 +320,10 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
     case UIEVENT_KEYUP:
         {
             unsigned int virtualKeyCode = event.wParam;
-            unsigned int flags = 0;
 
-            if (HIWORD(event.lParam) & KF_REPEAT) { flags |= WKE_REPEAT; }
+			UINT uiFlags = GetFlags((DWORD)(HIWORD(event.lParam)));
 
-            if (HIWORD(event.lParam) & KF_EXTENDED) { flags |= WKE_EXTENDED; }
-
-            bool handled = wkeFireKeyUpEvent(m_pWeb, virtualKeyCode, flags, false);
+			bool handled = wkeFireKeyUpEvent(m_pWeb, virtualKeyCode, uiFlags, false);
 
             if (handled) { return; }
         }
@@ -346,13 +332,10 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
     case UIEVENT_CHAR:
         {
             unsigned int charCode = event.wParam;
-            unsigned int flags = 0;
 
-            if (HIWORD(event.lParam) & KF_REPEAT) { flags |= WKE_REPEAT; }
+			UINT uiFlags = GetFlags((DWORD)(HIWORD(event.lParam)));
 
-            if (HIWORD(event.lParam) & KF_EXTENDED) { flags |= WKE_EXTENDED; }
-
-            bool handled = wkeFireKeyPressEvent(m_pWeb, charCode, flags, false);
+			bool handled = wkeFireKeyPressEvent(m_pWeb, charCode, uiFlags, false);
 
             if (handled) { return; }
         }
@@ -360,21 +343,21 @@ void CWkeBrowserUI::DoEvent(TEventUI &event)
 
     case UIEVENT_IME_STARTCOMPOSITION://输入法位置
         {
-            wkeRect caret = wkeGetCaretRect(m_pWeb);
+			//2021-10-12 zm 解决微软输入法出现在屏幕左上角的问题
+			HIMC hIMC = ImmGetContext(GetManager()->GetPaintWindow());
+			if (hIMC)
+			{
+				RECT rcCtrlPos = this->GetPos();
+				wkeRect caret = wkeGetCaretRect(m_pWeb);
 
-            CANDIDATEFORM form;
-            form.dwIndex = 0;
-            form.dwStyle = CFS_EXCLUDE;
-            form.ptCurrentPos.x = caret.x;
-            form.ptCurrentPos.y = caret.y + caret.h;
-            form.rcArea.top = caret.y + m_rcPaint.top;
-            form.rcArea.bottom = caret.y + caret.h + m_rcPaint.top;
-            form.rcArea.left = caret.x + m_rcPaint.left;
-            form.rcArea.right = caret.x + caret.w + m_rcPaint.left;
+				COMPOSITIONFORM Composition;
+				Composition.dwStyle = CFS_POINT;
+				Composition.ptCurrentPos.x = caret.x + rcCtrlPos.left;
+				Composition.ptCurrentPos.y = caret.y + rcCtrlPos.top;
+				ImmSetCompositionWindow(hIMC, &Composition);
 
-            HIMC hIMC = ImmGetContext(m_pManager->GetPaintWindow());
-            ImmSetCandidateWindow(hIMC, &form);
-            ImmReleaseContext(m_pManager->GetPaintWindow(), hIMC);
+				ImmReleaseContext(GetManager()->GetPaintWindow(), hIMC);
+			}
         }
         break;
 
@@ -437,7 +420,10 @@ bool CWkeBrowserUI::DoPaint(HDC hDC, const RECT &rcPaint, CControlUI *pStopContr
 void CWkeBrowserUI::DoInit()
 {
     CControlUI::DoInit();
+
     InitBrowser();
+
+	m_pManager->AddMessageFilter(this);//zm 添加windows消息响应
 }
 
 void CWkeBrowserUI::SetPos(RECT rc, bool bNeedInvalidate)
@@ -490,6 +476,18 @@ bool CWkeBrowserUI::SendNotify(void *pWebView, int nFlag, LPCTSTR sMsg, LPCTSTR 
     return (0 != msg.dwTimestamp);
 }
 
+LRESULT CWkeBrowserUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool & bHandled)
+{
+	CControlUI *pobjCurCtrl = m_pManager->FindControl(m_pManager->GetMousePos());
+
+	if (pobjCurCtrl != this) { return S_FALSE; }
+
+	//修改鼠标指向时候的样式
+	if (uMsg == WM_SETCURSOR) { bHandled = true; }
+
+	return S_OK;
+}
+
 void CWkeBrowserUI::LoadUrl(LPCTSTR szUrl)
 {
     wkeLoadURL(m_pWeb, szUrl);
@@ -511,6 +509,16 @@ CDuiString CWkeBrowserUI::RunJS(LPCTSTR szJS)
     jsExecState jsState = wkeGlobalExec(m_pWeb);
     CDuiString strRet = jsToTempString(jsState, jsRet);
     return strRet;
+}
+
+void CWkeBrowserUI::JsBindFunction(const CDuiString &name, jsNativeFunction fn, unsigned int argCount)
+{
+	jsBindFunction(name, fn, argCount);
+}
+
+void CWkeBrowserUI::JsBindFunctionEx(const CDuiString &name, jsNativeFunctionEx fn, void *param, unsigned int argCount)
+{
+	jsBindFunctionEx(name, fn, param, argCount);
 }
 
 bool CWkeBrowserUI::CanGoBack()

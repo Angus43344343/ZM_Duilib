@@ -38,6 +38,4 @@ typedef enum
 	EN_LANG_TYPE_JAPANESE,
 }EN_LANG_TYPE;
 
-
-
 #endif /*_DUILIB_H__*/

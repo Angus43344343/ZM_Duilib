@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "fileUtil.h"
 
+#include <shlwapi.h>
+
 HANDLE CFileUtil::CreateFile(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwCreationDisposition,
 	DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes,
 	DWORD dwFlagsAndAttributes, HANDLE hTemplateFile)
@@ -57,7 +59,6 @@ BOOL CFileUtil::PathFindFileExt(PTSTR ptFilePath, PTSTR ptExtBuf, UINT uiBufSize
 	return FALSE;
 }
 
-#ifndef WIN32
 PTSTR CFileUtil::PathFindFileName(PTSTR ptFilePath)
 {
 	if (-1 != _taccess(ptFilePath, 0))
@@ -179,4 +180,3 @@ void CFileUtil::SetCallbackFile(ICallBackFile* pCallbackFile)
 
 	m_pCallBackFile = pCallbackFile;
 }
-#endif

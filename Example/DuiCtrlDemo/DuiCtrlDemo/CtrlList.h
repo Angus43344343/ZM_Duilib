@@ -12,6 +12,7 @@ public:
 	virtual LPCTSTR GetItemText(CControlUI *pList, int iItem, int iSubItem) override;
 	virtual DWORD GetItemTextColor(CControlUI* pList, int iItem, int iSubItem) override;
 	virtual DWORD GetItemBkColor(CControlUI* pList, int iItem, int iSubItem) override;
+	virtual LPCTSTR GetItemBkImage(CControlUI* pList, int iItem, int iSubItem) override;
 	//设计Combo在list单元格上
 	virtual void GetComboItems(CControlUI *pCtrl, int iItem, int iSubItem) override;
 

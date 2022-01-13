@@ -27,11 +27,9 @@
         </HBox><!--=====================================左容器-->
 
         <VBox vscrollbar="true"><!--右容器-->
-            <HBox height="40" style="hboxBasics">
-                <!--Menu-->
+            <HBox height="40" style="hboxBasics"><!--Menu-->
                 <Button name="btnMenuTest" text="%[btnMenuTest]" style="styleButton"/>
-            </HBox>
-            <!--==============================Menu-->
+            </HBox><!--==============================Menu-->
             <Control height="1" bkcolor="#ffFF00FF"/>
             
             <VBox height="40" ><!--Combo-->

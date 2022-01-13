@@ -115,6 +115,7 @@ public:
     virtual int GetMaxHeight() const;
     virtual void SetMaxHeight(int cy);
 
+
     // 鼠标提示
     virtual CDuiString GetToolTip() const;
     virtual void SetToolTip(LPCTSTR pstrText);

@@ -2,10 +2,9 @@
 #define __WKE_BROWSER_H
 #pragma once
 
-
 namespace DuiLib {
 
-class DUILIB_API CWkeBrowserUI : public CControlUI
+class DUILIB_API CWkeBrowserUI : public CControlUI, public IMessageFilterUI
 {
 public:
     enum
@@ -32,7 +31,27 @@ public:
     void LoadFile(LPCTSTR szFile);
     void Reload(void);
 
+	//C++调用JS的函数
     CDuiString RunJS(LPCTSTR strValue);
+	//JS绑定C++函数
+	void JsBindFunction(const CDuiString &name, jsNativeFunction fn, unsigned int argCount);
+	//JS绑定C++函数:对比JsBindFunction多了一个自定义数据param
+	void JsBindFunctionEx(const CDuiString &name, jsNativeFunctionEx fn, void *param, unsigned int argCount);
+
+	// 使用示例：
+	// c++里：
+	//  --------
+	//  jsValue JS_CALL onNativeFunction(jsExecState es) {
+	//      jsValue v = jsArg(es, 0);
+	//      const wchar_t* str = jsToTemdivStringW(es, v);
+	//      OutdivutdebugStringW(str);
+	//  }
+	//  jsBindFunction("testCall", onNativeFunction， 1);
+	//
+	// js里：
+	//  --------
+	//  window.testCall('testStrt');
+
     bool CanGoBack();
     void GoBack();
     bool CanGoForward();
@@ -47,11 +66,18 @@ public:
     const CDuiString &GetDefRet(void) { return m_sDefRet; }
     const CDuiString &GetRet(void) { return m_sRet; }
 
-
     bool SendNotify(void *pWebView, int nFlag, LPCTSTR sMsg, LPCTSTR sDefRet = NULL, LPCTSTR sRet = NULL);
+
+	//2021-10-14 zm更新鼠标在不同的网页控件上的样式
+	virtual LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
+
 protected:
     void InitBrowser(void);
     void PaintWebContent(HDC hDC, const RECT &rcPaint);
+
+private:
+	UINT GetFlags(DWORD dwParam);
+	void UpdateCursor();
 
 protected:
     wkeWebView  m_pWeb;
@@ -64,6 +90,7 @@ protected:
     CDuiString  m_sDefRet;
     CDuiString  m_sRet;
 
+	int m_iCurCursor;
 };
 
 }
